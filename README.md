@@ -42,7 +42,8 @@ import (
 
 func main() {
 	client := brucetestapi.NewClient(
-		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("BRUCE_TEST_API_KEY")
+		option.WithAPIKey("My API Key"),               // defaults to os.LookupEnv("BRUCE_TEST_API_KEY")
+		option.WithWebhookSecret("My Webhook Secret"), // defaults to os.LookupEnv("WEBHOOK_SECRET")
 	)
 	response, err := client.Webhooks.Register(context.TODO(), brucetestapi.WebhookRegisterParams{
 		URL: "https://example.com",
