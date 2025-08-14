@@ -23,6 +23,7 @@ func TestUsage(t *testing.T) {
 	client := brucetestapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithWebhookSecret("My Webhook Secret"),
 	)
 	response, err := client.Webhooks.Register(context.TODO(), brucetestapi.WebhookRegisterParams{
 		URL: "https://example.com",
