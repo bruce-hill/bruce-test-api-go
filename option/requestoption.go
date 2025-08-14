@@ -278,6 +278,6 @@ func WithAPIKey(value string) RequestOption {
 func WithWebhookSecret(value string) RequestOption {
 	return requestconfig.RequestOptionFunc(func(r *requestconfig.RequestConfig) error {
 		r.WebhookSecret = value
-		return r.Apply(WithHeader("authorization", fmt.Sprintf("Bearer %s", r.APIKey)))
+		return nil
 	})
 }
