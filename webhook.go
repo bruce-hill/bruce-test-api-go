@@ -5,7 +5,6 @@ package brucetestapi
 import (
 	"context"
 	"encoding/json"
-	"io"
 	"net/http"
 
 	"github.com/stainless-sdks/bruce-test-api-go/internal/apijson"
@@ -52,8 +51,8 @@ func (r *WebhookService) Unwrap(body []byte) (*UnwrapWebhookEventUnion, error) {
 }
 
 type WebhookRegisterResponse struct {
-	Secret io.Reader `json:"secret,required" format:"binary"`
-	URL    string    `json:"url,required" format:"uri"`
+	Secret string `json:"secret,required"`
+	URL    string `json:"url,required" format:"uri"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Secret      respjson.Field
