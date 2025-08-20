@@ -41,9 +41,9 @@ func (r *WebhookService) Register(ctx context.Context, body WebhookRegisterParam
 	return
 }
 
-func (r *WebhookService) Unwrap(body []byte) (*UnwrapWebhookEventUnion, error) {
+func (r *WebhookService) Unwrap(payload []byte, opts ...option.RequestOption) (*UnwrapWebhookEventUnion, error) {
 	res := &UnwrapWebhookEventUnion{}
-	err := res.UnmarshalJSON(body)
+	err := res.UnmarshalJSON(payload)
 	if err != nil {
 		return res, err
 	}
