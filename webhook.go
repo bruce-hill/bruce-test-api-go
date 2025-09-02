@@ -7,11 +7,11 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/stainless-sdks/bruce-test-api-go/internal/apijson"
-	"github.com/stainless-sdks/bruce-test-api-go/internal/requestconfig"
-	"github.com/stainless-sdks/bruce-test-api-go/option"
-	"github.com/stainless-sdks/bruce-test-api-go/packages/param"
-	"github.com/stainless-sdks/bruce-test-api-go/packages/respjson"
+	"github.com/bruce-hill/bruce-test-api-go/internal/apijson"
+	"github.com/bruce-hill/bruce-test-api-go/internal/requestconfig"
+	"github.com/bruce-hill/bruce-test-api-go/option"
+	"github.com/bruce-hill/bruce-test-api-go/packages/param"
+	"github.com/bruce-hill/bruce-test-api-go/packages/respjson"
 )
 
 // WebhookService contains methods and other services that help with interacting
