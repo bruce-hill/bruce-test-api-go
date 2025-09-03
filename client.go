@@ -112,7 +112,7 @@ func (r *Client) Delete(ctx context.Context, path string, params any, res any, o
 	return r.Execute(ctx, http.MethodDelete, path, params, res, opts...)
 }
 
-// Foo
+// Get a Foo that has text, a random number, and a list of random numbers.
 func (r *Client) GetFoo(ctx context.Context, opts ...option.RequestOption) (res *GetFooResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	path := "foo"
@@ -120,10 +120,10 @@ func (r *Client) GetFoo(ctx context.Context, opts ...option.RequestOption) (res 
 	return
 }
 
-// Set Name
+// Set the text that is returned when getting a Foo.
 func (r *Client) SetText(ctx context.Context, body SetTextParams, opts ...option.RequestOption) (res *SetTextResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	path := "name"
+	path := "foo-text"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
 	return
 }
