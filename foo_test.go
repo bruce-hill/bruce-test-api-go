@@ -13,7 +13,7 @@ import (
 	"github.com/bruce-hill/bruce-test-api-go/option"
 )
 
-func TestWebhookRegister(t *testing.T) {
+func TestFooList(t *testing.T) {
 	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -26,9 +26,7 @@ func TestWebhookRegister(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Webhooks.Register(context.TODO(), brucetestapi.WebhookRegisterParams{
-		URL: "https://example.com",
-	})
+	_, err := client.Foo.List(context.TODO())
 	if err != nil {
 		var apierr *brucetestapi.Error
 		if errors.As(err, &apierr) {
