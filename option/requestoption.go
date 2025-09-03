@@ -273,11 +273,3 @@ func WithAPIKey(value string) RequestOption {
 		return r.Apply(WithHeader("authorization", fmt.Sprintf("Bearer %s", r.APIKey)))
 	})
 }
-
-// WithWebhookSecret returns a RequestOption that sets the client setting "webhook_secret".
-func WithWebhookSecret(value string) RequestOption {
-	return requestconfig.RequestOptionFunc(func(r *requestconfig.RequestConfig) error {
-		r.WebhookSecret = value
-		return nil
-	})
-}

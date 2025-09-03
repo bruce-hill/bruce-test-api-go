@@ -4,6 +4,7 @@ package brucetestapi_test
 
 import (
 	"context"
+	"errors"
 	"os"
 	"testing"
 
@@ -12,7 +13,8 @@ import (
 	"github.com/bruce-hill/bruce-test-api-go/option"
 )
 
-func TestUsage(t *testing.T) {
+func TestNameSet(t *testing.T) {
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -24,9 +26,14 @@ func TestUsage(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	foos, err := client.Foo.List(context.TODO())
+	_, err := client.Name.Set(context.TODO(), brucetestapi.NameSetParams{
+		Name: "name",
+	})
 	if err != nil {
+		var apierr *brucetestapi.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
 		t.Fatalf("err should be nil: %s", err.Error())
 	}
-	t.Logf("%+v\n", foos)
 }
