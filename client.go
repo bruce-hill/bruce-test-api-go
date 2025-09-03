@@ -16,8 +16,6 @@ import (
 // directly, and instead use the [NewClient] method instead.
 type Client struct {
 	Options []option.RequestOption
-	Foo     FooService
-	Name    NameService
 }
 
 // DefaultClientOptions read from the environment (BRUCE_TEST_API_API_KEY,
@@ -41,9 +39,6 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 	opts = append(DefaultClientOptions(), opts...)
 
 	r = Client{Options: opts}
-
-	r.Foo = NewFooService(opts...)
-	r.Name = NewNameService(opts...)
 
 	return
 }
@@ -115,4 +110,20 @@ func (r *Client) Patch(ctx context.Context, path string, params any, res any, op
 // response.
 func (r *Client) Delete(ctx context.Context, path string, params any, res any, opts ...option.RequestOption) error {
 	return r.Execute(ctx, http.MethodDelete, path, params, res, opts...)
+}
+
+// Foo
+func (r *Client) GetFoo(ctx context.Context, opts ...option.RequestOption) (res *GetFooResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	path := "foo"
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return
+}
+
+// Set Name
+func (r *Client) SetText(ctx context.Context, body SetTextParams, opts ...option.RequestOption) (res *SetTextResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	path := "name"
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
+	return
 }
