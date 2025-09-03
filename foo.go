@@ -6,8 +6,10 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/bruce-hill/bruce-test-api-go/internal/apijson"
 	"github.com/bruce-hill/bruce-test-api-go/internal/requestconfig"
 	"github.com/bruce-hill/bruce-test-api-go/option"
+	"github.com/bruce-hill/bruce-test-api-go/packages/respjson"
 )
 
 // FooService contains methods and other services that help with interacting with
@@ -37,4 +39,22 @@ func (r *FooService) List(ctx context.Context, opts ...option.RequestOption) (re
 	return
 }
 
-type FooListResponse = any
+type FooListResponse struct {
+	ListOfNums   []int64 `json:"list_of_nums,required"`
+	RandomNumber int64   `json:"random_number,required"`
+	Text         string  `json:"text,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ListOfNums   respjson.Field
+		RandomNumber respjson.Field
+		Text         respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r FooListResponse) RawJSON() string { return r.JSON.raw }
+func (r *FooListResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}

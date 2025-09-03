@@ -60,7 +60,7 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Printf("%+v\n", foos)
+	fmt.Printf("%+v\n", foos.ListOfNums)
 }
 
 ```
