@@ -1,6 +1,10 @@
 # Bruce Test API Go API Library
 
+<!-- x-release-please-start-version -->
+
 <a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go"><img src="https://pkg.go.dev/badge/github.com/bruce-hill/bruce-test-api-go.svg" alt="Go Reference"></a>
+
+<!-- x-release-please-end -->
 
 The Bruce Test API Go library provides convenient access to the Bruce Test API REST API
 from applications written in Go.
