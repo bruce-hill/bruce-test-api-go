@@ -16,6 +16,7 @@ import (
 // directly, and instead use the [NewClient] method instead.
 type Client struct {
 	Options []option.RequestOption
+	Text    TextService
 }
 
 // DefaultClientOptions read from the environment (BRUCE_TEST_API_API_KEY,
@@ -39,6 +40,8 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 	opts = append(DefaultClientOptions(), opts...)
 
 	r = Client{Options: opts}
+
+	r.Text = NewTextService(opts...)
 
 	return
 }
@@ -120,10 +123,10 @@ func (r *Client) GetFoo(ctx context.Context, opts ...option.RequestOption) (res 
 	return
 }
 
-// Set the text that is returned when getting a Foo.
-func (r *Client) SetText(ctx context.Context, body SetTextParams, opts ...option.RequestOption) (res *SetTextResponse, err error) {
+// Get a big JSON response for testing.
+func (r *Client) JsonTest(ctx context.Context, opts ...option.RequestOption) (res *JsonTestResponse, err error) {
 	opts = append(r.Options[:], opts...)
-	path := "foo-text"
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
+	path := "json-test"
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
 }
