@@ -3,10 +3,7 @@
 package brucetestapi
 
 import (
-	"net/url"
-
 	"github.com/bruce-hill/bruce-test-api-go/internal/apijson"
-	"github.com/bruce-hill/bruce-test-api-go/internal/apiquery"
 	"github.com/bruce-hill/bruce-test-api-go/packages/respjson"
 )
 
@@ -30,17 +27,4 @@ func (r *GetFooResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type SetTextResponse = any
-
-type SetTextParams struct {
-	Name string `query:"name,required" json:"-"`
-	paramObj
-}
-
-// URLQuery serializes [SetTextParams]'s query parameters as `url.Values`.
-func (r SetTextParams) URLQuery() (v url.Values, err error) {
-	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
-		NestedFormat: apiquery.NestedQueryFormatBrackets,
-	})
-}
+type JsonTestResponse = any
