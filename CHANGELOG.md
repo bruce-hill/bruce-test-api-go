@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.1 (2025-09-06)
+
+Full Changelog: [v0.6.0...v0.6.1](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.6.0...v0.6.1)
+
+### Bug Fixes
+
+* **internal:** unmarshal correctly when there are multiple discriminators ([3875ccb](https://github.com/bruce-hill/bruce-test-api-go/commit/3875ccbc92fe0162079a6eb13d41e8f485e1d55d))
+
 ## 0.6.0 (2025-09-04)
 
 Full Changelog: [v0.5.0...v0.6.0](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.5.0...v0.6.0)
