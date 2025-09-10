@@ -35,6 +35,14 @@ func NewFooService(opts ...option.RequestOption) (r FooService) {
 	return
 }
 
+// Add a Foo to the list of all Foos.
+func (r *FooService) New(ctx context.Context, body FooNewParams, opts ...option.RequestOption) (res *FooNewResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	path := "foo"
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
 // Get a Foo that has text, a random number, and a list of random numbers.
 func (r *FooService) Get(ctx context.Context, opts ...option.RequestOption) (res *FooGetResponse, err error) {
 	opts = append(r.Options[:], opts...)
@@ -65,6 +73,8 @@ func (r *FooService) List(ctx context.Context, query FooListParams, opts ...opti
 func (r *FooService) ListAutoPaging(ctx context.Context, query FooListParams, opts ...option.RequestOption) *pagination.PageNumberAutoPager[FooListResponse] {
 	return pagination.NewPageNumberAutoPager(r.List(ctx, query, opts...))
 }
+
+type FooNewResponse = any
 
 type FooGetResponse struct {
 	ListOfNums   []int64 `json:"list_of_nums,required"`
@@ -103,6 +113,21 @@ type FooListResponse struct {
 // Returns the unmodified JSON received from the API
 func (r FooListResponse) RawJSON() string { return r.JSON.raw }
 func (r *FooListResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type FooNewParams struct {
+	ListOfNums   []int64 `json:"list_of_nums,omitzero,required"`
+	RandomNumber int64   `json:"random_number,required"`
+	Text         string  `json:"text,required"`
+	paramObj
+}
+
+func (r FooNewParams) MarshalJSON() (data []byte, err error) {
+	type shadow FooNewParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *FooNewParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
