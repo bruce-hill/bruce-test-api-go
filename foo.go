@@ -77,9 +77,12 @@ func (r *FooService) ListAutoPaging(ctx context.Context, query FooListParams, op
 type FooNewResponse = any
 
 type FooGetResponse struct {
-	ListOfNums   []int64 `json:"list_of_nums,required"`
-	RandomNumber int64   `json:"random_number,required"`
-	Text         string  `json:"text,required"`
+	// A list of numbers
+	ListOfNums []int64 `json:"list_of_nums,required"`
+	// A random number
+	RandomNumber int64 `json:"random_number,required"`
+	// The text
+	Text string `json:"text,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ListOfNums   respjson.Field
@@ -97,9 +100,12 @@ func (r *FooGetResponse) UnmarshalJSON(data []byte) error {
 }
 
 type FooListResponse struct {
-	ListOfNums   []int64 `json:"list_of_nums,required"`
-	RandomNumber int64   `json:"random_number,required"`
-	Text         string  `json:"text,required"`
+	// A list of numbers
+	ListOfNums []int64 `json:"list_of_nums,required"`
+	// A random number
+	RandomNumber int64 `json:"random_number,required"`
+	// The text
+	Text string `json:"text,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ListOfNums   respjson.Field
@@ -117,9 +123,12 @@ func (r *FooListResponse) UnmarshalJSON(data []byte) error {
 }
 
 type FooNewParams struct {
-	ListOfNums   []int64 `json:"list_of_nums,omitzero,required"`
-	RandomNumber int64   `json:"random_number,required"`
-	Text         string  `json:"text,required"`
+	// A list of numbers
+	ListOfNums []int64 `json:"list_of_nums,omitzero,required"`
+	// A random number
+	RandomNumber int64 `json:"random_number,required"`
+	// The text
+	Text string `json:"text,required"`
 	paramObj
 }
 
