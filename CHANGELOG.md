@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.8.0 (2025-09-10)
+
+Full Changelog: [v0.7.0...v0.8.0](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.7.0...v0.8.0)
+
+### Features
+
+* **api:** pagination ([e653d5e](https://github.com/bruce-hill/bruce-test-api-go/commit/e653d5e20bfc23d32f917d5379306be97c2924b8))
+
 ## 0.7.0 (2025-09-10)
 
 Full Changelog: [v0.6.1...v0.7.0](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.6.1...v0.7.0)
