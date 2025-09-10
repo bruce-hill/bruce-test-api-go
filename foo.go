@@ -11,6 +11,7 @@ import (
 	"github.com/bruce-hill/bruce-test-api-go/internal/apiquery"
 	"github.com/bruce-hill/bruce-test-api-go/internal/requestconfig"
 	"github.com/bruce-hill/bruce-test-api-go/option"
+	"github.com/bruce-hill/bruce-test-api-go/packages/pagination"
 	"github.com/bruce-hill/bruce-test-api-go/packages/param"
 	"github.com/bruce-hill/bruce-test-api-go/packages/respjson"
 )
@@ -43,11 +44,26 @@ func (r *FooService) Get(ctx context.Context, opts ...option.RequestOption) (res
 }
 
 // Get a list of all of the Foos.
-func (r *FooService) List(ctx context.Context, query FooListParams, opts ...option.RequestOption) (res *FooListResponse, err error) {
+func (r *FooService) List(ctx context.Context, query FooListParams, opts ...option.RequestOption) (res *pagination.PageNumber[FooListResponse], err error) {
+	var raw *http.Response
 	opts = append(r.Options[:], opts...)
+	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "all-foos"
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
-	return
+	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
+	if err != nil {
+		return nil, err
+	}
+	err = cfg.Execute()
+	if err != nil {
+		return nil, err
+	}
+	res.SetPageConfig(cfg, raw)
+	return res, nil
+}
+
+// Get a list of all of the Foos.
+func (r *FooService) ListAutoPaging(ctx context.Context, query FooListParams, opts ...option.RequestOption) *pagination.PageNumberAutoPager[FooListResponse] {
+	return pagination.NewPageNumberAutoPager(r.List(ctx, query, opts...))
 }
 
 type FooGetResponse struct {
@@ -71,30 +87,6 @@ func (r *FooGetResponse) UnmarshalJSON(data []byte) error {
 }
 
 type FooListResponse struct {
-	Items []FooListResponseItem `json:"items,required"`
-	Page  int64                 `json:"page,required"`
-	Pages int64                 `json:"pages,required"`
-	Size  int64                 `json:"size,required"`
-	Total int64                 `json:"total,required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		Items       respjson.Field
-		Page        respjson.Field
-		Pages       respjson.Field
-		Size        respjson.Field
-		Total       respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r FooListResponse) RawJSON() string { return r.JSON.raw }
-func (r *FooListResponse) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type FooListResponseItem struct {
 	ListOfNums   []int64 `json:"list_of_nums,required"`
 	RandomNumber int64   `json:"random_number,required"`
 	Text         string  `json:"text,required"`
@@ -109,8 +101,8 @@ type FooListResponseItem struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r FooListResponseItem) RawJSON() string { return r.JSON.raw }
-func (r *FooListResponseItem) UnmarshalJSON(data []byte) error {
+func (r FooListResponse) RawJSON() string { return r.JSON.raw }
+func (r *FooListResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
