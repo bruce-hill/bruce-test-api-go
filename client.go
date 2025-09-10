@@ -17,6 +17,7 @@ import (
 type Client struct {
 	Options []option.RequestOption
 	Text    TextService
+	Foos    FooService
 }
 
 // DefaultClientOptions read from the environment (BRUCE_TEST_API_API_KEY,
@@ -42,6 +43,7 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 	r = Client{Options: opts}
 
 	r.Text = NewTextService(opts...)
+	r.Foos = NewFooService(opts...)
 
 	return
 }
@@ -113,14 +115,6 @@ func (r *Client) Patch(ctx context.Context, path string, params any, res any, op
 // response.
 func (r *Client) Delete(ctx context.Context, path string, params any, res any, opts ...option.RequestOption) error {
 	return r.Execute(ctx, http.MethodDelete, path, params, res, opts...)
-}
-
-// Get a Foo that has text, a random number, and a list of random numbers.
-func (r *Client) GetFoo(ctx context.Context, opts ...option.RequestOption) (res *GetFooResponse, err error) {
-	opts = append(r.Options[:], opts...)
-	path := "foo"
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
 }
 
 // Get a big JSON response for testing.
