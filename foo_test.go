@@ -13,7 +13,7 @@ import (
 	"github.com/bruce-hill/bruce-test-api-go/option"
 )
 
-func TestBrucetestapiJsonTest(t *testing.T) {
+func TestFooGet(t *testing.T) {
 	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -26,7 +26,33 @@ func TestBrucetestapiJsonTest(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.JsonTest(context.TODO())
+	_, err := client.Foos.Get(context.TODO())
+	if err != nil {
+		var apierr *brucetestapi.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestFooListWithOptionalParams(t *testing.T) {
+	t.Skip("Prism tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := brucetestapi.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.Foos.List(context.TODO(), brucetestapi.FooListParams{
+		Page: brucetestapi.Int(1),
+		Size: brucetestapi.Int(1),
+	})
 	if err != nil {
 		var apierr *brucetestapi.Error
 		if errors.As(err, &apierr) {

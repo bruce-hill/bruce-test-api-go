@@ -24,9 +24,9 @@ func TestUsage(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	response, err := client.GetFoo(context.TODO())
+	foo, err := client.Foos.Get(context.TODO())
 	if err != nil {
 		t.Fatalf("err should be nil: %s", err.Error())
 	}
-	t.Logf("%+v\n", response.ListOfNums)
+	t.Logf("%+v\n", foo.ListOfNums)
 }
