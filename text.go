@@ -42,6 +42,7 @@ func (r *TextService) Set(ctx context.Context, body TextSetParams, opts ...optio
 type TextSetResponse = any
 
 type TextSetParams struct {
+	// The new Foo.name text
 	Name string `query:"name,required" json:"-"`
 	paramObj
 }
