@@ -12,7 +12,6 @@ import (
 
 	"github.com/bruce-hill/bruce-test-api-go/internal/apijson"
 	"github.com/bruce-hill/bruce-test-api-go/internal/apiquery"
-	shimjson "github.com/bruce-hill/bruce-test-api-go/internal/encoding/json"
 	"github.com/bruce-hill/bruce-test-api-go/internal/requestconfig"
 	"github.com/bruce-hill/bruce-test-api-go/option"
 	"github.com/bruce-hill/bruce-test-api-go/packages/pagination"
@@ -110,13 +109,13 @@ func (r *PersonService) Delete(ctx context.Context, personID string, opts ...opt
 
 type Name struct {
 	// Full name
-	Full string `json:"full,required"`
+	FullName string `json:"full_name,required"`
 	// Nickname (if different from full name)
-	Nick string `json:"nick,nullable"`
+	Nickname string `json:"nickname,nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Full        respjson.Field
-		Nick        respjson.Field
+		FullName    respjson.Field
+		Nickname    respjson.Field
 		ExtraFields map[string]respjson.Field
 		raw         string
 	} `json:"-"`
@@ -137,12 +136,12 @@ func (r Name) ToParam() NameParam {
 	return param.Override[NameParam](json.RawMessage(r.RawJSON()))
 }
 
-// The property Full is required.
+// The property FullName is required.
 type NameParam struct {
 	// Full name
-	Full string `json:"full,required"`
+	FullName string `json:"full_name,required"`
 	// Nickname (if different from full name)
-	Nick param.Opt[string] `json:"nick,omitzero"`
+	Nickname param.Opt[string] `json:"nickname,omitzero"`
 	paramObj
 }
 
@@ -155,6 +154,8 @@ func (r *NameParam) UnmarshalJSON(data []byte) error {
 }
 
 type Person struct {
+	// The person's job
+	Job string `json:"job,required"`
 	// The person's name
 	Name Name `json:"name,required"`
 	// Unique person identifier
@@ -163,6 +164,7 @@ type Person struct {
 	Pets []Pet `json:"pets"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
+		Job         respjson.Field
 		Name        respjson.Field
 		ID          respjson.Field
 		Pets        respjson.Field
@@ -182,6 +184,8 @@ type PersonDeleteResponse map[string]any
 type PersonNewParams struct {
 	// The name of the person to create
 	Name NameParam `json:"name,omitzero,required"`
+	// The person's job
+	Job param.Opt[string] `json:"job,omitzero"`
 	// A list of pet names to create as pets for this person
 	PetNames []NameParam `json:"pet_names,omitzero"`
 	paramObj
@@ -197,15 +201,18 @@ func (r *PersonNewParams) UnmarshalJSON(data []byte) error {
 
 type PersonUpdateParams struct {
 	// The updated name of the person
-	Name NameParam
+	Name NameParam `json:"name,omitzero,required"`
+	// The updated job of the person
+	Job param.Opt[string] `json:"job,omitzero"`
 	paramObj
 }
 
 func (r PersonUpdateParams) MarshalJSON() (data []byte, err error) {
-	return shimjson.Marshal(r.Name)
+	type shadow PersonUpdateParams
+	return param.MarshalObject(r, (*shadow)(&r))
 }
 func (r *PersonUpdateParams) UnmarshalJSON(data []byte) error {
-	return json.Unmarshal(data, &r.Name)
+	return apijson.UnmarshalRoot(data, r)
 }
 
 type PersonListParams struct {

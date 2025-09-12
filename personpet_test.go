@@ -31,8 +31,8 @@ func TestPersonPetNewWithOptionalParams(t *testing.T) {
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		brucetestapi.PersonPetNewParams{
 			Name: brucetestapi.NameParam{
-				Full: "full",
-				Nick: brucetestapi.String("nick"),
+				FullName: "full_name",
+				Nickname: brucetestapi.String("nickname"),
 			},
 			Species: brucetestapi.String("species"),
 		},
@@ -65,8 +65,8 @@ func TestPersonPetUpdateWithOptionalParams(t *testing.T) {
 		brucetestapi.PersonPetUpdateParams{
 			PersonID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			Name: brucetestapi.NameParam{
-				Full: "full",
-				Nick: brucetestapi.String("nick"),
+				FullName: "full_name",
+				Nickname: brucetestapi.String("nickname"),
 			},
 			Species: "species",
 		},

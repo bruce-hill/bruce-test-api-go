@@ -26,7 +26,7 @@ func TestUsage(t *testing.T) {
 	)
 	person, err := client.People.New(context.TODO(), brucetestapi.PersonNewParams{
 		Name: brucetestapi.NameParam{
-			Full: "Tom Bombadil",
+			FullName: "Tom Bombadil",
 		},
 	})
 	if err != nil {

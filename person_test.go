@@ -28,12 +28,13 @@ func TestPersonNewWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.People.New(context.TODO(), brucetestapi.PersonNewParams{
 		Name: brucetestapi.NameParam{
-			Full: "full",
-			Nick: brucetestapi.String("nick"),
+			FullName: "full_name",
+			Nickname: brucetestapi.String("nickname"),
 		},
+		Job: brucetestapi.String("job"),
 		PetNames: []brucetestapi.NameParam{{
-			Full: "full",
-			Nick: brucetestapi.String("nick"),
+			FullName: "full_name",
+			Nickname: brucetestapi.String("nickname"),
 		}},
 	})
 	if err != nil {
@@ -86,9 +87,10 @@ func TestPersonUpdateWithOptionalParams(t *testing.T) {
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		brucetestapi.PersonUpdateParams{
 			Name: brucetestapi.NameParam{
-				Full: "full",
-				Nick: brucetestapi.String("nick"),
+				FullName: "full_name",
+				Nickname: brucetestapi.String("nickname"),
 			},
+			Job: brucetestapi.String("job"),
 		},
 	)
 	if err != nil {
