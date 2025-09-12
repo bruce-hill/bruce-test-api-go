@@ -7,17 +7,17 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/bruce-hill/bruce-test-api-go/internal/requestconfig"
-	"github.com/bruce-hill/bruce-test-api-go/option"
+	"github.com/stainless-sdks/bruce-test-api-go/internal/requestconfig"
+	"github.com/stainless-sdks/bruce-test-api-go/option"
 )
 
 // Client creates a struct with services and top level methods that help with
 // interacting with the bruce-test-api API. You should not instantiate this client
 // directly, and instead use the [NewClient] method instead.
 type Client struct {
-	Options []option.RequestOption
-	Text    TextService
-	Foos    FooService
+	Options  []option.RequestOption
+	People   PersonService
+	JsonTest JsonTestService
 }
 
 // DefaultClientOptions read from the environment (BRUCE_TEST_API_API_KEY,
@@ -42,8 +42,8 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 
 	r = Client{Options: opts}
 
-	r.Text = NewTextService(opts...)
-	r.Foos = NewFooService(opts...)
+	r.People = NewPersonService(opts...)
+	r.JsonTest = NewJsonTestService(opts...)
 
 	return
 }
@@ -115,12 +115,4 @@ func (r *Client) Patch(ctx context.Context, path string, params any, res any, op
 // response.
 func (r *Client) Delete(ctx context.Context, path string, params any, res any, opts ...option.RequestOption) error {
 	return r.Execute(ctx, http.MethodDelete, path, params, res, opts...)
-}
-
-// Get a big JSON response for testing.
-func (r *Client) JsonTest(ctx context.Context, opts ...option.RequestOption) (res *JsonTestResponse, err error) {
-	opts = append(r.Options[:], opts...)
-	path := "json-test"
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
 }
