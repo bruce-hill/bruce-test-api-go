@@ -14,7 +14,7 @@ import (
 	"encoding"
 	"encoding/base64"
 	"fmt"
-	"github.com/stainless-sdks/bruce-test-api-go/internal/encoding/json/shims"
+	"github.com/bruce-hill/bruce-test-api-go/internal/encoding/json/shims"
 	"reflect"
 	"strconv"
 	"strings"
