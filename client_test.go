@@ -40,7 +40,7 @@ func TestUserAgentHeader(t *testing.T) {
 	)
 	client.People.New(context.Background(), brucetestapi.PersonNewParams{
 		Name: brucetestapi.NameParam{
-			Full: "Tom Bombadil",
+			FullName: "Tom Bombadil",
 		},
 	})
 	if userAgent != fmt.Sprintf("BruceTestAPI/Go %s", internal.PackageVersion) {
@@ -68,7 +68,7 @@ func TestRetryAfter(t *testing.T) {
 	)
 	_, err := client.People.New(context.Background(), brucetestapi.PersonNewParams{
 		Name: brucetestapi.NameParam{
-			Full: "Tom Bombadil",
+			FullName: "Tom Bombadil",
 		},
 	})
 	if err == nil {
@@ -107,7 +107,7 @@ func TestDeleteRetryCountHeader(t *testing.T) {
 	)
 	_, err := client.People.New(context.Background(), brucetestapi.PersonNewParams{
 		Name: brucetestapi.NameParam{
-			Full: "Tom Bombadil",
+			FullName: "Tom Bombadil",
 		},
 	})
 	if err == nil {
@@ -141,7 +141,7 @@ func TestOverwriteRetryCountHeader(t *testing.T) {
 	)
 	_, err := client.People.New(context.Background(), brucetestapi.PersonNewParams{
 		Name: brucetestapi.NameParam{
-			Full: "Tom Bombadil",
+			FullName: "Tom Bombadil",
 		},
 	})
 	if err == nil {
@@ -174,7 +174,7 @@ func TestRetryAfterMs(t *testing.T) {
 	)
 	_, err := client.People.New(context.Background(), brucetestapi.PersonNewParams{
 		Name: brucetestapi.NameParam{
-			Full: "Tom Bombadil",
+			FullName: "Tom Bombadil",
 		},
 	})
 	if err == nil {
@@ -201,7 +201,7 @@ func TestContextCancel(t *testing.T) {
 	cancel()
 	_, err := client.People.New(cancelCtx, brucetestapi.PersonNewParams{
 		Name: brucetestapi.NameParam{
-			Full: "Tom Bombadil",
+			FullName: "Tom Bombadil",
 		},
 	})
 	if err == nil {
@@ -225,7 +225,7 @@ func TestContextCancelDelay(t *testing.T) {
 	defer cancel()
 	_, err := client.People.New(cancelCtx, brucetestapi.PersonNewParams{
 		Name: brucetestapi.NameParam{
-			Full: "Tom Bombadil",
+			FullName: "Tom Bombadil",
 		},
 	})
 	if err == nil {
@@ -255,7 +255,7 @@ func TestContextDeadline(t *testing.T) {
 		)
 		_, err := client.People.New(deadlineCtx, brucetestapi.PersonNewParams{
 			Name: brucetestapi.NameParam{
-				Full: "Tom Bombadil",
+				FullName: "Tom Bombadil",
 			},
 		})
 		if err == nil {
