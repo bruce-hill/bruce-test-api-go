@@ -58,7 +58,7 @@ func main() {
 	)
 	person, err := client.People.New(context.TODO(), brucetestapi.PersonNewParams{
 		Name: brucetestapi.NameParam{
-			Full: "Tom Bombadil",
+			FullName: "Tom Bombadil",
 		},
 	})
 	if err != nil {
@@ -328,7 +328,7 @@ To handle errors, we recommend that you use the `errors.As` pattern:
 ```go
 _, err := client.People.New(context.TODO(), brucetestapi.PersonNewParams{
 	Name: brucetestapi.NameParam{
-		Full: "Tom Bombadil",
+		FullName: "Tom Bombadil",
 	},
 })
 if err != nil {
@@ -359,7 +359,7 @@ client.People.New(
 	ctx,
 	brucetestapi.PersonNewParams{
 		Name: brucetestapi.NameParam{
-			Full: "Tom Bombadil",
+			FullName: "Tom Bombadil",
 		},
 	},
 	// This sets the per-retry timeout
@@ -399,7 +399,7 @@ client.People.New(
 	context.TODO(),
 	brucetestapi.PersonNewParams{
 		Name: brucetestapi.NameParam{
-			Full: "Tom Bombadil",
+			FullName: "Tom Bombadil",
 		},
 	},
 	option.WithMaxRetries(5),
@@ -418,7 +418,7 @@ person, err := client.People.New(
 	context.TODO(),
 	brucetestapi.PersonNewParams{
 		Name: brucetestapi.NameParam{
-			Full: "Tom Bombadil",
+			FullName: "Tom Bombadil",
 		},
 	},
 	option.WithResponseInto(&response),
