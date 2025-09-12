@@ -8,9 +8,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/stainless-sdks/bruce-test-api-go"
-	"github.com/stainless-sdks/bruce-test-api-go/internal/testutil"
-	"github.com/stainless-sdks/bruce-test-api-go/option"
+	"github.com/bruce-hill/bruce-test-api-go"
+	"github.com/bruce-hill/bruce-test-api-go/internal/testutil"
+	"github.com/bruce-hill/bruce-test-api-go/option"
 )
 
 func TestPersonNewWithOptionalParams(t *testing.T) {

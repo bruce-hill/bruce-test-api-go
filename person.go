@@ -10,14 +10,14 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/stainless-sdks/bruce-test-api-go/internal/apijson"
-	"github.com/stainless-sdks/bruce-test-api-go/internal/apiquery"
-	shimjson "github.com/stainless-sdks/bruce-test-api-go/internal/encoding/json"
-	"github.com/stainless-sdks/bruce-test-api-go/internal/requestconfig"
-	"github.com/stainless-sdks/bruce-test-api-go/option"
-	"github.com/stainless-sdks/bruce-test-api-go/packages/pagination"
-	"github.com/stainless-sdks/bruce-test-api-go/packages/param"
-	"github.com/stainless-sdks/bruce-test-api-go/packages/respjson"
+	"github.com/bruce-hill/bruce-test-api-go/internal/apijson"
+	"github.com/bruce-hill/bruce-test-api-go/internal/apiquery"
+	shimjson "github.com/bruce-hill/bruce-test-api-go/internal/encoding/json"
+	"github.com/bruce-hill/bruce-test-api-go/internal/requestconfig"
+	"github.com/bruce-hill/bruce-test-api-go/option"
+	"github.com/bruce-hill/bruce-test-api-go/packages/pagination"
+	"github.com/bruce-hill/bruce-test-api-go/packages/param"
+	"github.com/bruce-hill/bruce-test-api-go/packages/respjson"
 )
 
 // PersonService contains methods and other services that help with interacting
