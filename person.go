@@ -15,6 +15,7 @@ import (
 	shimjson "github.com/stainless-sdks/bruce-test-api-go/internal/encoding/json"
 	"github.com/stainless-sdks/bruce-test-api-go/internal/requestconfig"
 	"github.com/stainless-sdks/bruce-test-api-go/option"
+	"github.com/stainless-sdks/bruce-test-api-go/packages/pagination"
 	"github.com/stainless-sdks/bruce-test-api-go/packages/param"
 	"github.com/stainless-sdks/bruce-test-api-go/packages/respjson"
 )
@@ -73,11 +74,26 @@ func (r *PersonService) Update(ctx context.Context, personID string, body Person
 }
 
 // Get a list of all people.
-func (r *PersonService) List(ctx context.Context, query PersonListParams, opts ...option.RequestOption) (res *PersonListResponse, err error) {
+func (r *PersonService) List(ctx context.Context, query PersonListParams, opts ...option.RequestOption) (res *pagination.PageNumber[Person], err error) {
+	var raw *http.Response
 	opts = append(r.Options[:], opts...)
+	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "people"
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
-	return
+	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
+	if err != nil {
+		return nil, err
+	}
+	err = cfg.Execute()
+	if err != nil {
+		return nil, err
+	}
+	res.SetPageConfig(cfg, raw)
+	return res, nil
+}
+
+// Get a list of all people.
+func (r *PersonService) ListAutoPaging(ctx context.Context, query PersonListParams, opts ...option.RequestOption) *pagination.PageNumberAutoPager[Person] {
+	return pagination.NewPageNumberAutoPager(r.List(ctx, query, opts...))
 }
 
 // Remove a person from the system.
@@ -158,30 +174,6 @@ type Person struct {
 // Returns the unmodified JSON received from the API
 func (r Person) RawJSON() string { return r.JSON.raw }
 func (r *Person) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type PersonListResponse struct {
-	Items []Person `json:"items,required"`
-	Page  int64    `json:"page,required"`
-	Pages int64    `json:"pages,required"`
-	Size  int64    `json:"size,required"`
-	Total int64    `json:"total,required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		Items       respjson.Field
-		Page        respjson.Field
-		Pages       respjson.Field
-		Size        respjson.Field
-		Total       respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r PersonListResponse) RawJSON() string { return r.JSON.raw }
-func (r *PersonListResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
