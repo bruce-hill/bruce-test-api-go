@@ -12,7 +12,7 @@ import (
 	"github.com/stainless-sdks/bruce-test-api-go/option"
 )
 
-func TestUsage(t *testing.T) {
+func TestManualPagination(t *testing.T) {
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -24,13 +24,21 @@ func TestUsage(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	person, err := client.People.New(context.TODO(), brucetestapi.PersonNewParams{
-		Name: brucetestapi.NameParam{
-			Full: "Tom Bombadil",
-		},
-	})
+	page, err := client.People.List(context.TODO(), brucetestapi.PersonListParams{})
 	if err != nil {
 		t.Fatalf("err should be nil: %s", err.Error())
 	}
-	t.Logf("%+v\n", person.ID)
+	for _, person := range page.Items {
+		t.Logf("%+v\n", person.ID)
+	}
+	// Prism mock isn't going to give us real pagination
+	page, err = page.GetNextPage()
+	if err != nil {
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+	if page != nil {
+		for _, person := range page.Items {
+			t.Logf("%+v\n", person.ID)
+		}
+	}
 }
