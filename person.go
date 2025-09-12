@@ -186,8 +186,8 @@ type PersonNewParams struct {
 	Name NameParam `json:"name,omitzero,required"`
 	// The person's job
 	Job param.Opt[string] `json:"job,omitzero"`
-	// A list of pet names to create as pets for this person
-	PetNames []NameParam `json:"pet_names,omitzero"`
+	// A list of pets for this person
+	Pets []PersonNewParamsPet `json:"pets,omitzero"`
 	paramObj
 }
 
@@ -196,6 +196,23 @@ func (r PersonNewParams) MarshalJSON() (data []byte, err error) {
 	return param.MarshalObject(r, (*shadow)(&r))
 }
 func (r *PersonNewParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The properties Name, Species are required.
+type PersonNewParamsPet struct {
+	// The pet's name
+	Name NameParam `json:"name,omitzero,required"`
+	// The pet's species
+	Species string `json:"species,required"`
+	paramObj
+}
+
+func (r PersonNewParamsPet) MarshalJSON() (data []byte, err error) {
+	type shadow PersonNewParamsPet
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *PersonNewParamsPet) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
