@@ -32,9 +32,12 @@ func TestPersonNewWithOptionalParams(t *testing.T) {
 			Nickname: brucetestapi.String("nickname"),
 		},
 		Job: brucetestapi.String("job"),
-		PetNames: []brucetestapi.NameParam{{
-			FullName: "full_name",
-			Nickname: brucetestapi.String("nickname"),
+		Pets: []brucetestapi.PersonNewParamsPet{{
+			Name: brucetestapi.NameParam{
+				FullName: "full_name",
+				Nickname: brucetestapi.String("nickname"),
+			},
+			Species: "species",
 		}},
 	})
 	if err != nil {
