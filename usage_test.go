@@ -7,9 +7,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/bruce-hill/bruce-test-api-go"
-	"github.com/bruce-hill/bruce-test-api-go/internal/testutil"
-	"github.com/bruce-hill/bruce-test-api-go/option"
+	"github.com/stainless-sdks/bruce-test-api-go"
+	"github.com/stainless-sdks/bruce-test-api-go/internal/testutil"
+	"github.com/stainless-sdks/bruce-test-api-go/option"
 )
 
 func TestUsage(t *testing.T) {
@@ -24,9 +24,9 @@ func TestUsage(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	foo, err := client.Foos.Get(context.TODO())
+	person, err := client.People.Get(context.TODO(), "REPLACE_ME")
 	if err != nil {
 		t.Fatalf("err should be nil: %s", err.Error())
 	}
-	t.Logf("%+v\n", foo.ListOfNums)
+	t.Logf("%+v\n", person.ID)
 }

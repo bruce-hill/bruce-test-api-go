@@ -4,15 +4,17 @@ package brucetestapi_test
 
 import (
 	"context"
+	"errors"
 	"os"
 	"testing"
 
-	"github.com/bruce-hill/bruce-test-api-go"
-	"github.com/bruce-hill/bruce-test-api-go/internal/testutil"
-	"github.com/bruce-hill/bruce-test-api-go/option"
+	"github.com/stainless-sdks/bruce-test-api-go"
+	"github.com/stainless-sdks/bruce-test-api-go/internal/testutil"
+	"github.com/stainless-sdks/bruce-test-api-go/option"
 )
 
-func TestAutoPagination(t *testing.T) {
+func TestJsonTestGet(t *testing.T) {
+	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -24,13 +26,12 @@ func TestAutoPagination(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	iter := client.Foos.ListAutoPaging(context.TODO(), brucetestapi.FooListParams{})
-	// Prism mock isn't going to give us real pagination
-	for i := 0; i < 3 && iter.Next(); i++ {
-		foo := iter.Current()
-		t.Logf("%+v\n", foo.ListOfNums)
-	}
-	if err := iter.Err(); err != nil {
+	_, err := client.JsonTest.Get(context.TODO())
+	if err != nil {
+		var apierr *brucetestapi.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
 		t.Fatalf("err should be nil: %s", err.Error())
 	}
 }
