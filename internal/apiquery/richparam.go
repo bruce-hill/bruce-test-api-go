@@ -1,7 +1,7 @@
 package apiquery
 
 import (
-	"github.com/stainless-sdks/bruce-test-api-go/packages/param"
+	"github.com/bruce-hill/bruce-test-api-go/packages/param"
 	"reflect"
 )
 
