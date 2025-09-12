@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.12.0 (2025-09-12)
+
+Full Changelog: [v0.11.0...v0.12.0](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.11.0...v0.12.0)
+
+### Features
+
+* **api:** manual updates ([b15262f](https://github.com/bruce-hill/bruce-test-api-go/commit/b15262fa85fe66368408a236590a9ff7f4e4d2c5))
+* **api:** manual updates ([a8e2e23](https://github.com/bruce-hill/bruce-test-api-go/commit/a8e2e23a2cc7b4fb48f4e363e1a10858429b5f7d))
+* **api:** pagination ([b17f204](https://github.com/bruce-hill/bruce-test-api-go/commit/b17f2046c97ce27ccc6ae5127dcac9e93da87913))
+* **api:** people/pets ([d2bbf7f](https://github.com/bruce-hill/bruce-test-api-go/commit/d2bbf7feccca4d68cc7c2a3eca8d996d964c23c0))
+
 ## 0.11.0 (2025-09-10)
 
 Full Changelog: [v0.10.0...v0.11.0](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.10.0...v0.11.0)
