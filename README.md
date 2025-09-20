@@ -35,7 +35,7 @@ go get -u 'github.com/bruce-hill/bruce-test-api-go@v0.14.0'
 
 ## Requirements
 
-This library requires Go 1.18+.
+This library requires Go 1.22+.
 
 ## Usage
 
