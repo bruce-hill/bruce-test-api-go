@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.14.1 (2025-09-20)
+
+Full Changelog: [v0.14.0...v0.14.1](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.14.0...v0.14.1)
+
+### Bug Fixes
+
+* use slices.Concat instead of sometimes modifying r.Options ([5aebdf8](https://github.com/bruce-hill/bruce-test-api-go/commit/5aebdf8f1a7bbadc523a5bfe74263b27b12cd4b2))
+
+
+### Chores
+
+* bump minimum go version to 1.22 ([ac277e8](https://github.com/bruce-hill/bruce-test-api-go/commit/ac277e876aeee70118f026b95ef2b2fde4cb50e2))
+* update more docs for 1.22 ([a58e8c1](https://github.com/bruce-hill/bruce-test-api-go/commit/a58e8c1efd69781a83cbe43802aae129f2de2e8b))
+
 ## 0.14.0 (2025-09-12)
 
 Full Changelog: [v0.13.0...v0.14.0](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.13.0...v0.14.0)
