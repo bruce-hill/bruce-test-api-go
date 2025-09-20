@@ -5,6 +5,7 @@ package brucetestapi
 import (
 	"context"
 	"net/http"
+	"slices"
 
 	"github.com/bruce-hill/bruce-test-api-go/internal/requestconfig"
 	"github.com/bruce-hill/bruce-test-api-go/option"
@@ -31,7 +32,7 @@ func NewJsonTestService(opts ...option.RequestOption) (r JsonTestService) {
 
 // Get a big JSON response for testing.
 func (r *JsonTestService) Get(ctx context.Context, opts ...option.RequestOption) (res *JsonTestGetResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "json-test"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return

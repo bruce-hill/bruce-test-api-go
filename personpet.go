@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"slices"
 
 	"github.com/bruce-hill/bruce-test-api-go/internal/apijson"
 	"github.com/bruce-hill/bruce-test-api-go/internal/requestconfig"
@@ -36,7 +37,7 @@ func NewPersonPetService(opts ...option.RequestOption) (r PersonPetService) {
 
 // Add a new pet to an existing person.
 func (r *PersonPetService) New(ctx context.Context, personID string, body PersonPetNewParams, opts ...option.RequestOption) (res *Pet, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if personID == "" {
 		err = errors.New("missing required person_id parameter")
 		return
@@ -48,7 +49,7 @@ func (r *PersonPetService) New(ctx context.Context, personID string, body Person
 
 // Update an existing pet's information.
 func (r *PersonPetService) Update(ctx context.Context, petID string, params PersonPetUpdateParams, opts ...option.RequestOption) (res *Pet, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if params.PersonID == "" {
 		err = errors.New("missing required person_id parameter")
 		return
@@ -64,7 +65,7 @@ func (r *PersonPetService) Update(ctx context.Context, petID string, params Pers
 
 // Get all pets belonging to a specific person by their ID.
 func (r *PersonPetService) List(ctx context.Context, personID string, opts ...option.RequestOption) (res *[]Pet, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if personID == "" {
 		err = errors.New("missing required person_id parameter")
 		return
@@ -76,7 +77,7 @@ func (r *PersonPetService) List(ctx context.Context, personID string, opts ...op
 
 // Remove a pet from a person.
 func (r *PersonPetService) Delete(ctx context.Context, petID string, body PersonPetDeleteParams, opts ...option.RequestOption) (res *PersonPetDeleteResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if body.PersonID == "" {
 		err = errors.New("missing required person_id parameter")
 		return
