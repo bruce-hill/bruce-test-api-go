@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.15.0 (2025-09-25)
+
+Full Changelog: [v0.14.1...v0.15.0](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.14.1...v0.15.0)
+
+### Features
+
+* **api:** manual updates ([2729155](https://github.com/bruce-hill/bruce-test-api-go/commit/27291555cb784f52c80ca03ea9c91324111a0b04))
+
+
+### Chores
+
+* do not install brew dependencies in ./scripts/bootstrap by default ([77e1e7e](https://github.com/bruce-hill/bruce-test-api-go/commit/77e1e7e6f94782858854000fb40d42f10b484980))
+
 ## 0.14.1 (2025-09-20)
 
 Full Changelog: [v0.14.0...v0.14.1](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.14.0...v0.14.1)
