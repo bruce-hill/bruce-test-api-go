@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.16.1 (2025-09-25)
+
+Full Changelog: [v0.16.0...v0.16.1](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.16.0...v0.16.1)
+
+### Bug Fixes
+
+* bugfix for setting JSON keys with special characters ([502dcad](https://github.com/bruce-hill/bruce-test-api-go/commit/502dcad9076d786f10f4ec85b40b8b4d5f5ca937))
+
 ## 0.16.0 (2025-09-25)
 
 Full Changelog: [v0.15.0...v0.16.0](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.15.0...v0.16.0)
