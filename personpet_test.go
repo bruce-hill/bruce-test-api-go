@@ -103,7 +103,7 @@ func TestPersonPetList(t *testing.T) {
 	}
 }
 
-func TestPersonPetRemove(t *testing.T) {
+func TestPersonPetDelete(t *testing.T) {
 	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -116,10 +116,10 @@ func TestPersonPetRemove(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.People.Pets.Remove(
+	_, err := client.People.Pets.Delete(
 		context.TODO(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-		brucetestapi.PersonPetRemoveParams{
+		brucetestapi.PersonPetDeleteParams{
 			PersonID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		},
 	)
