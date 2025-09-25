@@ -76,7 +76,7 @@ func (r *PersonPetService) List(ctx context.Context, personID string, opts ...op
 }
 
 // Remove a pet from a person.
-func (r *PersonPetService) Remove(ctx context.Context, petID string, body PersonPetRemoveParams, opts ...option.RequestOption) (res *PersonPetRemoveResponse, err error) {
+func (r *PersonPetService) Delete(ctx context.Context, petID string, body PersonPetDeleteParams, opts ...option.RequestOption) (res *PersonPetDeleteResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if body.PersonID == "" {
 		err = errors.New("missing required person_id parameter")
@@ -114,7 +114,7 @@ func (r *Pet) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type PersonPetRemoveResponse map[string]any
+type PersonPetDeleteResponse map[string]any
 
 type PersonPetNewParams struct {
 	// The name of the pet to create
@@ -150,7 +150,7 @@ func (r *PersonPetUpdateParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type PersonPetRemoveParams struct {
+type PersonPetDeleteParams struct {
 	// The unique identifier of the person who owns the pet
 	PersonID string `path:"person_id,required" format:"uuid" json:"-"`
 	paramObj
