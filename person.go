@@ -14,6 +14,7 @@ import (
 	"github.com/bruce-hill/bruce-test-api-go/internal/apiquery"
 	"github.com/bruce-hill/bruce-test-api-go/internal/requestconfig"
 	"github.com/bruce-hill/bruce-test-api-go/option"
+	"github.com/bruce-hill/bruce-test-api-go/packages/pagination"
 	"github.com/bruce-hill/bruce-test-api-go/packages/param"
 	"github.com/bruce-hill/bruce-test-api-go/packages/respjson"
 )
@@ -72,11 +73,26 @@ func (r *PersonService) Update(ctx context.Context, personID string, body Person
 }
 
 // Get a list of all people.
-func (r *PersonService) List(ctx context.Context, query PersonListParams, opts ...option.RequestOption) (res *PersonListResponse, err error) {
+func (r *PersonService) List(ctx context.Context, query PersonListParams, opts ...option.RequestOption) (res *pagination.PageNumber[PersonListResponse], err error) {
+	var raw *http.Response
 	opts = slices.Concat(r.Options, opts)
+	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "people"
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
-	return
+	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
+	if err != nil {
+		return nil, err
+	}
+	err = cfg.Execute()
+	if err != nil {
+		return nil, err
+	}
+	res.SetPageConfig(cfg, raw)
+	return res, nil
+}
+
+// Get a list of all people.
+func (r *PersonService) ListAutoPaging(ctx context.Context, query PersonListParams, opts ...option.RequestOption) *pagination.PageNumberAutoPager[PersonListResponse] {
+	return pagination.NewPageNumberAutoPager(r.List(ctx, query, opts...))
 }
 
 // Remove a person from the system.
@@ -365,38 +381,14 @@ func (r *PersonUpdateResponsePetName) UnmarshalJSON(data []byte) error {
 }
 
 type PersonListResponse struct {
-	Items []PersonListResponseItem `json:"items,required"`
-	Page  int64                    `json:"page,required"`
-	Pages int64                    `json:"pages,required"`
-	Size  int64                    `json:"size,required"`
-	Total int64                    `json:"total,required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		Items       respjson.Field
-		Page        respjson.Field
-		Pages       respjson.Field
-		Size        respjson.Field
-		Total       respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r PersonListResponse) RawJSON() string { return r.JSON.raw }
-func (r *PersonListResponse) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type PersonListResponseItem struct {
 	// The person's job
 	Job string `json:"job,required"`
 	// The person's name
-	Name PersonListResponseItemName `json:"name,required"`
+	Name PersonListResponseName `json:"name,required"`
 	// Unique person identifier
 	ID string `json:"id" format:"uuid7"`
 	// The person's pets
-	Pets []PersonListResponseItemPet `json:"pets"`
+	Pets []PersonListResponsePet `json:"pets"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Job         respjson.Field
@@ -409,13 +401,13 @@ type PersonListResponseItem struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r PersonListResponseItem) RawJSON() string { return r.JSON.raw }
-func (r *PersonListResponseItem) UnmarshalJSON(data []byte) error {
+func (r PersonListResponse) RawJSON() string { return r.JSON.raw }
+func (r *PersonListResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 // The person's name
-type PersonListResponseItemName struct {
+type PersonListResponseName struct {
 	// Full name
 	FullName string `json:"full_name,required"`
 	// Nickname (if different from full name)
@@ -430,14 +422,14 @@ type PersonListResponseItemName struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r PersonListResponseItemName) RawJSON() string { return r.JSON.raw }
-func (r *PersonListResponseItemName) UnmarshalJSON(data []byte) error {
+func (r PersonListResponseName) RawJSON() string { return r.JSON.raw }
+func (r *PersonListResponseName) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type PersonListResponseItemPet struct {
+type PersonListResponsePet struct {
 	// The pet's name
-	Name PersonListResponseItemPetName `json:"name,required"`
+	Name PersonListResponsePetName `json:"name,required"`
 	// The pet's species
 	Species string `json:"species,required"`
 	// Unique pet identifier
@@ -453,13 +445,13 @@ type PersonListResponseItemPet struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r PersonListResponseItemPet) RawJSON() string { return r.JSON.raw }
-func (r *PersonListResponseItemPet) UnmarshalJSON(data []byte) error {
+func (r PersonListResponsePet) RawJSON() string { return r.JSON.raw }
+func (r *PersonListResponsePet) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 // The pet's name
-type PersonListResponseItemPetName struct {
+type PersonListResponsePetName struct {
 	// Full name
 	FullName string `json:"full_name,required"`
 	// Nickname (if different from full name)
@@ -474,8 +466,8 @@ type PersonListResponseItemPetName struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r PersonListResponseItemPetName) RawJSON() string { return r.JSON.raw }
-func (r *PersonListResponseItemPetName) UnmarshalJSON(data []byte) error {
+func (r PersonListResponsePetName) RawJSON() string { return r.JSON.raw }
+func (r *PersonListResponsePetName) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
