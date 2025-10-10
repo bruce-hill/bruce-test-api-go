@@ -12,7 +12,7 @@ import (
 	"github.com/bruce-hill/bruce-test-api-go/option"
 )
 
-func TestUsage(t *testing.T) {
+func TestAutoPagination(t *testing.T) {
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -24,9 +24,13 @@ func TestUsage(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	person, err := client.People.Get(context.TODO(), "ID")
-	if err != nil {
+	iter := client.People.ListAutoPaging(context.TODO(), brucetestapi.PersonListParams{})
+	// Prism mock isn't going to give us real pagination
+	for i := 0; i < 3 && iter.Next(); i++ {
+		person := iter.Current()
+		t.Logf("%+v\n", person.ID)
+	}
+	if err := iter.Err(); err != nil {
 		t.Fatalf("err should be nil: %s", err.Error())
 	}
-	t.Logf("%+v\n", person.ID)
 }
