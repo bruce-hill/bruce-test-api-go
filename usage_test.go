@@ -24,11 +24,7 @@ func TestUsage(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	person, err := client.People.New(context.TODO(), brucetestapi.PersonNewParams{
-		Name: brucetestapi.NameParam{
-			FullName: "Tom Bombadil",
-		},
-	})
+	person, err := client.People.Get(context.TODO(), "REPLACE_ME")
 	if err != nil {
 		t.Fatalf("err should be nil: %s", err.Error())
 	}
