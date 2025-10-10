@@ -56,7 +56,7 @@ func main() {
 	client := brucetestapi.NewClient(
 		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("BRUCE_TEST_API_API_KEY")
 	)
-	person, err := client.People.Get(context.TODO(), "REPLACE_ME")
+	person, err := client.People.Get(context.TODO(), "ID")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -284,8 +284,33 @@ This library provides some conveniences for working with paginated list endpoint
 
 You can use `.ListAutoPaging()` methods to iterate through items across all pages:
 
+```go
+iter := client.People.ListAutoPaging(context.TODO(), brucetestapi.PersonListParams{})
+// Automatically fetches more pages as needed.
+for iter.Next() {
+	personListResponse := iter.Current()
+	fmt.Printf("%+v\n", personListResponse)
+}
+if err := iter.Err(); err != nil {
+	panic(err.Error())
+}
+```
+
 Or you can use simple `.List()` methods to fetch a single page and receive a standard response object
 with additional helper methods like `.GetNextPage()`, e.g.:
+
+```go
+page, err := client.People.List(context.TODO(), brucetestapi.PersonListParams{})
+for page != nil {
+	for _, person := range page.Items {
+		fmt.Printf("%+v\n", person)
+	}
+	page, err = page.GetNextPage()
+}
+if err != nil {
+	panic(err.Error())
+}
+```
 
 ### Errors
 
@@ -297,7 +322,7 @@ When the API returns a non-success status code, we return an error with type
 To handle errors, we recommend that you use the `errors.As` pattern:
 
 ```go
-_, err := client.People.Get(context.TODO(), "REPLACE_ME")
+_, err := client.People.Get(context.TODO(), "ID")
 if err != nil {
 	var apierr *brucetestapi.Error
 	if errors.As(err, &apierr) {
@@ -324,7 +349,7 @@ ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
 defer cancel()
 client.People.Get(
 	ctx,
-	"REPLACE_ME",
+	"ID",
 	// This sets the per-retry timeout
 	option.WithRequestTimeout(20*time.Second),
 )
@@ -360,7 +385,7 @@ client := brucetestapi.NewClient(
 // Override per-request:
 client.People.Get(
 	context.TODO(),
-	"REPLACE_ME",
+	"ID",
 	option.WithMaxRetries(5),
 )
 ```
@@ -375,7 +400,7 @@ you need to examine response headers, status codes, or other details.
 var response *http.Response
 person, err := client.People.Get(
 	context.TODO(),
-	"REPLACE_ME",
+	"ID",
 	option.WithResponseInto(&response),
 )
 if err != nil {
