@@ -4,7 +4,6 @@ package brucetestapi
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
@@ -15,7 +14,6 @@ import (
 	"github.com/bruce-hill/bruce-test-api-go/internal/apiquery"
 	"github.com/bruce-hill/bruce-test-api-go/internal/requestconfig"
 	"github.com/bruce-hill/bruce-test-api-go/option"
-	"github.com/bruce-hill/bruce-test-api-go/packages/pagination"
 	"github.com/bruce-hill/bruce-test-api-go/packages/param"
 	"github.com/bruce-hill/bruce-test-api-go/packages/respjson"
 )
@@ -42,7 +40,7 @@ func NewPersonService(opts ...option.RequestOption) (r PersonService) {
 }
 
 // Create a new person and add them to the system.
-func (r *PersonService) New(ctx context.Context, body PersonNewParams, opts ...option.RequestOption) (res *Person, err error) {
+func (r *PersonService) New(ctx context.Context, body PersonNewParams, opts ...option.RequestOption) (res *PersonNewResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	path := "people"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
@@ -50,7 +48,7 @@ func (r *PersonService) New(ctx context.Context, body PersonNewParams, opts ...o
 }
 
 // Get a person's information by ID.
-func (r *PersonService) Get(ctx context.Context, personID string, opts ...option.RequestOption) (res *Person, err error) {
+func (r *PersonService) Get(ctx context.Context, personID string, opts ...option.RequestOption) (res *PersonGetResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if personID == "" {
 		err = errors.New("missing required person_id parameter")
@@ -62,7 +60,7 @@ func (r *PersonService) Get(ctx context.Context, personID string, opts ...option
 }
 
 // Update an existing person's information.
-func (r *PersonService) Update(ctx context.Context, personID string, body PersonUpdateParams, opts ...option.RequestOption) (res *Person, err error) {
+func (r *PersonService) Update(ctx context.Context, personID string, body PersonUpdateParams, opts ...option.RequestOption) (res *PersonUpdateResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if personID == "" {
 		err = errors.New("missing required person_id parameter")
@@ -74,26 +72,11 @@ func (r *PersonService) Update(ctx context.Context, personID string, body Person
 }
 
 // Get a list of all people.
-func (r *PersonService) List(ctx context.Context, query PersonListParams, opts ...option.RequestOption) (res *pagination.PageNumber[Person], err error) {
-	var raw *http.Response
+func (r *PersonService) List(ctx context.Context, query PersonListParams, opts ...option.RequestOption) (res *PersonListResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
-	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "people"
-	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
-	if err != nil {
-		return nil, err
-	}
-	err = cfg.Execute()
-	if err != nil {
-		return nil, err
-	}
-	res.SetPageConfig(cfg, raw)
-	return res, nil
-}
-
-// Get a list of all people.
-func (r *PersonService) ListAutoPaging(ctx context.Context, query PersonListParams, opts ...option.RequestOption) *pagination.PageNumberAutoPager[Person] {
-	return pagination.NewPageNumberAutoPager(r.List(ctx, query, opts...))
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
+	return
 }
 
 // Remove a person from the system.
@@ -108,7 +91,34 @@ func (r *PersonService) Delete(ctx context.Context, personID string, opts ...opt
 	return
 }
 
-type Name struct {
+type PersonNewResponse struct {
+	// The person's job
+	Job string `json:"job,required"`
+	// The person's name
+	Name PersonNewResponseName `json:"name,required"`
+	// Unique person identifier
+	ID string `json:"id" format:"uuid7"`
+	// The person's pets
+	Pets []PersonNewResponsePet `json:"pets"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Job         respjson.Field
+		Name        respjson.Field
+		ID          respjson.Field
+		Pets        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PersonNewResponse) RawJSON() string { return r.JSON.raw }
+func (r *PersonNewResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The person's name
+type PersonNewResponseName struct {
 	// Full name
 	FullName string `json:"full_name,required"`
 	// Nickname (if different from full name)
@@ -123,46 +133,64 @@ type Name struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r Name) RawJSON() string { return r.JSON.raw }
-func (r *Name) UnmarshalJSON(data []byte) error {
+func (r PersonNewResponseName) RawJSON() string { return r.JSON.raw }
+func (r *PersonNewResponseName) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// ToParam converts this Name to a NameParam.
-//
-// Warning: the fields of the param type will not be present. ToParam should only
-// be used at the last possible moment before sending a request. Test for this with
-// NameParam.Overrides()
-func (r Name) ToParam() NameParam {
-	return param.Override[NameParam](json.RawMessage(r.RawJSON()))
+type PersonNewResponsePet struct {
+	// The pet's name
+	Name PersonNewResponsePetName `json:"name,required"`
+	// The pet's species
+	Species string `json:"species,required"`
+	// Unique pet identifier
+	ID string `json:"id" format:"uuid7"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Name        respjson.Field
+		Species     respjson.Field
+		ID          respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
 }
 
-// The property FullName is required.
-type NameParam struct {
+// Returns the unmodified JSON received from the API
+func (r PersonNewResponsePet) RawJSON() string { return r.JSON.raw }
+func (r *PersonNewResponsePet) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The pet's name
+type PersonNewResponsePetName struct {
 	// Full name
 	FullName string `json:"full_name,required"`
 	// Nickname (if different from full name)
-	Nickname param.Opt[string] `json:"nickname,omitzero"`
-	paramObj
+	Nickname string `json:"nickname,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		FullName    respjson.Field
+		Nickname    respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
 }
 
-func (r NameParam) MarshalJSON() (data []byte, err error) {
-	type shadow NameParam
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *NameParam) UnmarshalJSON(data []byte) error {
+// Returns the unmodified JSON received from the API
+func (r PersonNewResponsePetName) RawJSON() string { return r.JSON.raw }
+func (r *PersonNewResponsePetName) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type Person struct {
+type PersonGetResponse struct {
 	// The person's job
 	Job string `json:"job,required"`
 	// The person's name
-	Name Name `json:"name,required"`
+	Name PersonGetResponseName `json:"name,required"`
 	// Unique person identifier
 	ID string `json:"id" format:"uuid7"`
 	// The person's pets
-	Pets []Pet `json:"pets"`
+	Pets []PersonGetResponsePet `json:"pets"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Job         respjson.Field
@@ -175,8 +203,279 @@ type Person struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r Person) RawJSON() string { return r.JSON.raw }
-func (r *Person) UnmarshalJSON(data []byte) error {
+func (r PersonGetResponse) RawJSON() string { return r.JSON.raw }
+func (r *PersonGetResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The person's name
+type PersonGetResponseName struct {
+	// Full name
+	FullName string `json:"full_name,required"`
+	// Nickname (if different from full name)
+	Nickname string `json:"nickname,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		FullName    respjson.Field
+		Nickname    respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PersonGetResponseName) RawJSON() string { return r.JSON.raw }
+func (r *PersonGetResponseName) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PersonGetResponsePet struct {
+	// The pet's name
+	Name PersonGetResponsePetName `json:"name,required"`
+	// The pet's species
+	Species string `json:"species,required"`
+	// Unique pet identifier
+	ID string `json:"id" format:"uuid7"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Name        respjson.Field
+		Species     respjson.Field
+		ID          respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PersonGetResponsePet) RawJSON() string { return r.JSON.raw }
+func (r *PersonGetResponsePet) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The pet's name
+type PersonGetResponsePetName struct {
+	// Full name
+	FullName string `json:"full_name,required"`
+	// Nickname (if different from full name)
+	Nickname string `json:"nickname,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		FullName    respjson.Field
+		Nickname    respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PersonGetResponsePetName) RawJSON() string { return r.JSON.raw }
+func (r *PersonGetResponsePetName) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PersonUpdateResponse struct {
+	// The person's job
+	Job string `json:"job,required"`
+	// The person's name
+	Name PersonUpdateResponseName `json:"name,required"`
+	// Unique person identifier
+	ID string `json:"id" format:"uuid7"`
+	// The person's pets
+	Pets []PersonUpdateResponsePet `json:"pets"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Job         respjson.Field
+		Name        respjson.Field
+		ID          respjson.Field
+		Pets        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PersonUpdateResponse) RawJSON() string { return r.JSON.raw }
+func (r *PersonUpdateResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The person's name
+type PersonUpdateResponseName struct {
+	// Full name
+	FullName string `json:"full_name,required"`
+	// Nickname (if different from full name)
+	Nickname string `json:"nickname,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		FullName    respjson.Field
+		Nickname    respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PersonUpdateResponseName) RawJSON() string { return r.JSON.raw }
+func (r *PersonUpdateResponseName) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PersonUpdateResponsePet struct {
+	// The pet's name
+	Name PersonUpdateResponsePetName `json:"name,required"`
+	// The pet's species
+	Species string `json:"species,required"`
+	// Unique pet identifier
+	ID string `json:"id" format:"uuid7"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Name        respjson.Field
+		Species     respjson.Field
+		ID          respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PersonUpdateResponsePet) RawJSON() string { return r.JSON.raw }
+func (r *PersonUpdateResponsePet) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The pet's name
+type PersonUpdateResponsePetName struct {
+	// Full name
+	FullName string `json:"full_name,required"`
+	// Nickname (if different from full name)
+	Nickname string `json:"nickname,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		FullName    respjson.Field
+		Nickname    respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PersonUpdateResponsePetName) RawJSON() string { return r.JSON.raw }
+func (r *PersonUpdateResponsePetName) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PersonListResponse struct {
+	Items []PersonListResponseItem `json:"items,required"`
+	Page  int64                    `json:"page,required"`
+	Pages int64                    `json:"pages,required"`
+	Size  int64                    `json:"size,required"`
+	Total int64                    `json:"total,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Items       respjson.Field
+		Page        respjson.Field
+		Pages       respjson.Field
+		Size        respjson.Field
+		Total       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PersonListResponse) RawJSON() string { return r.JSON.raw }
+func (r *PersonListResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PersonListResponseItem struct {
+	// The person's job
+	Job string `json:"job,required"`
+	// The person's name
+	Name PersonListResponseItemName `json:"name,required"`
+	// Unique person identifier
+	ID string `json:"id" format:"uuid7"`
+	// The person's pets
+	Pets []PersonListResponseItemPet `json:"pets"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Job         respjson.Field
+		Name        respjson.Field
+		ID          respjson.Field
+		Pets        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PersonListResponseItem) RawJSON() string { return r.JSON.raw }
+func (r *PersonListResponseItem) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The person's name
+type PersonListResponseItemName struct {
+	// Full name
+	FullName string `json:"full_name,required"`
+	// Nickname (if different from full name)
+	Nickname string `json:"nickname,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		FullName    respjson.Field
+		Nickname    respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PersonListResponseItemName) RawJSON() string { return r.JSON.raw }
+func (r *PersonListResponseItemName) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PersonListResponseItemPet struct {
+	// The pet's name
+	Name PersonListResponseItemPetName `json:"name,required"`
+	// The pet's species
+	Species string `json:"species,required"`
+	// Unique pet identifier
+	ID string `json:"id" format:"uuid7"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Name        respjson.Field
+		Species     respjson.Field
+		ID          respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PersonListResponseItemPet) RawJSON() string { return r.JSON.raw }
+func (r *PersonListResponseItemPet) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The pet's name
+type PersonListResponseItemPetName struct {
+	// Full name
+	FullName string `json:"full_name,required"`
+	// Nickname (if different from full name)
+	Nickname string `json:"nickname,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		FullName    respjson.Field
+		Nickname    respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PersonListResponseItemPetName) RawJSON() string { return r.JSON.raw }
+func (r *PersonListResponseItemPetName) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -184,7 +483,7 @@ type PersonDeleteResponse map[string]any
 
 type PersonNewParams struct {
 	// The name of the person to create
-	Name NameParam `json:"name,omitzero,required"`
+	Name PersonNewParamsName `json:"name,omitzero,required"`
 	// The person's job
 	Job param.Opt[string] `json:"job,omitzero"`
 	// A list of pets for this person
@@ -200,10 +499,29 @@ func (r *PersonNewParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// The name of the person to create
+//
+// The property FullName is required.
+type PersonNewParamsName struct {
+	// Full name
+	FullName string `json:"full_name,required"`
+	// Nickname (if different from full name)
+	Nickname param.Opt[string] `json:"nickname,omitzero"`
+	paramObj
+}
+
+func (r PersonNewParamsName) MarshalJSON() (data []byte, err error) {
+	type shadow PersonNewParamsName
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *PersonNewParamsName) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 // The properties Name, Species are required.
 type PersonNewParamsPet struct {
 	// The pet's name
-	Name NameParam `json:"name,omitzero,required"`
+	Name PersonNewParamsPetName `json:"name,omitzero,required"`
 	// The pet's species
 	Species string `json:"species,required"`
 	paramObj
@@ -217,9 +535,28 @@ func (r *PersonNewParamsPet) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// The pet's name
+//
+// The property FullName is required.
+type PersonNewParamsPetName struct {
+	// Full name
+	FullName string `json:"full_name,required"`
+	// Nickname (if different from full name)
+	Nickname param.Opt[string] `json:"nickname,omitzero"`
+	paramObj
+}
+
+func (r PersonNewParamsPetName) MarshalJSON() (data []byte, err error) {
+	type shadow PersonNewParamsPetName
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *PersonNewParamsPetName) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type PersonUpdateParams struct {
 	// The updated name of the person
-	Name NameParam `json:"name,omitzero,required"`
+	Name PersonUpdateParamsName `json:"name,omitzero,required"`
 	// The updated job of the person
 	Job param.Opt[string] `json:"job,omitzero"`
 	paramObj
@@ -233,7 +570,32 @@ func (r *PersonUpdateParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// The updated name of the person
+//
+// The property FullName is required.
+type PersonUpdateParamsName struct {
+	// Full name
+	FullName string `json:"full_name,required"`
+	// Nickname (if different from full name)
+	Nickname param.Opt[string] `json:"nickname,omitzero"`
+	paramObj
+}
+
+func (r PersonUpdateParamsName) MarshalJSON() (data []byte, err error) {
+	type shadow PersonUpdateParamsName
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *PersonUpdateParamsName) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type PersonListParams struct {
+	// Job name to search for
+	Job param.Opt[string] `query:"job,omitzero" json:"-"`
+	// Full name to search for
+	Name param.Opt[string] `query:"name,omitzero" json:"-"`
+	// Nickname to search for
+	Nickname param.Opt[string] `query:"nickname,omitzero" json:"-"`
 	// Page number
 	Page param.Opt[int64] `query:"page,omitzero" json:"-"`
 	// Page size

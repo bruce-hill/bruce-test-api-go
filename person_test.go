@@ -27,13 +27,13 @@ func TestPersonNewWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.People.New(context.TODO(), brucetestapi.PersonNewParams{
-		Name: brucetestapi.NameParam{
+		Name: brucetestapi.PersonNewParamsName{
 			FullName: "full_name",
 			Nickname: brucetestapi.String("nickname"),
 		},
 		Job: brucetestapi.String("job"),
 		Pets: []brucetestapi.PersonNewParamsPet{{
-			Name: brucetestapi.NameParam{
+			Name: brucetestapi.PersonNewParamsPetName{
 				FullName: "full_name",
 				Nickname: brucetestapi.String("nickname"),
 			},
@@ -89,7 +89,7 @@ func TestPersonUpdateWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		brucetestapi.PersonUpdateParams{
-			Name: brucetestapi.NameParam{
+			Name: brucetestapi.PersonUpdateParamsName{
 				FullName: "full_name",
 				Nickname: brucetestapi.String("nickname"),
 			},
@@ -119,8 +119,11 @@ func TestPersonListWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.People.List(context.TODO(), brucetestapi.PersonListParams{
-		Page: brucetestapi.Int(1),
-		Size: brucetestapi.Int(1),
+		Job:      brucetestapi.String("job"),
+		Name:     brucetestapi.String("name"),
+		Nickname: brucetestapi.String("nickname"),
+		Page:     brucetestapi.Int(1),
+		Size:     brucetestapi.Int(1),
 	})
 	if err != nil {
 		var apierr *brucetestapi.Error

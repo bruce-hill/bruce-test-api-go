@@ -30,7 +30,7 @@ func TestPersonPetNewWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		brucetestapi.PersonPetNewParams{
-			Name: brucetestapi.NameParam{
+			Name: brucetestapi.PersonPetNewParamsName{
 				FullName: "full_name",
 				Nickname: brucetestapi.String("nickname"),
 			},
@@ -64,7 +64,7 @@ func TestPersonPetUpdateWithOptionalParams(t *testing.T) {
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		brucetestapi.PersonPetUpdateParams{
 			PersonID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-			Name: brucetestapi.NameParam{
+			Name: brucetestapi.PersonPetUpdateParamsName{
 				FullName: "full_name",
 				Nickname: brucetestapi.String("nickname"),
 			},
@@ -103,7 +103,7 @@ func TestPersonPetList(t *testing.T) {
 	}
 }
 
-func TestPersonPetQdelete(t *testing.T) {
+func TestPersonPetDelete(t *testing.T) {
 	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -116,10 +116,10 @@ func TestPersonPetQdelete(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.People.Pets.Qdelete(
+	_, err := client.People.Pets.Delete(
 		context.TODO(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-		brucetestapi.PersonPetQdeleteParams{
+		brucetestapi.PersonPetDeleteParams{
 			PersonID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		},
 	)

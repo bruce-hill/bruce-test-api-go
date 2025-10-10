@@ -56,11 +56,7 @@ func main() {
 	client := brucetestapi.NewClient(
 		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("BRUCE_TEST_API_API_KEY")
 	)
-	person, err := client.People.New(context.TODO(), brucetestapi.PersonNewParams{
-		Name: brucetestapi.NameParam{
-			FullName: "Tom Bombadil",
-		},
-	})
+	person, err := client.People.Get(context.TODO(), "REPLACE_ME")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -270,7 +266,7 @@ client := brucetestapi.NewClient(
 	option.WithHeader("X-Some-Header", "custom_header_info"),
 )
 
-client.People.New(context.TODO(), ...,
+client.People.Get(context.TODO(), ...,
 	// Override the header
 	option.WithHeader("X-Some-Header", "some_other_custom_header_info"),
 	// Add an undocumented field to the request body, using sjson syntax
@@ -288,33 +284,8 @@ This library provides some conveniences for working with paginated list endpoint
 
 You can use `.ListAutoPaging()` methods to iterate through items across all pages:
 
-```go
-iter := client.People.ListAutoPaging(context.TODO(), brucetestapi.PersonListParams{})
-// Automatically fetches more pages as needed.
-for iter.Next() {
-	person := iter.Current()
-	fmt.Printf("%+v\n", person)
-}
-if err := iter.Err(); err != nil {
-	panic(err.Error())
-}
-```
-
 Or you can use simple `.List()` methods to fetch a single page and receive a standard response object
 with additional helper methods like `.GetNextPage()`, e.g.:
-
-```go
-page, err := client.People.List(context.TODO(), brucetestapi.PersonListParams{})
-for page != nil {
-	for _, person := range page.Items {
-		fmt.Printf("%+v\n", person)
-	}
-	page, err = page.GetNextPage()
-}
-if err != nil {
-	panic(err.Error())
-}
-```
 
 ### Errors
 
@@ -326,18 +297,14 @@ When the API returns a non-success status code, we return an error with type
 To handle errors, we recommend that you use the `errors.As` pattern:
 
 ```go
-_, err := client.People.New(context.TODO(), brucetestapi.PersonNewParams{
-	Name: brucetestapi.NameParam{
-		FullName: "Tom Bombadil",
-	},
-})
+_, err := client.People.Get(context.TODO(), "REPLACE_ME")
 if err != nil {
 	var apierr *brucetestapi.Error
 	if errors.As(err, &apierr) {
 		println(string(apierr.DumpRequest(true)))  // Prints the serialized HTTP request
 		println(string(apierr.DumpResponse(true))) // Prints the serialized HTTP response
 	}
-	panic(err.Error()) // GET "/people": 400 Bad Request { ... }
+	panic(err.Error()) // GET "/people/{person_id}": 400 Bad Request { ... }
 }
 ```
 
@@ -355,13 +322,9 @@ To set a per-retry timeout, use `option.WithRequestTimeout()`.
 // This sets the timeout for the request, including all the retries.
 ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
 defer cancel()
-client.People.New(
+client.People.Get(
 	ctx,
-	brucetestapi.PersonNewParams{
-		Name: brucetestapi.NameParam{
-			FullName: "Tom Bombadil",
-		},
-	},
+	"REPLACE_ME",
 	// This sets the per-retry timeout
 	option.WithRequestTimeout(20*time.Second),
 )
@@ -395,13 +358,9 @@ client := brucetestapi.NewClient(
 )
 
 // Override per-request:
-client.People.New(
+client.People.Get(
 	context.TODO(),
-	brucetestapi.PersonNewParams{
-		Name: brucetestapi.NameParam{
-			FullName: "Tom Bombadil",
-		},
-	},
+	"REPLACE_ME",
 	option.WithMaxRetries(5),
 )
 ```
@@ -414,13 +373,9 @@ you need to examine response headers, status codes, or other details.
 ```go
 // Create a variable to store the HTTP response
 var response *http.Response
-person, err := client.People.New(
+person, err := client.People.Get(
 	context.TODO(),
-	brucetestapi.PersonNewParams{
-		Name: brucetestapi.NameParam{
-			FullName: "Tom Bombadil",
-		},
-	},
+	"REPLACE_ME",
 	option.WithResponseInto(&response),
 )
 if err != nil {
