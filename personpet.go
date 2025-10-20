@@ -105,6 +105,18 @@ func (r *PersonPetService) Delete(ctx context.Context, petID string, body Person
 	return
 }
 
+// Get a pet from a person.
+func (r *PersonPetService) Retrieve2(ctx context.Context, personID string, query PersonPetRetrieve2Params, opts ...option.RequestOption) (res *PersonPetRetrieve2Response, err error) {
+	opts = slices.Concat(r.Options, opts)
+	if personID == "" {
+		err = errors.New("missing required person_id parameter")
+		return
+	}
+	path := fmt.Sprintf("people/%s/pet2", personID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
+	return
+}
+
 type PersonPetNewResponse struct {
 	// The pet's name
 	Name PersonPetNewResponseName `json:"name,required"`
@@ -283,6 +295,50 @@ func (r *PersonPetListResponseName) UnmarshalJSON(data []byte) error {
 
 type PersonPetDeleteResponse map[string]any
 
+type PersonPetRetrieve2Response struct {
+	// The pet's name
+	Name PersonPetRetrieve2ResponseName `json:"name,required"`
+	// The pet's species
+	Species string `json:"species,required"`
+	// Unique pet identifier
+	ID string `json:"id" format:"uuid7"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Name        respjson.Field
+		Species     respjson.Field
+		ID          respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PersonPetRetrieve2Response) RawJSON() string { return r.JSON.raw }
+func (r *PersonPetRetrieve2Response) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The pet's name
+type PersonPetRetrieve2ResponseName struct {
+	// Full name
+	FullName string `json:"full_name,required"`
+	// Nickname (if different from full name)
+	Nickname string `json:"nickname,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		FullName    respjson.Field
+		Nickname    respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PersonPetRetrieve2ResponseName) RawJSON() string { return r.JSON.raw }
+func (r *PersonPetRetrieve2ResponseName) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type PersonPetNewParams struct {
 	// The name of the pet to create
 	Name PersonPetNewParamsName `json:"name,omitzero,required"`
@@ -373,4 +429,21 @@ type PersonPetDeleteParams struct {
 	// The unique identifier of the person who owns the pet
 	PersonID string `path:"person_id,required" format:"uuid" json:"-"`
 	paramObj
+}
+
+type PersonPetRetrieve2Params struct {
+	// The pet's name
+	PetName string `query:"pet_name,required" json:"-"`
+	// The pet's frob
+	Frob param.Opt[string] `query:"frob,omitzero" json:"-"`
+	paramObj
+}
+
+// URLQuery serializes [PersonPetRetrieve2Params]'s query parameters as
+// `url.Values`.
+func (r PersonPetRetrieve2Params) URLQuery() (v url.Values, err error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
 }
