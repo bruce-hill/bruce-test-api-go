@@ -436,6 +436,8 @@ type PersonPetFrobParams struct {
 	PetName string `query:"pet_name,required" json:"-"`
 	// The pet's frob
 	Frob param.Opt[string] `query:"frob,omitzero" json:"-"`
+	// The pet's grop
+	Grop param.Opt[string] `query:"grop,omitzero" json:"-"`
 	paramObj
 }
 
