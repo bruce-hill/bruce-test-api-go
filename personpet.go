@@ -420,6 +420,8 @@ type PersonPetDeleteParams struct {
 type PersonPetFnordParams struct {
 	// The pet's name
 	PetName string `query:"pet_name,required" json:"-"`
+	// The pet's grop
+	Grop param.Opt[string] `query:"grop,omitzero" json:"-"`
 	paramObj
 }
 
