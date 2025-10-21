@@ -180,6 +180,7 @@ func TestPersonPetFrobWithOptionalParams(t *testing.T) {
 		brucetestapi.PersonPetFrobParams{
 			PetName: "pet_name",
 			Frob:    brucetestapi.String("frob"),
+			Grop:    brucetestapi.String("grop"),
 		},
 	)
 	if err != nil {
