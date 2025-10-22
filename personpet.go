@@ -49,6 +49,18 @@ func (r *PersonPetService) New(ctx context.Context, personID string, body Person
 	return
 }
 
+// Get a pet from a person.
+func (r *PersonPetService) Get(ctx context.Context, personID string, query PersonPetGetParams, opts ...option.RequestOption) (res *PersonPetGetResponse, err error) {
+	opts = slices.Concat(r.Options, opts)
+	if personID == "" {
+		err = errors.New("missing required person_id parameter")
+		return
+	}
+	path := fmt.Sprintf("people/%s/pet", personID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
+	return
+}
+
 // Update an existing pet's information.
 func (r *PersonPetService) Update(ctx context.Context, petID string, params PersonPetUpdateParams, opts ...option.RequestOption) (res *PersonPetUpdateResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
@@ -93,30 +105,6 @@ func (r *PersonPetService) Delete(ctx context.Context, petID string, body Person
 	return
 }
 
-// Get a pet from a person.
-func (r *PersonPetService) Fnord(ctx context.Context, personID string, query PersonPetFnordParams, opts ...option.RequestOption) (res *PersonPetFnordResponse, err error) {
-	opts = slices.Concat(r.Options, opts)
-	if personID == "" {
-		err = errors.New("missing required person_id parameter")
-		return
-	}
-	path := fmt.Sprintf("people/%s/pet", personID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
-	return
-}
-
-// Get a pet from a person.
-func (r *PersonPetService) Frob(ctx context.Context, personID string, query PersonPetFrobParams, opts ...option.RequestOption) (res *PersonPetFrobResponse, err error) {
-	opts = slices.Concat(r.Options, opts)
-	if personID == "" {
-		err = errors.New("missing required person_id parameter")
-		return
-	}
-	path := fmt.Sprintf("people/%s/pet2", personID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
-	return
-}
-
 type PersonPetNewResponse struct {
 	// The pet's name
 	Name PersonPetNewResponseName `json:"name,required"`
@@ -158,6 +146,50 @@ type PersonPetNewResponseName struct {
 // Returns the unmodified JSON received from the API
 func (r PersonPetNewResponseName) RawJSON() string { return r.JSON.raw }
 func (r *PersonPetNewResponseName) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PersonPetGetResponse struct {
+	// The pet's name
+	Name PersonPetGetResponseName `json:"name,required"`
+	// The pet's species
+	Species string `json:"species,required"`
+	// Unique pet identifier
+	ID string `json:"id" format:"uuid7"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Name        respjson.Field
+		Species     respjson.Field
+		ID          respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PersonPetGetResponse) RawJSON() string { return r.JSON.raw }
+func (r *PersonPetGetResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The pet's name
+type PersonPetGetResponseName struct {
+	// Full name
+	FullName string `json:"full_name,required"`
+	// Nickname (if different from full name)
+	Nickname string `json:"nickname,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		FullName    respjson.Field
+		Nickname    respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PersonPetGetResponseName) RawJSON() string { return r.JSON.raw }
+func (r *PersonPetGetResponseName) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -251,94 +283,6 @@ func (r *PersonPetListResponseName) UnmarshalJSON(data []byte) error {
 
 type PersonPetDeleteResponse map[string]any
 
-type PersonPetFnordResponse struct {
-	// The pet's name
-	Name PersonPetFnordResponseName `json:"name,required"`
-	// The pet's species
-	Species string `json:"species,required"`
-	// Unique pet identifier
-	ID string `json:"id" format:"uuid7"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		Name        respjson.Field
-		Species     respjson.Field
-		ID          respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r PersonPetFnordResponse) RawJSON() string { return r.JSON.raw }
-func (r *PersonPetFnordResponse) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// The pet's name
-type PersonPetFnordResponseName struct {
-	// Full name
-	FullName string `json:"full_name,required"`
-	// Nickname (if different from full name)
-	Nickname string `json:"nickname,nullable"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		FullName    respjson.Field
-		Nickname    respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r PersonPetFnordResponseName) RawJSON() string { return r.JSON.raw }
-func (r *PersonPetFnordResponseName) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type PersonPetFrobResponse struct {
-	// The pet's name
-	Name PersonPetFrobResponseName `json:"name,required"`
-	// The pet's species
-	Species string `json:"species,required"`
-	// Unique pet identifier
-	ID string `json:"id" format:"uuid7"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		Name        respjson.Field
-		Species     respjson.Field
-		ID          respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r PersonPetFrobResponse) RawJSON() string { return r.JSON.raw }
-func (r *PersonPetFrobResponse) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// The pet's name
-type PersonPetFrobResponseName struct {
-	// Full name
-	FullName string `json:"full_name,required"`
-	// Nickname (if different from full name)
-	Nickname string `json:"nickname,nullable"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		FullName    respjson.Field
-		Nickname    respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r PersonPetFrobResponseName) RawJSON() string { return r.JSON.raw }
-func (r *PersonPetFrobResponseName) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
 type PersonPetNewParams struct {
 	// The name of the pet to create
 	Name PersonPetNewParamsName `json:"name,omitzero,required"`
@@ -372,6 +316,20 @@ func (r PersonPetNewParamsName) MarshalJSON() (data []byte, err error) {
 }
 func (r *PersonPetNewParamsName) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+type PersonPetGetParams struct {
+	// The pet's name
+	PetName string `query:"pet_name,required" json:"-"`
+	paramObj
+}
+
+// URLQuery serializes [PersonPetGetParams]'s query parameters as `url.Values`.
+func (r PersonPetGetParams) URLQuery() (v url.Values, err error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
 }
 
 type PersonPetUpdateParams struct {
@@ -415,38 +373,4 @@ type PersonPetDeleteParams struct {
 	// The unique identifier of the person who owns the pet
 	PersonID string `path:"person_id,required" format:"uuid" json:"-"`
 	paramObj
-}
-
-type PersonPetFnordParams struct {
-	// The pet's name
-	PetName string `query:"pet_name,required" json:"-"`
-	// The pet's grop
-	Grop param.Opt[string] `query:"grop,omitzero" json:"-"`
-	paramObj
-}
-
-// URLQuery serializes [PersonPetFnordParams]'s query parameters as `url.Values`.
-func (r PersonPetFnordParams) URLQuery() (v url.Values, err error) {
-	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
-		NestedFormat: apiquery.NestedQueryFormatBrackets,
-	})
-}
-
-type PersonPetFrobParams struct {
-	// The pet's name
-	PetName string `query:"pet_name,required" json:"-"`
-	// The pet's frob
-	Frob param.Opt[string] `query:"frob,omitzero" json:"-"`
-	// The pet's grop
-	Grop param.Opt[string] `query:"grop,omitzero" json:"-"`
-	paramObj
-}
-
-// URLQuery serializes [PersonPetFrobParams]'s query parameters as `url.Values`.
-func (r PersonPetFrobParams) URLQuery() (v url.Values, err error) {
-	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
-		NestedFormat: apiquery.NestedQueryFormatBrackets,
-	})
 }
