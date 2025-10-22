@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.19.0 (2025-10-22)
+
+Full Changelog: [v0.18.0...v0.19.0](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.18.0...v0.19.0)
+
+### Features
+
+* **api:** manual updates ([1f381dc](https://github.com/bruce-hill/bruce-test-api-go/commit/1f381dc093e2388697d40ef514d6d535d94d6119))
+* **api:** manual updates ([c4fc232](https://github.com/bruce-hill/bruce-test-api-go/commit/c4fc232f956a85d39225a8f594d04fd913d56994))
+* **api:** manual updates ([0783ffb](https://github.com/bruce-hill/bruce-test-api-go/commit/0783ffb87ac12333cc06a9b786375385821742b4))
+* **api:** manual updates ([fd07556](https://github.com/bruce-hill/bruce-test-api-go/commit/fd07556e328f9a6285b0f698cb6c8126833d335a))
+* **api:** manual updates ([3dd2027](https://github.com/bruce-hill/bruce-test-api-go/commit/3dd20276445241765159f744f920d322e542ce85))
+* **api:** manual updates ([c527933](https://github.com/bruce-hill/bruce-test-api-go/commit/c5279331c88d48fa5b5fa3474e7a018f8a7c51a7))
+* **api:** manual updates ([c5d3139](https://github.com/bruce-hill/bruce-test-api-go/commit/c5d313978e41dfd968bbef46160454af8fd41264))
+* **api:** manual updates ([3d14925](https://github.com/bruce-hill/bruce-test-api-go/commit/3d14925982bd1d86df063495d117a4dfb7a406da))
+
 ## 0.18.0 (2025-10-10)
 
 Full Changelog: [v0.17.0...v0.18.0](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.17.0...v0.18.0)
