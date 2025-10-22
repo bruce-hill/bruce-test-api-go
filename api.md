@@ -1,5 +1,13 @@
 # brucetestapi
 
+Response Types:
+
+- <a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go#FnordResponse">FnordResponse</a>
+
+Methods:
+
+- <code title="get /fnord/{pos1}/{pos2}">client.<a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go#BrucetestapiService.Fnord">Fnord</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, pos2 <a href="https://pkg.go.dev/builtin#string">string</a>, params <a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go#FnordParams">FnordParams</a>) (<a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go#FnordResponse">FnordResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+
 # People
 
 Response Types:
