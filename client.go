@@ -4,6 +4,8 @@ package brucetestapi
 
 import (
 	"context"
+	"errors"
+	"fmt"
 	"net/http"
 	"os"
 	"slices"
@@ -116,4 +118,20 @@ func (r *Client) Patch(ctx context.Context, path string, params any, res any, op
 // response.
 func (r *Client) Delete(ctx context.Context, path string, params any, res any, opts ...option.RequestOption) error {
 	return r.Execute(ctx, http.MethodDelete, path, params, res, opts...)
+}
+
+// Get a pet from a person.
+func (r *Client) Fnord(ctx context.Context, pos2 string, params FnordParams, opts ...option.RequestOption) (res *FnordResponse, err error) {
+	opts = slices.Concat(r.Options, opts)
+	if params.Pos1 == "" {
+		err = errors.New("missing required pos1 parameter")
+		return
+	}
+	if pos2 == "" {
+		err = errors.New("missing required pos2 parameter")
+		return
+	}
+	path := fmt.Sprintf("fnord/%s/%s", params.Pos1, pos2)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, params, &res, opts...)
+	return
 }
