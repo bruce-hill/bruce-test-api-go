@@ -24,9 +24,9 @@ func TestUsage(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	person, err := client.People.Get(context.TODO(), "ID")
+	page, err := client.People.List(context.TODO(), brucetestapi.PersonListParams{})
 	if err != nil {
 		t.Fatalf("err should be nil: %s", err.Error())
 	}
-	t.Logf("%+v\n", person.ID)
+	t.Logf("%+v\n", page)
 }
