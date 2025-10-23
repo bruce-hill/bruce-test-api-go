@@ -5,8 +5,8 @@ package brucetestapi
 import (
 	"net/url"
 
-	"github.com/bruce-hill/bruce-test-api-go/internal/apiquery"
-	"github.com/bruce-hill/bruce-test-api-go/packages/param"
+	"github.com/stainless-sdks/bruce-test-api-go/internal/apiquery"
+	"github.com/stainless-sdks/bruce-test-api-go/packages/param"
 )
 
 type FnordResponse map[string]string
