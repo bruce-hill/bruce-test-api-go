@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"slices"
 
-	"github.com/bruce-hill/bruce-test-api-go/internal/requestconfig"
-	"github.com/bruce-hill/bruce-test-api-go/option"
+	"github.com/stainless-sdks/bruce-test-api-go/internal/requestconfig"
+	"github.com/stainless-sdks/bruce-test-api-go/option"
 )
 
 // JsonTestService contains methods and other services that help with interacting
