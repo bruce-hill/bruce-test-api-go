@@ -7,7 +7,7 @@ package apijson
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/bruce-hill/bruce-test-api-go/packages/param"
+	"github.com/stainless-sdks/bruce-test-api-go/packages/param"
 	"reflect"
 	"strconv"
 	"sync"
