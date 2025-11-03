@@ -28,11 +28,11 @@ func TestBrucetestapiFnordWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Fnord(
 		context.TODO(),
-		"pos2",
+		"second_pos",
 		brucetestapi.FnordParams{
-			Pos1:   "pos1",
-			Query1: "query1",
-			Query2: brucetestapi.String("query2"),
+			FirstPos:    "first_pos",
+			FirstQuery:  "first_query",
+			SecondQuery: brucetestapi.String("second_query"),
 		},
 	)
 	if err != nil {
