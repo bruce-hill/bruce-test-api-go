@@ -13,11 +13,11 @@ type FnordResponse map[string]string
 
 type FnordParams struct {
 	// The first positional arg
-	Pos1 string `path:"pos1,required" json:"-"`
+	FirstPos string `path:"first_pos,required" json:"-"`
 	// The first query param (required)
-	Query1 string `query:"query1,required" json:"-"`
+	FirstQuery string `query:"first_query,required" json:"-"`
 	// The second query param (optional)
-	Query2 param.Opt[string] `query:"query2,omitzero" json:"-"`
+	SecondQuery param.Opt[string] `query:"second_query,omitzero" json:"-"`
 	paramObj
 }
 
