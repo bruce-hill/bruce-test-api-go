@@ -15,7 +15,7 @@ type FnordParams struct {
 	// The first positional arg
 	FirstPos string `path:"first_pos,required" json:"-"`
 	// The first query param (required)
-	FirstQuery int64 `query:"first_query,required" json:"-"`
+	FirstQuery FnordParamsFirstQuery `query:"first_query,omitzero,required" json:"-"`
 	// The second query param (optional)
 	SecondQuery param.Opt[string] `query:"second_query,omitzero" json:"-"`
 	paramObj
@@ -23,6 +23,25 @@ type FnordParams struct {
 
 // URLQuery serializes [FnordParams]'s query parameters as `url.Values`.
 func (r FnordParams) URLQuery() (v url.Values, err error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
+}
+
+// The first query param (required)
+//
+// The property FullName is required.
+type FnordParamsFirstQuery struct {
+	// Full name
+	FullName string `query:"full_name,required" json:"-"`
+	// Nickname (if different from full name)
+	Nickname param.Opt[string] `query:"nickname,omitzero" json:"-"`
+	paramObj
+}
+
+// URLQuery serializes [FnordParamsFirstQuery]'s query parameters as `url.Values`.
+func (r FnordParamsFirstQuery) URLQuery() (v url.Values, err error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
 		ArrayFormat:  apiquery.ArrayQueryFormatComma,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
