@@ -121,17 +121,17 @@ func (r *Client) Delete(ctx context.Context, path string, params any, res any, o
 }
 
 // Get a pet from a person.
-func (r *Client) Fnord(ctx context.Context, pos2 string, params FnordParams, opts ...option.RequestOption) (res *FnordResponse, err error) {
+func (r *Client) Fnord(ctx context.Context, secondPos string, params FnordParams, opts ...option.RequestOption) (res *FnordResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
-	if params.Pos1 == "" {
-		err = errors.New("missing required pos1 parameter")
+	if params.FirstPos == "" {
+		err = errors.New("missing required first_pos parameter")
 		return
 	}
-	if pos2 == "" {
-		err = errors.New("missing required pos2 parameter")
+	if secondPos == "" {
+		err = errors.New("missing required second_pos parameter")
 		return
 	}
-	path := fmt.Sprintf("fnord/%s/%s", params.Pos1, pos2)
+	path := fmt.Sprintf("fnord/%s/%s", params.FirstPos, secondPos)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, params, &res, opts...)
 	return
 }
