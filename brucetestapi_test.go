@@ -30,11 +30,8 @@ func TestBrucetestapiFnordWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"second_pos",
 		brucetestapi.FnordParams{
-			FirstPos: "first_pos",
-			FirstQuery: brucetestapi.FnordParamsFirstQuery{
-				FullName: "full_name",
-				Nickname: brucetestapi.String("nickname"),
-			},
+			FirstPos:    "first_pos",
+			FirstQuery:  0,
 			SecondQuery: brucetestapi.String("second_query"),
 		},
 	)
