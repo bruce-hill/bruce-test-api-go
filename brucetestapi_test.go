@@ -63,8 +63,8 @@ func TestBrucetestapiPostFnordWithOptionalParams(t *testing.T) {
 		brucetestapi.PostFnordParams{
 			FirstPos:    "first_pos",
 			FirstQuery:  []int64{0},
-			Body:        0,
 			SecondQuery: brucetestapi.String("second_query"),
+			Body:        0,
 		},
 	)
 	if err != nil {
