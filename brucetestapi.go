@@ -38,10 +38,10 @@ type PostFnordParams struct {
 	FirstPos string `path:"first_pos,required" json:"-"`
 	// The first query param (required)
 	FirstQuery []int64 `query:"first_query,omitzero,required" json:"-"`
-	// A body parameter
-	Body int64
 	// The second query param (optional)
 	SecondQuery param.Opt[string] `query:"second_query,omitzero" json:"-"`
+	// A body parameter
+	Body int64
 	paramObj
 }
 
