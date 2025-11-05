@@ -3,19 +3,23 @@
 package brucetestapi
 
 import (
+	"encoding/json"
 	"net/url"
 
 	"github.com/stainless-sdks/bruce-test-api-go/internal/apiquery"
+	shimjson "github.com/stainless-sdks/bruce-test-api-go/internal/encoding/json"
 	"github.com/stainless-sdks/bruce-test-api-go/packages/param"
 )
 
 type FnordResponse map[string]string
 
+type PostFnordResponse map[string]string
+
 type FnordParams struct {
 	// The first positional arg
 	FirstPos string `path:"first_pos,required" json:"-"`
 	// The first query param (required)
-	FirstQuery FnordParamsFirstQuery `query:"first_query,omitzero,required" json:"-"`
+	FirstQuery []int64 `query:"first_query,omitzero,required" json:"-"`
 	// The second query param (optional)
 	SecondQuery param.Opt[string] `query:"second_query,omitzero" json:"-"`
 	paramObj
@@ -29,41 +33,27 @@ func (r FnordParams) URLQuery() (v url.Values, err error) {
 	})
 }
 
-// The first query param (required)
-//
-// The properties Name, Species are required.
-type FnordParamsFirstQuery struct {
-	// The pet's name
-	Name FnordParamsFirstQueryName `query:"name,omitzero,required" json:"-"`
-	// The pet's species
-	Species string `query:"species,required" json:"-"`
-	// Unique pet identifier
-	ID param.Opt[string] `query:"id,omitzero" format:"uuid7" json:"-"`
+type PostFnordParams struct {
+	// The first positional arg
+	FirstPos string `path:"first_pos,required" json:"-"`
+	// The first query param (required)
+	FirstQuery []int64 `query:"first_query,omitzero,required" json:"-"`
+	// A body parameter
+	Body int64
+	// The second query param (optional)
+	SecondQuery param.Opt[string] `query:"second_query,omitzero" json:"-"`
 	paramObj
 }
 
-// URLQuery serializes [FnordParamsFirstQuery]'s query parameters as `url.Values`.
-func (r FnordParamsFirstQuery) URLQuery() (v url.Values, err error) {
-	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
-		NestedFormat: apiquery.NestedQueryFormatBrackets,
-	})
+func (r PostFnordParams) MarshalJSON() (data []byte, err error) {
+	return shimjson.Marshal(r.Body)
+}
+func (r *PostFnordParams) UnmarshalJSON(data []byte) error {
+	return json.Unmarshal(data, &r.Body)
 }
 
-// The pet's name
-//
-// The property FullName is required.
-type FnordParamsFirstQueryName struct {
-	// Full name
-	FullName string `query:"full_name,required" json:"-"`
-	// Nickname (if different from full name)
-	Nickname param.Opt[string] `query:"nickname,omitzero" json:"-"`
-	paramObj
-}
-
-// URLQuery serializes [FnordParamsFirstQueryName]'s query parameters as
-// `url.Values`.
-func (r FnordParamsFirstQueryName) URLQuery() (v url.Values, err error) {
+// URLQuery serializes [PostFnordParams]'s query parameters as `url.Values`.
+func (r PostFnordParams) URLQuery() (v url.Values, err error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
 		ArrayFormat:  apiquery.ArrayQueryFormatComma,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
