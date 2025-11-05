@@ -30,15 +30,40 @@ func TestBrucetestapiFnordWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"second_pos",
 		brucetestapi.FnordParams{
-			FirstPos: "first_pos",
-			FirstQuery: brucetestapi.FnordParamsFirstQuery{
-				Name: brucetestapi.FnordParamsFirstQueryName{
-					FullName: "full_name",
-					Nickname: brucetestapi.String("nickname"),
-				},
-				Species: "species",
-				ID:      brucetestapi.String("id"),
-			},
+			FirstPos:    "first_pos",
+			FirstQuery:  []int64{0},
+			SecondQuery: brucetestapi.String("second_query"),
+		},
+	)
+	if err != nil {
+		var apierr *brucetestapi.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestBrucetestapiPostFnordWithOptionalParams(t *testing.T) {
+	t.Skip("Prism tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := brucetestapi.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.PostFnord(
+		context.TODO(),
+		"second_pos",
+		brucetestapi.PostFnordParams{
+			FirstPos:    "first_pos",
+			FirstQuery:  []int64{0},
+			Body:        0,
 			SecondQuery: brucetestapi.String("second_query"),
 		},
 	)
