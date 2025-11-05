@@ -120,7 +120,7 @@ func (r *Client) Delete(ctx context.Context, path string, params any, res any, o
 	return r.Execute(ctx, http.MethodDelete, path, params, res, opts...)
 }
 
-// Get a pet from a person.
+// Test GET endpoint for positional and query params.
 func (r *Client) Fnord(ctx context.Context, secondPos string, params FnordParams, opts ...option.RequestOption) (res *FnordResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if params.FirstPos == "" {
@@ -136,7 +136,7 @@ func (r *Client) Fnord(ctx context.Context, secondPos string, params FnordParams
 	return
 }
 
-// Get a pet from a person.
+// Test POST endpoint for positional and query params.
 func (r *Client) PostFnord(ctx context.Context, secondPos string, params PostFnordParams, opts ...option.RequestOption) (res *PostFnordResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if params.FirstPos == "" {
