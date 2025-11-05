@@ -135,3 +135,19 @@ func (r *Client) Fnord(ctx context.Context, secondPos string, params FnordParams
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, params, &res, opts...)
 	return
 }
+
+// Get a pet from a person.
+func (r *Client) PostFnord(ctx context.Context, secondPos string, params PostFnordParams, opts ...option.RequestOption) (res *PostFnordResponse, err error) {
+	opts = slices.Concat(r.Options, opts)
+	if params.FirstPos == "" {
+		err = errors.New("missing required first_pos parameter")
+		return
+	}
+	if secondPos == "" {
+		err = errors.New("missing required second_pos parameter")
+		return
+	}
+	path := fmt.Sprintf("fnord/%s/%s", params.FirstPos, secondPos)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, &res, opts...)
+	return
+}
