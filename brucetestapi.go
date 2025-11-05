@@ -28,7 +28,7 @@ type FnordParams struct {
 // URLQuery serializes [FnordParams]'s query parameters as `url.Values`.
 func (r FnordParams) URLQuery() (v url.Values, err error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		ArrayFormat:  apiquery.ArrayQueryFormatRepeat,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
 }
@@ -55,7 +55,7 @@ func (r *PostFnordParams) UnmarshalJSON(data []byte) error {
 // URLQuery serializes [PostFnordParams]'s query parameters as `url.Values`.
 func (r PostFnordParams) URLQuery() (v url.Values, err error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		ArrayFormat:  apiquery.ArrayQueryFormatRepeat,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
 }
