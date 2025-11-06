@@ -47,3 +47,11 @@ Methods:
 - <code title="delete /people/{person_id}/pets/{pet_id}">client.People.Pets.<a href="https://pkg.go.dev/github.com/stainless-sdks/bruce-test-api-go#PersonPetService.Delete">Delete</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, petID <a href="https://pkg.go.dev/builtin#string">string</a>, body <a href="https://pkg.go.dev/github.com/stainless-sdks/bruce-test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/stainless-sdks/bruce-test-api-go#PersonPetDeleteParams">PersonPetDeleteParams</a>) (<a href="https://pkg.go.dev/github.com/stainless-sdks/bruce-test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/stainless-sdks/bruce-test-api-go#PersonPetDeleteResponse">PersonPetDeleteResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 
 # JsonTest
+
+Response Types:
+
+- <a href="https://pkg.go.dev/github.com/stainless-sdks/bruce-test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/stainless-sdks/bruce-test-api-go#JsonTestGetResponse">JsonTestGetResponse</a>
+
+Methods:
+
+- <code title="get /json-test">client.JsonTest.<a href="https://pkg.go.dev/github.com/stainless-sdks/bruce-test-api-go#JsonTestService.Get">Get</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>) (<a href="https://pkg.go.dev/github.com/stainless-sdks/bruce-test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/stainless-sdks/bruce-test-api-go#JsonTestGetResponse">JsonTestGetResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
