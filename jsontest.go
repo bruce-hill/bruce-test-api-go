@@ -3,11 +3,6 @@
 package brucetestapi
 
 import (
-	"context"
-	"net/http"
-	"slices"
-
-	"github.com/stainless-sdks/bruce-test-api-go/internal/requestconfig"
 	"github.com/stainless-sdks/bruce-test-api-go/option"
 )
 
@@ -29,13 +24,3 @@ func NewJsonTestService(opts ...option.RequestOption) (r JsonTestService) {
 	r.Options = opts
 	return
 }
-
-// Get a big JSON response for testing.
-func (r *JsonTestService) Get(ctx context.Context, opts ...option.RequestOption) (res *JsonTestGetResponse, err error) {
-	opts = slices.Concat(r.Options, opts)
-	path := "json-test"
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
-}
-
-type JsonTestGetResponse = any
