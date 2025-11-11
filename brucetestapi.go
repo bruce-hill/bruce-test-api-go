@@ -9,7 +9,6 @@ import (
 	"net/url"
 
 	"github.com/stainless-sdks/bruce-test-api-go/internal/apiform"
-	"github.com/stainless-sdks/bruce-test-api-go/internal/apijson"
 	"github.com/stainless-sdks/bruce-test-api-go/internal/apiquery"
 	"github.com/stainless-sdks/bruce-test-api-go/packages/param"
 )
@@ -82,7 +81,7 @@ type TestFormParams struct {
 	// Email
 	Email string `json:"email,required"`
 	// Username
-	Username string `json:"username,required"`
+	Username io.Reader `json:"username,omitzero,required" format:"binary"`
 	// Age
 	Age param.Opt[int64] `json:"age,omitzero"`
 	// Subscribe
@@ -90,10 +89,20 @@ type TestFormParams struct {
 	paramObj
 }
 
-func (r TestFormParams) MarshalJSON() (data []byte, err error) {
-	type shadow TestFormParams
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *TestFormParams) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
+func (r TestFormParams) MarshalMultipart() (data []byte, contentType string, err error) {
+	buf := bytes.NewBuffer(nil)
+	writer := multipart.NewWriter(buf)
+	err = apiform.MarshalRoot(r, writer)
+	if err == nil {
+		err = apiform.WriteExtras(writer, r.ExtraFields())
+	}
+	if err != nil {
+		writer.Close()
+		return nil, "", err
+	}
+	err = writer.Close()
+	if err != nil {
+		return nil, "", err
+	}
+	return buf.Bytes(), writer.FormDataContentType(), nil
 }
