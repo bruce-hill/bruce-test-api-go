@@ -363,27 +363,18 @@ which can be used to wrap any `io.Reader` with the appropriate file name and con
 ```go
 // A file from the file system
 file, err := os.Open("/path/to/file")
-brucetestapi.PostFnordParams{
-	FirstPos:   "first_pos",
-	ArrayItems: []int64{0},
-	FullName:   "full_name",
-	Nickname:   file,
+brucetestapi.PersonListParams{
+	Nickname: file,
 }
 
 // A file from a string
-brucetestapi.PostFnordParams{
-	FirstPos:   "first_pos",
-	ArrayItems: []int64{0},
-	FullName:   "full_name",
-	Nickname:   strings.NewReader("my file contents"),
+brucetestapi.PersonListParams{
+	Nickname: strings.NewReader("my file contents"),
 }
 
 // With a custom filename and contentType
-brucetestapi.PostFnordParams{
-	FirstPos:   "first_pos",
-	ArrayItems: []int64{0},
-	FullName:   "full_name",
-	Nickname:   brucetestapi.File(strings.NewReader(`{"hello": "foo"}`), "file.go", "application/json"),
+brucetestapi.PersonListParams{
+	Nickname: brucetestapi.File(strings.NewReader(`{"hello": "foo"}`), "file.go", "application/json"),
 }
 ```
 
