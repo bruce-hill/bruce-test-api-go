@@ -65,11 +65,9 @@ func TestBrucetestapiPostFnordWithOptionalParams(t *testing.T) {
 		brucetestapi.PostFnordParams{
 			FirstPos:    "first_pos",
 			ArrayItems:  []int64{0},
+			FullName:    "full_name",
 			SecondQuery: brucetestapi.String("second_query"),
-			BodyParam: brucetestapi.PostFnordParamsBodyParam{
-				FullName: "full_name",
-				Nickname: io.Reader(bytes.NewBuffer([]byte("some file contents"))),
-			},
+			Nickname:    io.Reader(bytes.NewBuffer([]byte("some file contents"))),
 		},
 	)
 	if err != nil {
