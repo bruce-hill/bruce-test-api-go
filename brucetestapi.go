@@ -14,6 +14,8 @@ type FnordResponse map[string]any
 
 type PostFnordResponse map[string]any
 
+type TestFormResponse = any
+
 type FnordParams struct {
 	// The first positional arg
 	FirstPos string `path:"first_pos,required" json:"-"`
@@ -60,4 +62,24 @@ func (r PostFnordParams) URLQuery() (v url.Values, err error) {
 		ArrayFormat:  apiquery.ArrayQueryFormatRepeat,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
+}
+
+type TestFormParams struct {
+	// Email
+	Email string `json:"email,required"`
+	// Username
+	Username string `json:"username,required"`
+	// Age
+	Age param.Opt[int64] `json:"age,omitzero"`
+	// Subscribe
+	Subscribe param.Opt[bool] `json:"subscribe,omitzero"`
+	paramObj
+}
+
+func (r TestFormParams) MarshalJSON() (data []byte, err error) {
+	type shadow TestFormParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *TestFormParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
 }
