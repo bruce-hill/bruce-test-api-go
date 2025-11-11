@@ -94,7 +94,7 @@ func TestBrucetestapiTestFormWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.TestForm(context.TODO(), brucetestapi.TestFormParams{
 		Email:     "email",
-		Username:  "username",
+		Username:  io.Reader(bytes.NewBuffer([]byte("some file contents"))),
 		Age:       brucetestapi.Int(0),
 		Subscribe: brucetestapi.Bool(true),
 	})
