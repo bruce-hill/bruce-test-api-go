@@ -155,7 +155,7 @@ func (r *Client) PostFnord(ctx context.Context, secondPos string, params PostFno
 // Test endpoint that accepts form-encoded data.
 //
 // Example curl command: curl -X POST "http://localhost:8000/test-form" -H
-// "Content-Type: application/x-www-form-urlencoded" -d
+// "Content-Type: multipart/formdata" d
 // "username=john&email=john@example.com&age=30&subscribe=true"
 func (r *Client) TestForm(ctx context.Context, body TestFormParams, opts ...option.RequestOption) (res *TestFormResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
