@@ -3,8 +3,10 @@
 package brucetestapi_test
 
 import (
+	"bytes"
 	"context"
 	"errors"
+	"io"
 	"os"
 	"testing"
 
@@ -65,7 +67,7 @@ func TestBrucetestapiPostFnordWithOptionalParams(t *testing.T) {
 			ArrayItems:  []int64{0},
 			FullName:    "full_name",
 			SecondQuery: brucetestapi.String("second_query"),
-			Nickname:    brucetestapi.String("nickname"),
+			Nickname:    io.Reader(bytes.NewBuffer([]byte("some file contents"))),
 		},
 	)
 	if err != nil {

@@ -3,8 +3,10 @@
 package brucetestapi_test
 
 import (
+	"bytes"
 	"context"
 	"errors"
+	"io"
 	"os"
 	"testing"
 
@@ -32,7 +34,7 @@ func TestPersonPetNewWithOptionalParams(t *testing.T) {
 		brucetestapi.PersonPetNewParams{
 			Name: brucetestapi.PersonPetNewParamsName{
 				FullName: "full_name",
-				Nickname: brucetestapi.String("nickname"),
+				Nickname: io.Reader(bytes.NewBuffer([]byte("some file contents"))),
 			},
 			Species: brucetestapi.String("species"),
 		},
@@ -95,7 +97,7 @@ func TestPersonPetUpdateWithOptionalParams(t *testing.T) {
 			PersonID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			Name: brucetestapi.PersonPetUpdateParamsName{
 				FullName: "full_name",
-				Nickname: brucetestapi.String("nickname"),
+				Nickname: io.Reader(bytes.NewBuffer([]byte("some file contents"))),
 			},
 			Species: "species",
 		},
