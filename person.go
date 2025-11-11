@@ -3,13 +3,17 @@
 package brucetestapi
 
 import (
+	"bytes"
 	"context"
 	"errors"
 	"fmt"
+	"io"
+	"mime/multipart"
 	"net/http"
 	"net/url"
 	"slices"
 
+	"github.com/stainless-sdks/bruce-test-api-go/internal/apiform"
 	"github.com/stainless-sdks/bruce-test-api-go/internal/apijson"
 	"github.com/stainless-sdks/bruce-test-api-go/internal/apiquery"
 	"github.com/stainless-sdks/bruce-test-api-go/internal/requestconfig"
@@ -138,7 +142,7 @@ type PersonNewResponseName struct {
 	// Full name
 	FullName string `json:"full_name,required"`
 	// Nickname (if different from full name)
-	Nickname string `json:"nickname,nullable"`
+	Nickname io.Reader `json:"nickname,nullable" format:"binary"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		FullName    respjson.Field
@@ -182,7 +186,7 @@ type PersonNewResponsePetName struct {
 	// Full name
 	FullName string `json:"full_name,required"`
 	// Nickname (if different from full name)
-	Nickname string `json:"nickname,nullable"`
+	Nickname io.Reader `json:"nickname,nullable" format:"binary"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		FullName    respjson.Field
@@ -229,7 +233,7 @@ type PersonGetResponseName struct {
 	// Full name
 	FullName string `json:"full_name,required"`
 	// Nickname (if different from full name)
-	Nickname string `json:"nickname,nullable"`
+	Nickname io.Reader `json:"nickname,nullable" format:"binary"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		FullName    respjson.Field
@@ -273,7 +277,7 @@ type PersonGetResponsePetName struct {
 	// Full name
 	FullName string `json:"full_name,required"`
 	// Nickname (if different from full name)
-	Nickname string `json:"nickname,nullable"`
+	Nickname io.Reader `json:"nickname,nullable" format:"binary"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		FullName    respjson.Field
@@ -320,7 +324,7 @@ type PersonUpdateResponseName struct {
 	// Full name
 	FullName string `json:"full_name,required"`
 	// Nickname (if different from full name)
-	Nickname string `json:"nickname,nullable"`
+	Nickname io.Reader `json:"nickname,nullable" format:"binary"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		FullName    respjson.Field
@@ -364,7 +368,7 @@ type PersonUpdateResponsePetName struct {
 	// Full name
 	FullName string `json:"full_name,required"`
 	// Nickname (if different from full name)
-	Nickname string `json:"nickname,nullable"`
+	Nickname io.Reader `json:"nickname,nullable" format:"binary"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		FullName    respjson.Field
@@ -411,7 +415,7 @@ type PersonListResponseName struct {
 	// Full name
 	FullName string `json:"full_name,required"`
 	// Nickname (if different from full name)
-	Nickname string `json:"nickname,nullable"`
+	Nickname io.Reader `json:"nickname,nullable" format:"binary"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		FullName    respjson.Field
@@ -455,7 +459,7 @@ type PersonListResponsePetName struct {
 	// Full name
 	FullName string `json:"full_name,required"`
 	// Nickname (if different from full name)
-	Nickname string `json:"nickname,nullable"`
+	Nickname io.Reader `json:"nickname,nullable" format:"binary"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		FullName    respjson.Field
@@ -483,12 +487,22 @@ type PersonNewParams struct {
 	paramObj
 }
 
-func (r PersonNewParams) MarshalJSON() (data []byte, err error) {
-	type shadow PersonNewParams
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *PersonNewParams) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
+func (r PersonNewParams) MarshalMultipart() (data []byte, contentType string, err error) {
+	buf := bytes.NewBuffer(nil)
+	writer := multipart.NewWriter(buf)
+	err = apiform.MarshalRoot(r, writer)
+	if err == nil {
+		err = apiform.WriteExtras(writer, r.ExtraFields())
+	}
+	if err != nil {
+		writer.Close()
+		return nil, "", err
+	}
+	err = writer.Close()
+	if err != nil {
+		return nil, "", err
+	}
+	return buf.Bytes(), writer.FormDataContentType(), nil
 }
 
 // The name of the person to create
@@ -498,7 +512,7 @@ type PersonNewParamsName struct {
 	// Full name
 	FullName string `json:"full_name,required"`
 	// Nickname (if different from full name)
-	Nickname param.Opt[string] `json:"nickname,omitzero"`
+	Nickname io.Reader `json:"nickname,omitzero" format:"binary"`
 	paramObj
 }
 
@@ -534,7 +548,7 @@ type PersonNewParamsPetName struct {
 	// Full name
 	FullName string `json:"full_name,required"`
 	// Nickname (if different from full name)
-	Nickname param.Opt[string] `json:"nickname,omitzero"`
+	Nickname io.Reader `json:"nickname,omitzero" format:"binary"`
 	paramObj
 }
 
@@ -554,12 +568,22 @@ type PersonUpdateParams struct {
 	paramObj
 }
 
-func (r PersonUpdateParams) MarshalJSON() (data []byte, err error) {
-	type shadow PersonUpdateParams
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *PersonUpdateParams) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
+func (r PersonUpdateParams) MarshalMultipart() (data []byte, contentType string, err error) {
+	buf := bytes.NewBuffer(nil)
+	writer := multipart.NewWriter(buf)
+	err = apiform.MarshalRoot(r, writer)
+	if err == nil {
+		err = apiform.WriteExtras(writer, r.ExtraFields())
+	}
+	if err != nil {
+		writer.Close()
+		return nil, "", err
+	}
+	err = writer.Close()
+	if err != nil {
+		return nil, "", err
+	}
+	return buf.Bytes(), writer.FormDataContentType(), nil
 }
 
 // The updated name of the person
@@ -569,7 +593,7 @@ type PersonUpdateParamsName struct {
 	// Full name
 	FullName string `json:"full_name,required"`
 	// Nickname (if different from full name)
-	Nickname param.Opt[string] `json:"nickname,omitzero"`
+	Nickname io.Reader `json:"nickname,omitzero" format:"binary"`
 	paramObj
 }
 
