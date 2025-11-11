@@ -610,13 +610,31 @@ type PersonListParams struct {
 	Job param.Opt[string] `query:"job,omitzero" json:"-"`
 	// Full name to search for
 	Name param.Opt[string] `query:"name,omitzero" json:"-"`
-	// Nickname to search for
-	Nickname param.Opt[string] `query:"nickname,omitzero" json:"-"`
 	// Page number
 	Page param.Opt[int64] `query:"page,omitzero" json:"-"`
 	// Page size
 	Size param.Opt[int64] `query:"size,omitzero" json:"-"`
+	// Nickname to search for
+	Nickname io.Reader `query:"nickname,omitzero" format:"binary" json:"-"`
 	paramObj
+}
+
+func (r PersonListParams) MarshalMultipart() (data []byte, contentType string, err error) {
+	buf := bytes.NewBuffer(nil)
+	writer := multipart.NewWriter(buf)
+	err = apiform.MarshalRoot(r, writer)
+	if err == nil {
+		err = apiform.WriteExtras(writer, r.ExtraFields())
+	}
+	if err != nil {
+		writer.Close()
+		return nil, "", err
+	}
+	err = writer.Close()
+	if err != nil {
+		return nil, "", err
+	}
+	return buf.Bytes(), writer.FormDataContentType(), nil
 }
 
 // URLQuery serializes [PersonListParams]'s query parameters as `url.Values`.
