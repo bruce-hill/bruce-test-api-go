@@ -18,7 +18,7 @@ type FnordParams struct {
 	// The first positional arg
 	FirstPos string `path:"first_pos,required" json:"-"`
 	// The first query param (required)
-	FirstQuery []int64 `query:"first_query,omitzero,required" json:"-"`
+	ArrayItems []int64 `query:"array_items,omitzero,required" json:"-"`
 	// The second query param (optional)
 	SecondQuery FnordParamsSecondQuery `query:"second_query,omitzero" json:"-"`
 	paramObj
