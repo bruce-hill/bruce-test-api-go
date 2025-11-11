@@ -43,10 +43,12 @@ type PostFnordParams struct {
 	FirstPos string `path:"first_pos,required" json:"-"`
 	// The first query param (required)
 	ArrayItems []int64 `query:"array_items,omitzero,required" json:"-"`
+	// Full name
+	FullName string `json:"full_name,required"`
 	// The second query param (optional)
 	SecondQuery param.Opt[string] `query:"second_query,omitzero" json:"-"`
-	// A body parameter
-	BodyParam PostFnordParamsBodyParam `json:"body_param,omitzero"`
+	// Nickname (if different from full name)
+	Nickname io.Reader `json:"nickname,omitzero" format:"binary"`
 	paramObj
 }
 
@@ -74,25 +76,6 @@ func (r PostFnordParams) URLQuery() (v url.Values, err error) {
 		ArrayFormat:  apiquery.ArrayQueryFormatRepeat,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
-}
-
-// A body parameter
-//
-// The property FullName is required.
-type PostFnordParamsBodyParam struct {
-	// Full name
-	FullName string `json:"full_name,required"`
-	// Nickname (if different from full name)
-	Nickname io.Reader `json:"nickname,omitzero" format:"binary"`
-	paramObj
-}
-
-func (r PostFnordParamsBodyParam) MarshalJSON() (data []byte, err error) {
-	type shadow PostFnordParamsBodyParam
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *PostFnordParamsBodyParam) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
 }
 
 type TestFormParams struct {
