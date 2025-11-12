@@ -3,10 +3,8 @@
 package brucetestapi_test
 
 import (
-	"bytes"
 	"context"
 	"errors"
-	"io"
 	"os"
 	"testing"
 
@@ -31,13 +29,13 @@ func TestPersonNewWithOptionalParams(t *testing.T) {
 	_, err := client.People.New(context.TODO(), brucetestapi.PersonNewParams{
 		Name: brucetestapi.PersonNewParamsName{
 			FullName: "full_name",
-			Nickname: io.Reader(bytes.NewBuffer([]byte("some file contents"))),
+			Nickname: brucetestapi.String("U3RhaW5sZXNzIHJvY2tz"),
 		},
 		Job: brucetestapi.String("job"),
 		Pets: []brucetestapi.PersonNewParamsPet{{
 			Name: brucetestapi.PersonNewParamsPetName{
 				FullName: "full_name",
-				Nickname: io.Reader(bytes.NewBuffer([]byte("some file contents"))),
+				Nickname: brucetestapi.String("U3RhaW5sZXNzIHJvY2tz"),
 			},
 			Species: "species",
 		}},
@@ -93,7 +91,7 @@ func TestPersonUpdateWithOptionalParams(t *testing.T) {
 		brucetestapi.PersonUpdateParams{
 			Name: brucetestapi.PersonUpdateParamsName{
 				FullName: "full_name",
-				Nickname: io.Reader(bytes.NewBuffer([]byte("some file contents"))),
+				Nickname: brucetestapi.String("U3RhaW5sZXNzIHJvY2tz"),
 			},
 			Job: brucetestapi.String("job"),
 		},
@@ -123,7 +121,7 @@ func TestPersonListWithOptionalParams(t *testing.T) {
 	_, err := client.People.List(context.TODO(), brucetestapi.PersonListParams{
 		Job:      brucetestapi.String("job"),
 		Name:     brucetestapi.String("name"),
-		Nickname: io.Reader(bytes.NewBuffer([]byte("some file contents"))),
+		Nickname: brucetestapi.String("U3RhaW5sZXNzIHJvY2tz"),
 		Page:     brucetestapi.Int(1),
 		Size:     brucetestapi.Int(1),
 	})
