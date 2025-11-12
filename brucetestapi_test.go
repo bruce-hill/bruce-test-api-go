@@ -3,10 +3,8 @@
 package brucetestapi_test
 
 import (
-	"bytes"
 	"context"
 	"errors"
-	"io"
 	"os"
 	"testing"
 
@@ -67,7 +65,7 @@ func TestBrucetestapiPostFnordWithOptionalParams(t *testing.T) {
 			ArrayItems:  []int64{0},
 			FullName:    "full_name",
 			SecondQuery: brucetestapi.String("second_query"),
-			Nickname:    io.Reader(bytes.NewBuffer([]byte("some file contents"))),
+			Nickname:    brucetestapi.String("U3RhaW5sZXNzIHJvY2tz"),
 		},
 	)
 	if err != nil {
@@ -94,7 +92,7 @@ func TestBrucetestapiTestFormWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.TestForm(context.TODO(), brucetestapi.TestFormParams{
 		Email:     "email",
-		Username:  io.Reader(bytes.NewBuffer([]byte("some file contents"))),
+		Username:  "U3RhaW5sZXNzIHJvY2tz",
 		Age:       brucetestapi.Int(0),
 		Subscribe: brucetestapi.Bool(true),
 	})

@@ -3,12 +3,9 @@
 package brucetestapi
 
 import (
-	"bytes"
-	"io"
-	"mime/multipart"
 	"net/url"
 
-	"github.com/stainless-sdks/bruce-test-api-go/internal/apiform"
+	"github.com/stainless-sdks/bruce-test-api-go/internal/apijson"
 	"github.com/stainless-sdks/bruce-test-api-go/internal/apiquery"
 	"github.com/stainless-sdks/bruce-test-api-go/packages/param"
 )
@@ -47,26 +44,16 @@ type PostFnordParams struct {
 	// The second query param (optional)
 	SecondQuery param.Opt[string] `query:"second_query,omitzero" json:"-"`
 	// Nickname (if different from full name)
-	Nickname io.Reader `json:"nickname,omitzero" format:"binary"`
+	Nickname param.Opt[string] `json:"nickname,omitzero" format:"byte"`
 	paramObj
 }
 
-func (r PostFnordParams) MarshalMultipart() (data []byte, contentType string, err error) {
-	buf := bytes.NewBuffer(nil)
-	writer := multipart.NewWriter(buf)
-	err = apiform.MarshalRoot(r, writer)
-	if err == nil {
-		err = apiform.WriteExtras(writer, r.ExtraFields())
-	}
-	if err != nil {
-		writer.Close()
-		return nil, "", err
-	}
-	err = writer.Close()
-	if err != nil {
-		return nil, "", err
-	}
-	return buf.Bytes(), writer.FormDataContentType(), nil
+func (r PostFnordParams) MarshalJSON() (data []byte, err error) {
+	type shadow PostFnordParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *PostFnordParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
 }
 
 // URLQuery serializes [PostFnordParams]'s query parameters as `url.Values`.
@@ -81,7 +68,7 @@ type TestFormParams struct {
 	// Email
 	Email string `json:"email,required"`
 	// Username
-	Username io.Reader `json:"username,omitzero,required" format:"binary"`
+	Username string `json:"username,required" format:"byte"`
 	// Age
 	Age param.Opt[int64] `json:"age,omitzero"`
 	// Subscribe
@@ -89,20 +76,10 @@ type TestFormParams struct {
 	paramObj
 }
 
-func (r TestFormParams) MarshalMultipart() (data []byte, contentType string, err error) {
-	buf := bytes.NewBuffer(nil)
-	writer := multipart.NewWriter(buf)
-	err = apiform.MarshalRoot(r, writer)
-	if err == nil {
-		err = apiform.WriteExtras(writer, r.ExtraFields())
-	}
-	if err != nil {
-		writer.Close()
-		return nil, "", err
-	}
-	err = writer.Close()
-	if err != nil {
-		return nil, "", err
-	}
-	return buf.Bytes(), writer.FormDataContentType(), nil
+func (r TestFormParams) MarshalJSON() (data []byte, err error) {
+	type shadow TestFormParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *TestFormParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
 }
