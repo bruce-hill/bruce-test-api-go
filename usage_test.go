@@ -24,9 +24,18 @@ func TestUsage(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	page, err := client.People.List(context.TODO(), brucetestapi.PersonListParams{})
+	response, err := client.PostFnord(
+		context.TODO(),
+		"B",
+		brucetestapi.PostFnordParams{
+			FirstPos:   "A",
+			ArrayItems: []int64{1, 2},
+			FullName:   "Abraham Lincoln",
+			Nickname:   brucetestapi.String("Honest Abe"),
+		},
+	)
 	if err != nil {
 		t.Fatalf("err should be nil: %s", err.Error())
 	}
-	t.Logf("%+v\n", page)
+	t.Logf("%+v\n", response)
 }
