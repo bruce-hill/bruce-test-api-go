@@ -54,8 +54,11 @@ func main() {
 		brucetestapi.PostFnordParams{
 			FirstPos:   "A",
 			ArrayItems: []int64{1, 2},
-			FullName:   "Abraham Lincoln",
-			Nickname:   brucetestapi.String("Honest Abe"),
+			Name: brucetestapi.PostFnordParamsName{
+				FullName: "Abraham Lincoln",
+				Nickname: brucetestapi.String("Honest Abe"),
+			},
+			Job: brucetestapi.String("President"),
 		},
 	)
 	if err != nil {
@@ -372,24 +375,30 @@ which can be used to wrap any `io.Reader` with the appropriate file name and con
 ```go
 // A file from the file system
 file, err := os.Open("/path/to/file")
-brucetestapi.PersonNewParams{
-	Name: brucetestapi.PersonNewParamsName{
+brucetestapi.PostFnordParams{
+	FirstPos:   "first_pos",
+	ArrayItems: []int64{0},
+	Name: brucetestapi.PostFnordParamsName{
 		FullName: "full_name",
 	},
 	ImageBinary: file,
 }
 
 // A file from a string
-brucetestapi.PersonNewParams{
-	Name: brucetestapi.PersonNewParamsName{
+brucetestapi.PostFnordParams{
+	FirstPos:   "first_pos",
+	ArrayItems: []int64{0},
+	Name: brucetestapi.PostFnordParamsName{
 		FullName: "full_name",
 	},
 	ImageBinary: strings.NewReader("my file contents"),
 }
 
 // With a custom filename and contentType
-brucetestapi.PersonNewParams{
-	Name: brucetestapi.PersonNewParamsName{
+brucetestapi.PostFnordParams{
+	FirstPos:   "first_pos",
+	ArrayItems: []int64{0},
+	Name: brucetestapi.PostFnordParamsName{
 		FullName: "full_name",
 	},
 	ImageBinary: brucetestapi.File(strings.NewReader(`{"hello": "foo"}`), "file.go", "application/json"),
