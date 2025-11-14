@@ -3,8 +3,10 @@
 package brucetestapi_test
 
 import (
+	"bytes"
 	"context"
 	"errors"
+	"io"
 	"os"
 	"testing"
 
@@ -61,11 +63,23 @@ func TestBrucetestapiPostFnordWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"second_pos",
 		brucetestapi.PostFnordParams{
-			FirstPos:    "first_pos",
-			ArrayItems:  []int64{0},
-			FullName:    "full_name",
+			FirstPos:   "first_pos",
+			ArrayItems: []int64{0},
+			Name: brucetestapi.PostFnordParamsName{
+				FullName: "full_name",
+				Nickname: brucetestapi.String("nickname"),
+			},
 			SecondQuery: brucetestapi.String("second_query"),
-			Nickname:    brucetestapi.String("nickname"),
+			ImageBase64: brucetestapi.String("U3RhaW5sZXNzIHJvY2tz"),
+			ImageBinary: io.Reader(bytes.NewBuffer([]byte("some file contents"))),
+			Job:         brucetestapi.String("job"),
+			Pets: []brucetestapi.PostFnordParamsPet{{
+				Name: brucetestapi.PostFnordParamsPetName{
+					FullName: "full_name",
+					Nickname: brucetestapi.String("nickname"),
+				},
+				Species: "species",
+			}},
 		},
 	)
 	if err != nil {

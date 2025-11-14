@@ -30,8 +30,11 @@ func TestUsage(t *testing.T) {
 		brucetestapi.PostFnordParams{
 			FirstPos:   "A",
 			ArrayItems: []int64{1, 2},
-			FullName:   "Abraham Lincoln",
-			Nickname:   brucetestapi.String("Honest Abe"),
+			Name: brucetestapi.PostFnordParamsName{
+				FullName: "Abraham Lincoln",
+				Nickname: brucetestapi.String("Honest Abe"),
+			},
+			Job: brucetestapi.String("President"),
 		},
 	)
 	if err != nil {
