@@ -3,8 +3,12 @@
 package brucetestapi
 
 import (
+	"bytes"
+	"io"
+	"mime/multipart"
 	"net/url"
 
+	"github.com/stainless-sdks/bruce-test-api-go/internal/apiform"
 	"github.com/stainless-sdks/bruce-test-api-go/internal/apijson"
 	"github.com/stainless-sdks/bruce-test-api-go/internal/apiquery"
 	"github.com/stainless-sdks/bruce-test-api-go/packages/param"
@@ -43,17 +47,31 @@ type PostFnordParams struct {
 	FullName string `json:"full_name,required"`
 	// The second query param (optional)
 	SecondQuery param.Opt[string] `query:"second_query,omitzero" json:"-"`
+	// Image of the name
+	ImageBase64 param.Opt[string] `json:"image_base64,omitzero" format:"byte"`
 	// Nickname (if different from full name)
-	Nickname param.Opt[string] `json:"nickname,omitzero" format:"byte"`
+	Nickname param.Opt[string] `json:"nickname,omitzero"`
+	// Image of the name
+	ImageBinary io.Reader `json:"image_binary,omitzero" format:"binary"`
 	paramObj
 }
 
-func (r PostFnordParams) MarshalJSON() (data []byte, err error) {
-	type shadow PostFnordParams
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *PostFnordParams) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
+func (r PostFnordParams) MarshalMultipart() (data []byte, contentType string, err error) {
+	buf := bytes.NewBuffer(nil)
+	writer := multipart.NewWriter(buf)
+	err = apiform.MarshalRoot(r, writer)
+	if err == nil {
+		err = apiform.WriteExtras(writer, r.ExtraFields())
+	}
+	if err != nil {
+		writer.Close()
+		return nil, "", err
+	}
+	err = writer.Close()
+	if err != nil {
+		return nil, "", err
+	}
+	return buf.Bytes(), writer.FormDataContentType(), nil
 }
 
 // URLQuery serializes [PostFnordParams]'s query parameters as `url.Values`.
