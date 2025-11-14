@@ -3,14 +3,17 @@
 package brucetestapi
 
 import (
+	"bytes"
 	"context"
 	"errors"
 	"fmt"
 	"io"
+	"mime/multipart"
 	"net/http"
 	"net/url"
 	"slices"
 
+	"github.com/stainless-sdks/bruce-test-api-go/internal/apiform"
 	"github.com/stainless-sdks/bruce-test-api-go/internal/apijson"
 	"github.com/stainless-sdks/bruce-test-api-go/internal/apiquery"
 	"github.com/stainless-sdks/bruce-test-api-go/internal/requestconfig"
@@ -501,19 +504,33 @@ type PersonDeleteResponse map[string]any
 type PersonNewParams struct {
 	// The name of the person to create
 	Name PersonNewParamsName `json:"name,omitzero,required"`
+	// Image of the person (base64)
+	ImageBase64 param.Opt[string] `json:"image_base64,omitzero" format:"byte"`
 	// The person's job
 	Job param.Opt[string] `json:"job,omitzero"`
+	// Image of the person (binary)
+	ImageBinary io.Reader `json:"image_binary,omitzero" format:"binary"`
 	// A list of pets for this person
 	Pets []PersonNewParamsPet `json:"pets,omitzero"`
 	paramObj
 }
 
-func (r PersonNewParams) MarshalJSON() (data []byte, err error) {
-	type shadow PersonNewParams
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *PersonNewParams) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
+func (r PersonNewParams) MarshalMultipart() (data []byte, contentType string, err error) {
+	buf := bytes.NewBuffer(nil)
+	writer := multipart.NewWriter(buf)
+	err = apiform.MarshalRoot(r, writer)
+	if err == nil {
+		err = apiform.WriteExtras(writer, r.ExtraFields())
+	}
+	if err != nil {
+		writer.Close()
+		return nil, "", err
+	}
+	err = writer.Close()
+	if err != nil {
+		return nil, "", err
+	}
+	return buf.Bytes(), writer.FormDataContentType(), nil
 }
 
 // The name of the person to create
