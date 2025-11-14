@@ -48,11 +48,20 @@ func main() {
 	client := brucetestapi.NewClient(
 		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("BRUCE_TEST_API_API_KEY")
 	)
-	page, err := client.People.List(context.TODO(), brucetestapi.PersonListParams{})
+	response, err := client.PostFnord(
+		context.TODO(),
+		"B",
+		brucetestapi.PostFnordParams{
+			FirstPos:   "A",
+			ArrayItems: []int64{1, 2},
+			FullName:   "Abraham Lincoln",
+			Nickname:   brucetestapi.String("Honest Abe"),
+		},
+	)
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Printf("%+v\n", page)
+	fmt.Printf("%+v\n", response)
 }
 
 ```
