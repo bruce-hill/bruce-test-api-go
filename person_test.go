@@ -3,8 +3,10 @@
 package brucetestapi_test
 
 import (
+	"bytes"
 	"context"
 	"errors"
+	"io"
 	"os"
 	"testing"
 
@@ -31,7 +33,9 @@ func TestPersonNewWithOptionalParams(t *testing.T) {
 			FullName: "full_name",
 			Nickname: brucetestapi.String("nickname"),
 		},
-		Job: brucetestapi.String("job"),
+		ImageBase64: brucetestapi.String("U3RhaW5sZXNzIHJvY2tz"),
+		ImageBinary: io.Reader(bytes.NewBuffer([]byte("some file contents"))),
+		Job:         brucetestapi.String("job"),
 		Pets: []brucetestapi.PersonNewParamsPet{{
 			Name: brucetestapi.PersonNewParamsPetName{
 				FullName: "full_name",
