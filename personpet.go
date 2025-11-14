@@ -3,17 +3,13 @@
 package brucetestapi
 
 import (
-	"bytes"
 	"context"
 	"errors"
 	"fmt"
-	"io"
-	"mime/multipart"
 	"net/http"
 	"net/url"
 	"slices"
 
-	"github.com/stainless-sdks/bruce-test-api-go/internal/apiform"
 	"github.com/stainless-sdks/bruce-test-api-go/internal/apijson"
 	"github.com/stainless-sdks/bruce-test-api-go/internal/apiquery"
 	"github.com/stainless-sdks/bruce-test-api-go/internal/requestconfig"
@@ -136,17 +132,11 @@ func (r *PersonPetNewResponse) UnmarshalJSON(data []byte) error {
 type PersonPetNewResponseName struct {
 	// Full name
 	FullName string `json:"full_name,required"`
-	// Image of the name
-	ImageBase64 string `json:"image_base64,nullable" format:"byte"`
-	// Image of the name
-	ImageBinary io.Reader `json:"image_binary,nullable" format:"binary"`
 	// Nickname (if different from full name)
 	Nickname string `json:"nickname,nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		FullName    respjson.Field
-		ImageBase64 respjson.Field
-		ImageBinary respjson.Field
 		Nickname    respjson.Field
 		ExtraFields map[string]respjson.Field
 		raw         string
@@ -186,17 +176,11 @@ func (r *PersonPetGetResponse) UnmarshalJSON(data []byte) error {
 type PersonPetGetResponseName struct {
 	// Full name
 	FullName string `json:"full_name,required"`
-	// Image of the name
-	ImageBase64 string `json:"image_base64,nullable" format:"byte"`
-	// Image of the name
-	ImageBinary io.Reader `json:"image_binary,nullable" format:"binary"`
 	// Nickname (if different from full name)
 	Nickname string `json:"nickname,nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		FullName    respjson.Field
-		ImageBase64 respjson.Field
-		ImageBinary respjson.Field
 		Nickname    respjson.Field
 		ExtraFields map[string]respjson.Field
 		raw         string
@@ -236,17 +220,11 @@ func (r *PersonPetUpdateResponse) UnmarshalJSON(data []byte) error {
 type PersonPetUpdateResponseName struct {
 	// Full name
 	FullName string `json:"full_name,required"`
-	// Image of the name
-	ImageBase64 string `json:"image_base64,nullable" format:"byte"`
-	// Image of the name
-	ImageBinary io.Reader `json:"image_binary,nullable" format:"binary"`
 	// Nickname (if different from full name)
 	Nickname string `json:"nickname,nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		FullName    respjson.Field
-		ImageBase64 respjson.Field
-		ImageBinary respjson.Field
 		Nickname    respjson.Field
 		ExtraFields map[string]respjson.Field
 		raw         string
@@ -286,17 +264,11 @@ func (r *PersonPetListResponse) UnmarshalJSON(data []byte) error {
 type PersonPetListResponseName struct {
 	// Full name
 	FullName string `json:"full_name,required"`
-	// Image of the name
-	ImageBase64 string `json:"image_base64,nullable" format:"byte"`
-	// Image of the name
-	ImageBinary io.Reader `json:"image_binary,nullable" format:"binary"`
 	// Nickname (if different from full name)
 	Nickname string `json:"nickname,nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		FullName    respjson.Field
-		ImageBase64 respjson.Field
-		ImageBinary respjson.Field
 		Nickname    respjson.Field
 		ExtraFields map[string]respjson.Field
 		raw         string
@@ -319,22 +291,12 @@ type PersonPetNewParams struct {
 	paramObj
 }
 
-func (r PersonPetNewParams) MarshalMultipart() (data []byte, contentType string, err error) {
-	buf := bytes.NewBuffer(nil)
-	writer := multipart.NewWriter(buf)
-	err = apiform.MarshalRoot(r, writer)
-	if err == nil {
-		err = apiform.WriteExtras(writer, r.ExtraFields())
-	}
-	if err != nil {
-		writer.Close()
-		return nil, "", err
-	}
-	err = writer.Close()
-	if err != nil {
-		return nil, "", err
-	}
-	return buf.Bytes(), writer.FormDataContentType(), nil
+func (r PersonPetNewParams) MarshalJSON() (data []byte, err error) {
+	type shadow PersonPetNewParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *PersonPetNewParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
 }
 
 // The name of the pet to create
@@ -343,12 +305,8 @@ func (r PersonPetNewParams) MarshalMultipart() (data []byte, contentType string,
 type PersonPetNewParamsName struct {
 	// Full name
 	FullName string `json:"full_name,required"`
-	// Image of the name
-	ImageBase64 param.Opt[string] `json:"image_base64,omitzero" format:"byte"`
 	// Nickname (if different from full name)
 	Nickname param.Opt[string] `json:"nickname,omitzero"`
-	// Image of the name
-	ImageBinary io.Reader `json:"image_binary,omitzero" format:"binary"`
 	paramObj
 }
 
@@ -384,22 +342,12 @@ type PersonPetUpdateParams struct {
 	paramObj
 }
 
-func (r PersonPetUpdateParams) MarshalMultipart() (data []byte, contentType string, err error) {
-	buf := bytes.NewBuffer(nil)
-	writer := multipart.NewWriter(buf)
-	err = apiform.MarshalRoot(r, writer)
-	if err == nil {
-		err = apiform.WriteExtras(writer, r.ExtraFields())
-	}
-	if err != nil {
-		writer.Close()
-		return nil, "", err
-	}
-	err = writer.Close()
-	if err != nil {
-		return nil, "", err
-	}
-	return buf.Bytes(), writer.FormDataContentType(), nil
+func (r PersonPetUpdateParams) MarshalJSON() (data []byte, err error) {
+	type shadow PersonPetUpdateParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *PersonPetUpdateParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
 }
 
 // The updated name of the pet
@@ -408,12 +356,8 @@ func (r PersonPetUpdateParams) MarshalMultipart() (data []byte, contentType stri
 type PersonPetUpdateParamsName struct {
 	// Full name
 	FullName string `json:"full_name,required"`
-	// Image of the name
-	ImageBase64 param.Opt[string] `json:"image_base64,omitzero" format:"byte"`
 	// Nickname (if different from full name)
 	Nickname param.Opt[string] `json:"nickname,omitzero"`
-	// Image of the name
-	ImageBinary io.Reader `json:"image_binary,omitzero" format:"binary"`
 	paramObj
 }
 
