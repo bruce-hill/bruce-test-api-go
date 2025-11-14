@@ -125,7 +125,7 @@ func TestPersonListWithOptionalParams(t *testing.T) {
 	_, err := client.People.List(context.TODO(), brucetestapi.PersonListParams{
 		Job:      brucetestapi.String("job"),
 		Name:     brucetestapi.String("name"),
-		Nickname: io.Reader(bytes.NewBuffer([]byte("some file contents"))),
+		Nickname: brucetestapi.String("U3RhaW5sZXNzIHJvY2tz"),
 		Page:     brucetestapi.Int(1),
 		Size:     brucetestapi.Int(1),
 	})
