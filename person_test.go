@@ -3,10 +3,8 @@
 package brucetestapi_test
 
 import (
-	"bytes"
 	"context"
 	"errors"
-	"io"
 	"os"
 	"testing"
 
@@ -30,18 +28,14 @@ func TestPersonNewWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.People.New(context.TODO(), brucetestapi.PersonNewParams{
 		Name: brucetestapi.PersonNewParamsName{
-			FullName:    "full_name",
-			ImageBase64: brucetestapi.String("U3RhaW5sZXNzIHJvY2tz"),
-			ImageBinary: io.Reader(bytes.NewBuffer([]byte("some file contents"))),
-			Nickname:    brucetestapi.String("nickname"),
+			FullName: "full_name",
+			Nickname: brucetestapi.String("nickname"),
 		},
 		Job: brucetestapi.String("job"),
 		Pets: []brucetestapi.PersonNewParamsPet{{
 			Name: brucetestapi.PersonNewParamsPetName{
-				FullName:    "full_name",
-				ImageBase64: brucetestapi.String("U3RhaW5sZXNzIHJvY2tz"),
-				ImageBinary: io.Reader(bytes.NewBuffer([]byte("some file contents"))),
-				Nickname:    brucetestapi.String("nickname"),
+				FullName: "full_name",
+				Nickname: brucetestapi.String("nickname"),
 			},
 			Species: "species",
 		}},
@@ -96,10 +90,8 @@ func TestPersonUpdateWithOptionalParams(t *testing.T) {
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		brucetestapi.PersonUpdateParams{
 			Name: brucetestapi.PersonUpdateParamsName{
-				FullName:    "full_name",
-				ImageBase64: brucetestapi.String("U3RhaW5sZXNzIHJvY2tz"),
-				ImageBinary: io.Reader(bytes.NewBuffer([]byte("some file contents"))),
-				Nickname:    brucetestapi.String("nickname"),
+				FullName: "full_name",
+				Nickname: brucetestapi.String("nickname"),
 			},
 			Job: brucetestapi.String("job"),
 		},
