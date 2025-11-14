@@ -363,27 +363,18 @@ which can be used to wrap any `io.Reader` with the appropriate file name and con
 ```go
 // A file from the file system
 file, err := os.Open("/path/to/file")
-brucetestapi.PersonNewParams{
-	Name: brucetestapi.PersonNewParamsName{
-		FullName: "full_name",
-	},
-	ImageBinary: file,
+brucetestapi.PersonListParams{
+	Nickname: file,
 }
 
 // A file from a string
-brucetestapi.PersonNewParams{
-	Name: brucetestapi.PersonNewParamsName{
-		FullName: "full_name",
-	},
-	ImageBinary: strings.NewReader("my file contents"),
+brucetestapi.PersonListParams{
+	Nickname: strings.NewReader("my file contents"),
 }
 
 // With a custom filename and contentType
-brucetestapi.PersonNewParams{
-	Name: brucetestapi.PersonNewParamsName{
-		FullName: "full_name",
-	},
-	ImageBinary: brucetestapi.File(strings.NewReader(`{"hello": "foo"}`), "file.go", "application/json"),
+brucetestapi.PersonListParams{
+	Nickname: brucetestapi.File(strings.NewReader(`{"hello": "foo"}`), "file.go", "application/json"),
 }
 ```
 
