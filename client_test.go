@@ -38,7 +38,27 @@ func TestUserAgentHeader(t *testing.T) {
 			},
 		}),
 	)
-	client.People.List(context.Background(), brucetestapi.PersonListParams{})
+	client.Foo(
+		context.Background(),
+		"abc123",
+		brucetestapi.FooParams{
+			Version: 1,
+			Filter: brucetestapi.FooParamsFilter{
+				Status: brucetestapi.String("active"),
+				Meta: brucetestapi.FooParamsFilterMeta{
+					Level: brucetestapi.Int(3),
+				},
+			},
+			Limit: brucetestapi.Int(20),
+			Tags:  []string{"red", "large"},
+			Preferences: brucetestapi.FooParamsPreferences{
+				Theme:  brucetestapi.String("dark"),
+				Alerts: brucetestapi.Bool(true),
+			},
+			XFlags:   []string{"fast", "debug", "verbose"},
+			XTraceID: brucetestapi.String("trace-9f82b1"),
+		},
+	)
 	if userAgent != fmt.Sprintf("BruceTestAPI/Go %s", internal.PackageVersion) {
 		t.Errorf("Expected User-Agent to be correct, but got: %#v", userAgent)
 	}
@@ -62,7 +82,27 @@ func TestRetryAfter(t *testing.T) {
 			},
 		}),
 	)
-	_, err := client.People.List(context.Background(), brucetestapi.PersonListParams{})
+	err := client.Foo(
+		context.Background(),
+		"abc123",
+		brucetestapi.FooParams{
+			Version: 1,
+			Filter: brucetestapi.FooParamsFilter{
+				Status: brucetestapi.String("active"),
+				Meta: brucetestapi.FooParamsFilterMeta{
+					Level: brucetestapi.Int(3),
+				},
+			},
+			Limit: brucetestapi.Int(20),
+			Tags:  []string{"red", "large"},
+			Preferences: brucetestapi.FooParamsPreferences{
+				Theme:  brucetestapi.String("dark"),
+				Alerts: brucetestapi.Bool(true),
+			},
+			XFlags:   []string{"fast", "debug", "verbose"},
+			XTraceID: brucetestapi.String("trace-9f82b1"),
+		},
+	)
 	if err == nil {
 		t.Error("Expected there to be a cancel error")
 	}
@@ -97,7 +137,27 @@ func TestDeleteRetryCountHeader(t *testing.T) {
 		}),
 		option.WithHeaderDel("X-Stainless-Retry-Count"),
 	)
-	_, err := client.People.List(context.Background(), brucetestapi.PersonListParams{})
+	err := client.Foo(
+		context.Background(),
+		"abc123",
+		brucetestapi.FooParams{
+			Version: 1,
+			Filter: brucetestapi.FooParamsFilter{
+				Status: brucetestapi.String("active"),
+				Meta: brucetestapi.FooParamsFilterMeta{
+					Level: brucetestapi.Int(3),
+				},
+			},
+			Limit: brucetestapi.Int(20),
+			Tags:  []string{"red", "large"},
+			Preferences: brucetestapi.FooParamsPreferences{
+				Theme:  brucetestapi.String("dark"),
+				Alerts: brucetestapi.Bool(true),
+			},
+			XFlags:   []string{"fast", "debug", "verbose"},
+			XTraceID: brucetestapi.String("trace-9f82b1"),
+		},
+	)
 	if err == nil {
 		t.Error("Expected there to be a cancel error")
 	}
@@ -127,7 +187,27 @@ func TestOverwriteRetryCountHeader(t *testing.T) {
 		}),
 		option.WithHeader("X-Stainless-Retry-Count", "42"),
 	)
-	_, err := client.People.List(context.Background(), brucetestapi.PersonListParams{})
+	err := client.Foo(
+		context.Background(),
+		"abc123",
+		brucetestapi.FooParams{
+			Version: 1,
+			Filter: brucetestapi.FooParamsFilter{
+				Status: brucetestapi.String("active"),
+				Meta: brucetestapi.FooParamsFilterMeta{
+					Level: brucetestapi.Int(3),
+				},
+			},
+			Limit: brucetestapi.Int(20),
+			Tags:  []string{"red", "large"},
+			Preferences: brucetestapi.FooParamsPreferences{
+				Theme:  brucetestapi.String("dark"),
+				Alerts: brucetestapi.Bool(true),
+			},
+			XFlags:   []string{"fast", "debug", "verbose"},
+			XTraceID: brucetestapi.String("trace-9f82b1"),
+		},
+	)
 	if err == nil {
 		t.Error("Expected there to be a cancel error")
 	}
@@ -156,7 +236,27 @@ func TestRetryAfterMs(t *testing.T) {
 			},
 		}),
 	)
-	_, err := client.People.List(context.Background(), brucetestapi.PersonListParams{})
+	err := client.Foo(
+		context.Background(),
+		"abc123",
+		brucetestapi.FooParams{
+			Version: 1,
+			Filter: brucetestapi.FooParamsFilter{
+				Status: brucetestapi.String("active"),
+				Meta: brucetestapi.FooParamsFilterMeta{
+					Level: brucetestapi.Int(3),
+				},
+			},
+			Limit: brucetestapi.Int(20),
+			Tags:  []string{"red", "large"},
+			Preferences: brucetestapi.FooParamsPreferences{
+				Theme:  brucetestapi.String("dark"),
+				Alerts: brucetestapi.Bool(true),
+			},
+			XFlags:   []string{"fast", "debug", "verbose"},
+			XTraceID: brucetestapi.String("trace-9f82b1"),
+		},
+	)
 	if err == nil {
 		t.Error("Expected there to be a cancel error")
 	}
@@ -179,7 +279,27 @@ func TestContextCancel(t *testing.T) {
 	)
 	cancelCtx, cancel := context.WithCancel(context.Background())
 	cancel()
-	_, err := client.People.List(cancelCtx, brucetestapi.PersonListParams{})
+	err := client.Foo(
+		cancelCtx,
+		"abc123",
+		brucetestapi.FooParams{
+			Version: 1,
+			Filter: brucetestapi.FooParamsFilter{
+				Status: brucetestapi.String("active"),
+				Meta: brucetestapi.FooParamsFilterMeta{
+					Level: brucetestapi.Int(3),
+				},
+			},
+			Limit: brucetestapi.Int(20),
+			Tags:  []string{"red", "large"},
+			Preferences: brucetestapi.FooParamsPreferences{
+				Theme:  brucetestapi.String("dark"),
+				Alerts: brucetestapi.Bool(true),
+			},
+			XFlags:   []string{"fast", "debug", "verbose"},
+			XTraceID: brucetestapi.String("trace-9f82b1"),
+		},
+	)
 	if err == nil {
 		t.Error("Expected there to be a cancel error")
 	}
@@ -199,7 +319,27 @@ func TestContextCancelDelay(t *testing.T) {
 	)
 	cancelCtx, cancel := context.WithTimeout(context.Background(), 2*time.Millisecond)
 	defer cancel()
-	_, err := client.People.List(cancelCtx, brucetestapi.PersonListParams{})
+	err := client.Foo(
+		cancelCtx,
+		"abc123",
+		brucetestapi.FooParams{
+			Version: 1,
+			Filter: brucetestapi.FooParamsFilter{
+				Status: brucetestapi.String("active"),
+				Meta: brucetestapi.FooParamsFilterMeta{
+					Level: brucetestapi.Int(3),
+				},
+			},
+			Limit: brucetestapi.Int(20),
+			Tags:  []string{"red", "large"},
+			Preferences: brucetestapi.FooParamsPreferences{
+				Theme:  brucetestapi.String("dark"),
+				Alerts: brucetestapi.Bool(true),
+			},
+			XFlags:   []string{"fast", "debug", "verbose"},
+			XTraceID: brucetestapi.String("trace-9f82b1"),
+		},
+	)
 	if err == nil {
 		t.Error("expected there to be a cancel error")
 	}
@@ -225,7 +365,27 @@ func TestContextDeadline(t *testing.T) {
 				},
 			}),
 		)
-		_, err := client.People.List(deadlineCtx, brucetestapi.PersonListParams{})
+		err := client.Foo(
+			deadlineCtx,
+			"abc123",
+			brucetestapi.FooParams{
+				Version: 1,
+				Filter: brucetestapi.FooParamsFilter{
+					Status: brucetestapi.String("active"),
+					Meta: brucetestapi.FooParamsFilterMeta{
+						Level: brucetestapi.Int(3),
+					},
+				},
+				Limit: brucetestapi.Int(20),
+				Tags:  []string{"red", "large"},
+				Preferences: brucetestapi.FooParamsPreferences{
+					Theme:  brucetestapi.String("dark"),
+					Alerts: brucetestapi.Bool(true),
+				},
+				XFlags:   []string{"fast", "debug", "verbose"},
+				XTraceID: brucetestapi.String("trace-9f82b1"),
+			},
+		)
 		if err == nil {
 			t.Error("expected there to be a deadline error")
 		}
