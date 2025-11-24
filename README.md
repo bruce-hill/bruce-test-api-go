@@ -38,6 +38,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/stainless-sdks/bruce-test-api-go"
 	"github.com/stainless-sdks/bruce-test-api-go/option"
@@ -47,30 +48,11 @@ func main() {
 	client := brucetestapi.NewClient(
 		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("BRUCE_TEST_API_API_KEY")
 	)
-	err := client.Foo(
-		context.TODO(),
-		"abc123",
-		brucetestapi.FooParams{
-			Version: 1,
-			Filter: brucetestapi.FooParamsFilter{
-				Status: brucetestapi.String("active"),
-				Meta: brucetestapi.FooParamsFilterMeta{
-					Level: brucetestapi.Int(3),
-				},
-			},
-			Limit: brucetestapi.Int(20),
-			Tags:  []string{"red", "large"},
-			Preferences: brucetestapi.FooParamsPreferences{
-				Theme:  brucetestapi.String("dark"),
-				Alerts: brucetestapi.Bool(true),
-			},
-			XFlags:   []string{"fast", "debug", "verbose"},
-			XTraceID: brucetestapi.String("trace-9f82b1"),
-		},
-	)
+	page, err := client.Foos.List(context.TODO(), brucetestapi.FooListParams{})
 	if err != nil {
 		panic(err.Error())
 	}
+	fmt.Printf("%+v\n", page)
 }
 
 ```
@@ -276,7 +258,7 @@ client := brucetestapi.NewClient(
 	option.WithHeader("X-Some-Header", "custom_header_info"),
 )
 
-client.Foo(context.TODO(), ...,
+client.Foos.List(context.TODO(), ...,
 	// Override the header
 	option.WithHeader("X-Some-Header", "some_other_custom_header_info"),
 	// Add an undocumented field to the request body, using sjson syntax
@@ -307,34 +289,14 @@ When the API returns a non-success status code, we return an error with type
 To handle errors, we recommend that you use the `errors.As` pattern:
 
 ```go
-err := client.Foo(
-	context.TODO(),
-	"abc123",
-	brucetestapi.FooParams{
-		Version: 1,
-		Filter: brucetestapi.FooParamsFilter{
-			Status: brucetestapi.String("active"),
-			Meta: brucetestapi.FooParamsFilterMeta{
-				Level: brucetestapi.Int(3),
-			},
-		},
-		Limit: brucetestapi.Int(20),
-		Tags:  []string{"red", "large"},
-		Preferences: brucetestapi.FooParamsPreferences{
-			Theme:  brucetestapi.String("dark"),
-			Alerts: brucetestapi.Bool(true),
-		},
-		XFlags:   []string{"fast", "debug", "verbose"},
-		XTraceID: brucetestapi.String("trace-9f82b1"),
-	},
-)
+_, err := client.Foos.List(context.TODO(), brucetestapi.FooListParams{})
 if err != nil {
 	var apierr *brucetestapi.Error
 	if errors.As(err, &apierr) {
 		println(string(apierr.DumpRequest(true)))  // Prints the serialized HTTP request
 		println(string(apierr.DumpResponse(true))) // Prints the serialized HTTP response
 	}
-	panic(err.Error()) // GET "/v{version}/users/{userId}": 400 Bad Request { ... }
+	panic(err.Error()) // GET "/foos": 400 Bad Request { ... }
 }
 ```
 
@@ -352,26 +314,9 @@ To set a per-retry timeout, use `option.WithRequestTimeout()`.
 // This sets the timeout for the request, including all the retries.
 ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
 defer cancel()
-client.Foo(
+client.Foos.List(
 	ctx,
-	"abc123",
-	brucetestapi.FooParams{
-		Version: 1,
-		Filter: brucetestapi.FooParamsFilter{
-			Status: brucetestapi.String("active"),
-			Meta: brucetestapi.FooParamsFilterMeta{
-				Level: brucetestapi.Int(3),
-			},
-		},
-		Limit: brucetestapi.Int(20),
-		Tags:  []string{"red", "large"},
-		Preferences: brucetestapi.FooParamsPreferences{
-			Theme:  brucetestapi.String("dark"),
-			Alerts: brucetestapi.Bool(true),
-		},
-		XFlags:   []string{"fast", "debug", "verbose"},
-		XTraceID: brucetestapi.String("trace-9f82b1"),
-	},
+	brucetestapi.FooListParams{},
 	// This sets the per-retry timeout
 	option.WithRequestTimeout(20*time.Second),
 )
@@ -405,26 +350,9 @@ client := brucetestapi.NewClient(
 )
 
 // Override per-request:
-client.Foo(
+client.Foos.List(
 	context.TODO(),
-	"abc123",
-	brucetestapi.FooParams{
-		Version: 1,
-		Filter: brucetestapi.FooParamsFilter{
-			Status: brucetestapi.String("active"),
-			Meta: brucetestapi.FooParamsFilterMeta{
-				Level: brucetestapi.Int(3),
-			},
-		},
-		Limit: brucetestapi.Int(20),
-		Tags:  []string{"red", "large"},
-		Preferences: brucetestapi.FooParamsPreferences{
-			Theme:  brucetestapi.String("dark"),
-			Alerts: brucetestapi.Bool(true),
-		},
-		XFlags:   []string{"fast", "debug", "verbose"},
-		XTraceID: brucetestapi.String("trace-9f82b1"),
-	},
+	brucetestapi.FooListParams{},
 	option.WithMaxRetries(5),
 )
 ```
@@ -437,32 +365,15 @@ you need to examine response headers, status codes, or other details.
 ```go
 // Create a variable to store the HTTP response
 var response *http.Response
-err := client.Foo(
+page, err := client.Foos.List(
 	context.TODO(),
-	"abc123",
-	brucetestapi.FooParams{
-		Version: 1,
-		Filter: brucetestapi.FooParamsFilter{
-			Status: brucetestapi.String("active"),
-			Meta: brucetestapi.FooParamsFilterMeta{
-				Level: brucetestapi.Int(3),
-			},
-		},
-		Limit: brucetestapi.Int(20),
-		Tags:  []string{"red", "large"},
-		Preferences: brucetestapi.FooParamsPreferences{
-			Theme:  brucetestapi.String("dark"),
-			Alerts: brucetestapi.Bool(true),
-		},
-		XFlags:   []string{"fast", "debug", "verbose"},
-		XTraceID: brucetestapi.String("trace-9f82b1"),
-	},
+	brucetestapi.FooListParams{},
 	option.WithResponseInto(&response),
 )
 if err != nil {
 	// handle error
 }
-null
+fmt.Printf("%+v\n", page)
 
 fmt.Printf("Status Code: %d\n", response.StatusCode)
 fmt.Printf("Headers: %+#v\n", response.Header)

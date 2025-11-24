@@ -24,28 +24,9 @@ func TestUsage(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	err := client.Foo(
-		context.TODO(),
-		"abc123",
-		brucetestapi.FooParams{
-			Version: 1,
-			Filter: brucetestapi.FooParamsFilter{
-				Status: brucetestapi.String("active"),
-				Meta: brucetestapi.FooParamsFilterMeta{
-					Level: brucetestapi.Int(3),
-				},
-			},
-			Limit: brucetestapi.Int(20),
-			Tags:  []string{"red", "large"},
-			Preferences: brucetestapi.FooParamsPreferences{
-				Theme:  brucetestapi.String("dark"),
-				Alerts: brucetestapi.Bool(true),
-			},
-			XFlags:   []string{"fast", "debug", "verbose"},
-			XTraceID: brucetestapi.String("trace-9f82b1"),
-		},
-	)
+	page, err := client.Foos.List(context.TODO(), brucetestapi.FooListParams{})
 	if err != nil {
 		t.Fatalf("err should be nil: %s", err.Error())
 	}
+	t.Logf("%+v\n", page)
 }
