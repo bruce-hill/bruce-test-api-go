@@ -24,21 +24,28 @@ func TestUsage(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	response, err := client.PostFnord(
+	err := client.Foo(
 		context.TODO(),
-		"B",
-		brucetestapi.PostFnordParams{
-			FirstPos:   "A",
-			ArrayItems: []int64{1, 2},
-			Name: brucetestapi.PostFnordParamsName{
-				FullName: "Abraham Lincoln",
-				Nickname: brucetestapi.String("Honest Abe"),
+		"abc123",
+		brucetestapi.FooParams{
+			Version: 1,
+			Filter: brucetestapi.FooParamsFilter{
+				Status: brucetestapi.String("active"),
+				Meta: brucetestapi.FooParamsFilterMeta{
+					Level: brucetestapi.Int(3),
+				},
 			},
-			Job: brucetestapi.String("President"),
+			Limit: brucetestapi.Int(20),
+			Tags:  []string{"red", "large"},
+			Preferences: brucetestapi.FooParamsPreferences{
+				Theme:  brucetestapi.String("dark"),
+				Alerts: brucetestapi.Bool(true),
+			},
+			XFlags:   []string{"fast", "debug", "verbose"},
+			XTraceID: brucetestapi.String("trace-9f82b1"),
 		},
 	)
 	if err != nil {
 		t.Fatalf("err should be nil: %s", err.Error())
 	}
-	t.Logf("%+v\n", response)
 }

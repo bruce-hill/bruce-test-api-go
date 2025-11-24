@@ -12,15 +12,14 @@ import (
 
 	"github.com/stainless-sdks/bruce-test-api-go/internal/requestconfig"
 	"github.com/stainless-sdks/bruce-test-api-go/option"
+	"github.com/stainless-sdks/bruce-test-api-go/packages/param"
 )
 
 // Client creates a struct with services and top level methods that help with
 // interacting with the bruce-test-api API. You should not instantiate this client
 // directly, and instead use the [NewClient] method instead.
 type Client struct {
-	Options  []option.RequestOption
-	People   PersonService
-	JsonTest JsonTestService
+	Options []option.RequestOption
 }
 
 // DefaultClientOptions read from the environment (BRUCE_TEST_API_API_KEY,
@@ -44,9 +43,6 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 	opts = append(DefaultClientOptions(), opts...)
 
 	r = Client{Options: opts}
-
-	r.People = NewPersonService(opts...)
-	r.JsonTest = NewJsonTestService(opts...)
 
 	return
 }
@@ -120,46 +116,21 @@ func (r *Client) Delete(ctx context.Context, path string, params any, res any, o
 	return r.Execute(ctx, http.MethodDelete, path, params, res, opts...)
 }
 
-// Test GET endpoint for positional and query params.
-func (r *Client) Fnord(ctx context.Context, secondPos string, params FnordParams, opts ...option.RequestOption) (res *FnordResponse, err error) {
+// Mixed parameter types
+func (r *Client) Foo(ctx context.Context, userID string, params FooParams, opts ...option.RequestOption) (err error) {
+	for _, v := range params.XFlags {
+		opts = append(opts, option.WithHeaderAdd("X-Flags", fmt.Sprintf("%s", v)))
+	}
+	if !param.IsOmitted(params.XTraceID) {
+		opts = append(opts, option.WithHeader("X-Trace-ID", fmt.Sprintf("%s", params.XTraceID.Value)))
+	}
 	opts = slices.Concat(r.Options, opts)
-	if params.FirstPos == "" {
-		err = errors.New("missing required first_pos parameter")
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
+	if userID == "" {
+		err = errors.New("missing required userId parameter")
 		return
 	}
-	if secondPos == "" {
-		err = errors.New("missing required second_pos parameter")
-		return
-	}
-	path := fmt.Sprintf("fnord/%s/%s", params.FirstPos, secondPos)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, params, &res, opts...)
-	return
-}
-
-// Test POST endpoint for positional and query params.
-func (r *Client) PostFnord(ctx context.Context, secondPos string, params PostFnordParams, opts ...option.RequestOption) (res *PostFnordResponse, err error) {
-	opts = slices.Concat(r.Options, opts)
-	if params.FirstPos == "" {
-		err = errors.New("missing required first_pos parameter")
-		return
-	}
-	if secondPos == "" {
-		err = errors.New("missing required second_pos parameter")
-		return
-	}
-	path := fmt.Sprintf("fnord/%s/%s", params.FirstPos, secondPos)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, &res, opts...)
-	return
-}
-
-// Test endpoint that accepts form-encoded data.
-//
-// Example curl command: curl -X POST "http://localhost:8000/test-form" -H
-// "Content-Type: application/x-www-form-urlencoded" -d
-// "username=john&email=john@example.com&age=30&subscribe=true"
-func (r *Client) TestForm(ctx context.Context, body TestFormParams, opts ...option.RequestOption) (res *TestFormResponse, err error) {
-	opts = slices.Concat(r.Options, opts)
-	path := "test-form"
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	path := fmt.Sprintf("v%v/users/%s", params.Version, userID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, nil, opts...)
 	return
 }
