@@ -38,7 +38,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/stainless-sdks/bruce-test-api-go"
 	"github.com/stainless-sdks/bruce-test-api-go/option"
@@ -48,23 +47,30 @@ func main() {
 	client := brucetestapi.NewClient(
 		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("BRUCE_TEST_API_API_KEY")
 	)
-	response, err := client.PostFnord(
+	err := client.Foo(
 		context.TODO(),
-		"B",
-		brucetestapi.PostFnordParams{
-			FirstPos:   "A",
-			ArrayItems: []int64{1, 2},
-			Name: brucetestapi.PostFnordParamsName{
-				FullName: "Abraham Lincoln",
-				Nickname: brucetestapi.String("Honest Abe"),
+		"abc123",
+		brucetestapi.FooParams{
+			Version: 1,
+			Filter: brucetestapi.FooParamsFilter{
+				Status: brucetestapi.String("active"),
+				Meta: brucetestapi.FooParamsFilterMeta{
+					Level: brucetestapi.Int(3),
+				},
 			},
-			Job: brucetestapi.String("President"),
+			Limit: brucetestapi.Int(20),
+			Tags:  []string{"red", "large"},
+			Preferences: brucetestapi.FooParamsPreferences{
+				Theme:  brucetestapi.String("dark"),
+				Alerts: brucetestapi.Bool(true),
+			},
+			XFlags:   []string{"fast", "debug", "verbose"},
+			XTraceID: brucetestapi.String("trace-9f82b1"),
 		},
 	)
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Printf("%+v\n", response)
 }
 
 ```
@@ -270,7 +276,7 @@ client := brucetestapi.NewClient(
 	option.WithHeader("X-Some-Header", "custom_header_info"),
 )
 
-client.People.List(context.TODO(), ...,
+client.Foo(context.TODO(), ...,
 	// Override the header
 	option.WithHeader("X-Some-Header", "some_other_custom_header_info"),
 	// Add an undocumented field to the request body, using sjson syntax
@@ -288,33 +294,8 @@ This library provides some conveniences for working with paginated list endpoint
 
 You can use `.ListAutoPaging()` methods to iterate through items across all pages:
 
-```go
-iter := client.People.ListAutoPaging(context.TODO(), brucetestapi.PersonListParams{})
-// Automatically fetches more pages as needed.
-for iter.Next() {
-	personListResponse := iter.Current()
-	fmt.Printf("%+v\n", personListResponse)
-}
-if err := iter.Err(); err != nil {
-	panic(err.Error())
-}
-```
-
 Or you can use simple `.List()` methods to fetch a single page and receive a standard response object
 with additional helper methods like `.GetNextPage()`, e.g.:
-
-```go
-page, err := client.People.List(context.TODO(), brucetestapi.PersonListParams{})
-for page != nil {
-	for _, person := range page.Items {
-		fmt.Printf("%+v\n", person)
-	}
-	page, err = page.GetNextPage()
-}
-if err != nil {
-	panic(err.Error())
-}
-```
 
 ### Errors
 
@@ -326,14 +307,34 @@ When the API returns a non-success status code, we return an error with type
 To handle errors, we recommend that you use the `errors.As` pattern:
 
 ```go
-_, err := client.People.List(context.TODO(), brucetestapi.PersonListParams{})
+err := client.Foo(
+	context.TODO(),
+	"abc123",
+	brucetestapi.FooParams{
+		Version: 1,
+		Filter: brucetestapi.FooParamsFilter{
+			Status: brucetestapi.String("active"),
+			Meta: brucetestapi.FooParamsFilterMeta{
+				Level: brucetestapi.Int(3),
+			},
+		},
+		Limit: brucetestapi.Int(20),
+		Tags:  []string{"red", "large"},
+		Preferences: brucetestapi.FooParamsPreferences{
+			Theme:  brucetestapi.String("dark"),
+			Alerts: brucetestapi.Bool(true),
+		},
+		XFlags:   []string{"fast", "debug", "verbose"},
+		XTraceID: brucetestapi.String("trace-9f82b1"),
+	},
+)
 if err != nil {
 	var apierr *brucetestapi.Error
 	if errors.As(err, &apierr) {
 		println(string(apierr.DumpRequest(true)))  // Prints the serialized HTTP request
 		println(string(apierr.DumpResponse(true))) // Prints the serialized HTTP response
 	}
-	panic(err.Error()) // GET "/people": 400 Bad Request { ... }
+	panic(err.Error()) // GET "/v{version}/users/{userId}": 400 Bad Request { ... }
 }
 ```
 
@@ -351,9 +352,26 @@ To set a per-retry timeout, use `option.WithRequestTimeout()`.
 // This sets the timeout for the request, including all the retries.
 ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
 defer cancel()
-client.People.List(
+client.Foo(
 	ctx,
-	brucetestapi.PersonListParams{},
+	"abc123",
+	brucetestapi.FooParams{
+		Version: 1,
+		Filter: brucetestapi.FooParamsFilter{
+			Status: brucetestapi.String("active"),
+			Meta: brucetestapi.FooParamsFilterMeta{
+				Level: brucetestapi.Int(3),
+			},
+		},
+		Limit: brucetestapi.Int(20),
+		Tags:  []string{"red", "large"},
+		Preferences: brucetestapi.FooParamsPreferences{
+			Theme:  brucetestapi.String("dark"),
+			Alerts: brucetestapi.Bool(true),
+		},
+		XFlags:   []string{"fast", "debug", "verbose"},
+		XTraceID: brucetestapi.String("trace-9f82b1"),
+	},
 	// This sets the per-retry timeout
 	option.WithRequestTimeout(20*time.Second),
 )
@@ -372,39 +390,6 @@ file returned by `os.Open` will be sent with the file name on disk.
 We also provide a helper `brucetestapi.File(reader io.Reader, filename string, contentType string)`
 which can be used to wrap any `io.Reader` with the appropriate file name and content type.
 
-```go
-// A file from the file system
-file, err := os.Open("/path/to/file")
-brucetestapi.PostFnordParams{
-	FirstPos:   "first_pos",
-	ArrayItems: []int64{0},
-	Name: brucetestapi.PostFnordParamsName{
-		FullName: "full_name",
-	},
-	ImageBinary: file,
-}
-
-// A file from a string
-brucetestapi.PostFnordParams{
-	FirstPos:   "first_pos",
-	ArrayItems: []int64{0},
-	Name: brucetestapi.PostFnordParamsName{
-		FullName: "full_name",
-	},
-	ImageBinary: strings.NewReader("my file contents"),
-}
-
-// With a custom filename and contentType
-brucetestapi.PostFnordParams{
-	FirstPos:   "first_pos",
-	ArrayItems: []int64{0},
-	Name: brucetestapi.PostFnordParamsName{
-		FullName: "full_name",
-	},
-	ImageBinary: brucetestapi.File(strings.NewReader(`{"hello": "foo"}`), "file.go", "application/json"),
-}
-```
-
 ### Retries
 
 Certain errors will be automatically retried 2 times by default, with a short exponential backoff.
@@ -420,9 +405,26 @@ client := brucetestapi.NewClient(
 )
 
 // Override per-request:
-client.People.List(
+client.Foo(
 	context.TODO(),
-	brucetestapi.PersonListParams{},
+	"abc123",
+	brucetestapi.FooParams{
+		Version: 1,
+		Filter: brucetestapi.FooParamsFilter{
+			Status: brucetestapi.String("active"),
+			Meta: brucetestapi.FooParamsFilterMeta{
+				Level: brucetestapi.Int(3),
+			},
+		},
+		Limit: brucetestapi.Int(20),
+		Tags:  []string{"red", "large"},
+		Preferences: brucetestapi.FooParamsPreferences{
+			Theme:  brucetestapi.String("dark"),
+			Alerts: brucetestapi.Bool(true),
+		},
+		XFlags:   []string{"fast", "debug", "verbose"},
+		XTraceID: brucetestapi.String("trace-9f82b1"),
+	},
 	option.WithMaxRetries(5),
 )
 ```
@@ -435,15 +437,32 @@ you need to examine response headers, status codes, or other details.
 ```go
 // Create a variable to store the HTTP response
 var response *http.Response
-page, err := client.People.List(
+err := client.Foo(
 	context.TODO(),
-	brucetestapi.PersonListParams{},
+	"abc123",
+	brucetestapi.FooParams{
+		Version: 1,
+		Filter: brucetestapi.FooParamsFilter{
+			Status: brucetestapi.String("active"),
+			Meta: brucetestapi.FooParamsFilterMeta{
+				Level: brucetestapi.Int(3),
+			},
+		},
+		Limit: brucetestapi.Int(20),
+		Tags:  []string{"red", "large"},
+		Preferences: brucetestapi.FooParamsPreferences{
+			Theme:  brucetestapi.String("dark"),
+			Alerts: brucetestapi.Bool(true),
+		},
+		XFlags:   []string{"fast", "debug", "verbose"},
+		XTraceID: brucetestapi.String("trace-9f82b1"),
+	},
 	option.WithResponseInto(&response),
 )
 if err != nil {
 	// handle error
 }
-fmt.Printf("%+v\n", page)
+null
 
 fmt.Printf("Status Code: %d\n", response.StatusCode)
 fmt.Printf("Headers: %+#v\n", response.Header)
