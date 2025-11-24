@@ -13,7 +13,7 @@ import (
 	"github.com/stainless-sdks/bruce-test-api-go/option"
 )
 
-func TestBrucetestapiFooWithOptionalParams(t *testing.T) {
+func TestFooListWithOptionalParams(t *testing.T) {
 	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -26,28 +26,10 @@ func TestBrucetestapiFooWithOptionalParams(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	err := client.Foo(
-		context.TODO(),
-		"userId",
-		brucetestapi.FooParams{
-			Version: 0,
-			Filter: brucetestapi.FooParamsFilter{
-				Meta: brucetestapi.FooParamsFilterMeta{
-					Level: brucetestapi.Int(0),
-				},
-				Status: brucetestapi.String("status"),
-			},
-			Limit: brucetestapi.Int(1),
-			Tags:  []string{"string"},
-			Blorp: brucetestapi.String("blorp"),
-			Preferences: brucetestapi.FooParamsPreferences{
-				Alerts: brucetestapi.Bool(true),
-				Theme:  brucetestapi.String("theme"),
-			},
-			XFlags:   []string{"string"},
-			XTraceID: brucetestapi.String("X-Trace-ID"),
-		},
-	)
+	_, err := client.Foos.List(context.TODO(), brucetestapi.FooListParams{
+		Page: brucetestapi.Int(1),
+		Size: brucetestapi.Int(1),
+	})
 	if err != nil {
 		var apierr *brucetestapi.Error
 		if errors.As(err, &apierr) {
