@@ -38,7 +38,7 @@ package main
 
 import (
 	"context"
-	"fmt"
+	"time"
 
 	"github.com/stainless-sdks/bruce-test-api-go"
 	"github.com/stainless-sdks/bruce-test-api-go/option"
@@ -48,11 +48,33 @@ func main() {
 	client := brucetestapi.NewClient(
 		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("BRUCE_TEST_API_API_KEY")
 	)
-	page, err := client.Foos.List(context.TODO(), brucetestapi.FooListParams{})
+	err := client.FormTest(
+		context.TODO(),
+		"abc123",
+		brucetestapi.FormTestParams{
+			Version:  1,
+			Date:     time.Now(),
+			Datetime: time.Now(),
+			Time:     "18:11:19.117Z",
+			Filter: brucetestapi.FormTestParamsFilter{
+				Status: brucetestapi.String("active"),
+				Meta: brucetestapi.FormTestParamsFilterMeta{
+					Level: brucetestapi.Int(3),
+				},
+			},
+			Limit: brucetestapi.Int(20),
+			Tags:  []string{"red", "large"},
+			Preferences: brucetestapi.FormTestParamsPreferences{
+				Theme:  brucetestapi.String("dark"),
+				Alerts: brucetestapi.Bool(true),
+			},
+			XFlags:   []string{"fast", "debug", "verbose"},
+			XTraceID: brucetestapi.String("trace-9f82b1"),
+		},
+	)
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Printf("%+v\n", page)
 }
 
 ```
@@ -258,7 +280,7 @@ client := brucetestapi.NewClient(
 	option.WithHeader("X-Some-Header", "custom_header_info"),
 )
 
-client.Foos.List(context.TODO(), ...,
+client.FormTest(context.TODO(), ...,
 	// Override the header
 	option.WithHeader("X-Some-Header", "some_other_custom_header_info"),
 	// Add an undocumented field to the request body, using sjson syntax
@@ -276,33 +298,8 @@ This library provides some conveniences for working with paginated list endpoint
 
 You can use `.ListAutoPaging()` methods to iterate through items across all pages:
 
-```go
-iter := client.Foos.ListAutoPaging(context.TODO(), brucetestapi.FooListParams{})
-// Automatically fetches more pages as needed.
-for iter.Next() {
-	fooListResponse := iter.Current()
-	fmt.Printf("%+v\n", fooListResponse)
-}
-if err := iter.Err(); err != nil {
-	panic(err.Error())
-}
-```
-
 Or you can use simple `.List()` methods to fetch a single page and receive a standard response object
 with additional helper methods like `.GetNextPage()`, e.g.:
-
-```go
-page, err := client.Foos.List(context.TODO(), brucetestapi.FooListParams{})
-for page != nil {
-	for _, foo := range page.Items {
-		fmt.Printf("%+v\n", foo)
-	}
-	page, err = page.GetNextPage()
-}
-if err != nil {
-	panic(err.Error())
-}
-```
 
 ### Errors
 
@@ -314,14 +311,37 @@ When the API returns a non-success status code, we return an error with type
 To handle errors, we recommend that you use the `errors.As` pattern:
 
 ```go
-_, err := client.Foos.List(context.TODO(), brucetestapi.FooListParams{})
+err := client.FormTest(
+	context.TODO(),
+	"abc123",
+	brucetestapi.FormTestParams{
+		Version:  1,
+		Date:     time.Now(),
+		Datetime: time.Now(),
+		Time:     "18:11:19.117Z",
+		Filter: brucetestapi.FormTestParamsFilter{
+			Status: brucetestapi.String("active"),
+			Meta: brucetestapi.FormTestParamsFilterMeta{
+				Level: brucetestapi.Int(3),
+			},
+		},
+		Limit: brucetestapi.Int(20),
+		Tags:  []string{"red", "large"},
+		Preferences: brucetestapi.FormTestParamsPreferences{
+			Theme:  brucetestapi.String("dark"),
+			Alerts: brucetestapi.Bool(true),
+		},
+		XFlags:   []string{"fast", "debug", "verbose"},
+		XTraceID: brucetestapi.String("trace-9f82b1"),
+	},
+)
 if err != nil {
 	var apierr *brucetestapi.Error
 	if errors.As(err, &apierr) {
 		println(string(apierr.DumpRequest(true)))  // Prints the serialized HTTP request
 		println(string(apierr.DumpResponse(true))) // Prints the serialized HTTP response
 	}
-	panic(err.Error()) // GET "/foos": 400 Bad Request { ... }
+	panic(err.Error()) // GET "/form-v{version}/users/{userId}": 400 Bad Request { ... }
 }
 ```
 
@@ -339,9 +359,29 @@ To set a per-retry timeout, use `option.WithRequestTimeout()`.
 // This sets the timeout for the request, including all the retries.
 ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
 defer cancel()
-client.Foos.List(
+client.FormTest(
 	ctx,
-	brucetestapi.FooListParams{},
+	"abc123",
+	brucetestapi.FormTestParams{
+		Version:  1,
+		Date:     time.Now(),
+		Datetime: time.Now(),
+		Time:     "18:11:19.117Z",
+		Filter: brucetestapi.FormTestParamsFilter{
+			Status: brucetestapi.String("active"),
+			Meta: brucetestapi.FormTestParamsFilterMeta{
+				Level: brucetestapi.Int(3),
+			},
+		},
+		Limit: brucetestapi.Int(20),
+		Tags:  []string{"red", "large"},
+		Preferences: brucetestapi.FormTestParamsPreferences{
+			Theme:  brucetestapi.String("dark"),
+			Alerts: brucetestapi.Bool(true),
+		},
+		XFlags:   []string{"fast", "debug", "verbose"},
+		XTraceID: brucetestapi.String("trace-9f82b1"),
+	},
 	// This sets the per-retry timeout
 	option.WithRequestTimeout(20*time.Second),
 )
@@ -375,9 +415,29 @@ client := brucetestapi.NewClient(
 )
 
 // Override per-request:
-client.Foos.List(
+client.FormTest(
 	context.TODO(),
-	brucetestapi.FooListParams{},
+	"abc123",
+	brucetestapi.FormTestParams{
+		Version:  1,
+		Date:     time.Now(),
+		Datetime: time.Now(),
+		Time:     "18:11:19.117Z",
+		Filter: brucetestapi.FormTestParamsFilter{
+			Status: brucetestapi.String("active"),
+			Meta: brucetestapi.FormTestParamsFilterMeta{
+				Level: brucetestapi.Int(3),
+			},
+		},
+		Limit: brucetestapi.Int(20),
+		Tags:  []string{"red", "large"},
+		Preferences: brucetestapi.FormTestParamsPreferences{
+			Theme:  brucetestapi.String("dark"),
+			Alerts: brucetestapi.Bool(true),
+		},
+		XFlags:   []string{"fast", "debug", "verbose"},
+		XTraceID: brucetestapi.String("trace-9f82b1"),
+	},
 	option.WithMaxRetries(5),
 )
 ```
@@ -390,15 +450,35 @@ you need to examine response headers, status codes, or other details.
 ```go
 // Create a variable to store the HTTP response
 var response *http.Response
-page, err := client.Foos.List(
+err := client.FormTest(
 	context.TODO(),
-	brucetestapi.FooListParams{},
+	"abc123",
+	brucetestapi.FormTestParams{
+		Version:  1,
+		Date:     time.Now(),
+		Datetime: time.Now(),
+		Time:     "18:11:19.117Z",
+		Filter: brucetestapi.FormTestParamsFilter{
+			Status: brucetestapi.String("active"),
+			Meta: brucetestapi.FormTestParamsFilterMeta{
+				Level: brucetestapi.Int(3),
+			},
+		},
+		Limit: brucetestapi.Int(20),
+		Tags:  []string{"red", "large"},
+		Preferences: brucetestapi.FormTestParamsPreferences{
+			Theme:  brucetestapi.String("dark"),
+			Alerts: brucetestapi.Bool(true),
+		},
+		XFlags:   []string{"fast", "debug", "verbose"},
+		XTraceID: brucetestapi.String("trace-9f82b1"),
+	},
 	option.WithResponseInto(&response),
 )
 if err != nil {
 	// handle error
 }
-fmt.Printf("%+v\n", page)
+null
 
 fmt.Printf("Status Code: %d\n", response.StatusCode)
 fmt.Printf("Headers: %+#v\n", response.Header)
