@@ -6,6 +6,7 @@ import (
 	"context"
 	"os"
 	"testing"
+	"time"
 
 	"github.com/stainless-sdks/bruce-test-api-go"
 	"github.com/stainless-sdks/bruce-test-api-go/internal/testutil"
@@ -24,9 +25,31 @@ func TestUsage(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	page, err := client.Foos.List(context.TODO(), brucetestapi.FooListParams{})
+	err := client.FormTest(
+		context.TODO(),
+		"abc123",
+		brucetestapi.FormTestParams{
+			Version:  1,
+			Date:     time.Now(),
+			Datetime: time.Now(),
+			Time:     "18:11:19.117Z",
+			Filter: brucetestapi.FormTestParamsFilter{
+				Status: brucetestapi.String("active"),
+				Meta: brucetestapi.FormTestParamsFilterMeta{
+					Level: brucetestapi.Int(3),
+				},
+			},
+			Limit: brucetestapi.Int(20),
+			Tags:  []string{"red", "large"},
+			Preferences: brucetestapi.FormTestParamsPreferences{
+				Theme:  brucetestapi.String("dark"),
+				Alerts: brucetestapi.Bool(true),
+			},
+			XFlags:   []string{"fast", "debug", "verbose"},
+			XTraceID: brucetestapi.String("trace-9f82b1"),
+		},
+	)
 	if err != nil {
 		t.Fatalf("err should be nil: %s", err.Error())
 	}
-	t.Logf("%+v\n", page)
 }
