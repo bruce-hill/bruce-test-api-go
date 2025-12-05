@@ -4,12 +4,15 @@ package brucetestapi
 
 import (
 	"context"
+	"errors"
+	"fmt"
 	"net/http"
 	"os"
 	"slices"
 
 	"github.com/stainless-sdks/bruce-test-api-go/internal/requestconfig"
 	"github.com/stainless-sdks/bruce-test-api-go/option"
+	"github.com/stainless-sdks/bruce-test-api-go/packages/param"
 )
 
 // Client creates a struct with services and top level methods that help with
@@ -17,7 +20,6 @@ import (
 // directly, and instead use the [NewClient] method instead.
 type Client struct {
 	Options []option.RequestOption
-	Foos    FooService
 }
 
 // DefaultClientOptions read from the environment (BRUCE_TEST_API_API_KEY,
@@ -41,8 +43,6 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 	opts = append(DefaultClientOptions(), opts...)
 
 	r = Client{Options: opts}
-
-	r.Foos = NewFooService(opts...)
 
 	return
 }
@@ -114,4 +114,50 @@ func (r *Client) Patch(ctx context.Context, path string, params any, res any, op
 // response.
 func (r *Client) Delete(ctx context.Context, path string, params any, res any, opts ...option.RequestOption) error {
 	return r.Execute(ctx, http.MethodDelete, path, params, res, opts...)
+}
+
+// Mixed parameter types
+func (r *Client) FormTest(ctx context.Context, userID string, params FormTestParams, opts ...option.RequestOption) (err error) {
+	for _, v := range params.XFlags {
+		opts = append(opts, option.WithHeaderAdd("X-Flags", fmt.Sprintf("%s", v)))
+	}
+	if !param.IsOmitted(params.XTraceID) {
+		opts = append(opts, option.WithHeader("X-Trace-ID", fmt.Sprintf("%s", params.XTraceID.Value)))
+	}
+	opts = slices.Concat(r.Options, opts)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
+	if userID == "" {
+		err = errors.New("missing required userId parameter")
+		return
+	}
+	path := fmt.Sprintf("form-v%v/users/%s", params.Version, userID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, nil, opts...)
+	return
+}
+
+// Mixed parameter types
+func (r *Client) JsonTest(ctx context.Context, userID string, params JsonTestParams, opts ...option.RequestOption) (err error) {
+	for _, v := range params.XFlags {
+		opts = append(opts, option.WithHeaderAdd("X-Flags", fmt.Sprintf("%s", v)))
+	}
+	if !param.IsOmitted(params.XTraceID) {
+		opts = append(opts, option.WithHeader("X-Trace-ID", fmt.Sprintf("%s", params.XTraceID.Value)))
+	}
+	opts = slices.Concat(r.Options, opts)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
+	if userID == "" {
+		err = errors.New("missing required userId parameter")
+		return
+	}
+	path := fmt.Sprintf("json-v%v/users/%s", params.Version, userID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, nil, opts...)
+	return
+}
+
+// Get foos
+func (r *Client) PaginatedTest(ctx context.Context, query PaginatedTestParams, opts ...option.RequestOption) (res *PaginatedTestResponse, err error) {
+	opts = slices.Concat(r.Options, opts)
+	path := "paginated"
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
+	return
 }
