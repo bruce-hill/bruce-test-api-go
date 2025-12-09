@@ -1,4 +1,4 @@
-module github.com/stainless-sdks/bruce-test-api-go
+module github.com/DefinitelyATestOrg/test-api-go
 
 go 1.22
 
