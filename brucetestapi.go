@@ -9,12 +9,12 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/stainless-sdks/bruce-test-api-go/internal/apiform"
-	"github.com/stainless-sdks/bruce-test-api-go/internal/apijson"
-	"github.com/stainless-sdks/bruce-test-api-go/internal/apiquery"
-	shimjson "github.com/stainless-sdks/bruce-test-api-go/internal/encoding/json"
-	"github.com/stainless-sdks/bruce-test-api-go/packages/param"
-	"github.com/stainless-sdks/bruce-test-api-go/packages/respjson"
+	"github.com/DefinitelyATestOrg/test-api-go/internal/apiform"
+	"github.com/DefinitelyATestOrg/test-api-go/internal/apijson"
+	"github.com/DefinitelyATestOrg/test-api-go/internal/apiquery"
+	shimjson "github.com/DefinitelyATestOrg/test-api-go/internal/encoding/json"
+	"github.com/DefinitelyATestOrg/test-api-go/packages/param"
+	"github.com/DefinitelyATestOrg/test-api-go/packages/respjson"
 )
 
 type ListFoosResponse struct {

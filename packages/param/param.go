@@ -2,7 +2,7 @@ package param
 
 import (
 	"encoding/json"
-	"github.com/stainless-sdks/bruce-test-api-go/internal/encoding/json/sentinel"
+	"github.com/DefinitelyATestOrg/test-api-go/internal/encoding/json/sentinel"
 	"reflect"
 )
 
