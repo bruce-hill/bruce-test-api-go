@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stainless-sdks/bruce-test-api-go"
-	"github.com/stainless-sdks/bruce-test-api-go/internal"
-	"github.com/stainless-sdks/bruce-test-api-go/option"
+	"github.com/DefinitelyATestOrg/test-api-go"
+	"github.com/DefinitelyATestOrg/test-api-go/internal"
+	"github.com/DefinitelyATestOrg/test-api-go/option"
 )
 
 type closureTransport struct {

@@ -1,7 +1,7 @@
 package brucetestapi
 
 import (
-	"github.com/stainless-sdks/bruce-test-api-go/packages/param"
+	"github.com/DefinitelyATestOrg/test-api-go/packages/param"
 	"io"
 	"time"
 )
