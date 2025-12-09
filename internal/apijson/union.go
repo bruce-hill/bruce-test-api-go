@@ -2,7 +2,7 @@ package apijson
 
 import (
 	"errors"
-	"github.com/stainless-sdks/bruce-test-api-go/packages/param"
+	"github.com/DefinitelyATestOrg/test-api-go/packages/param"
 	"reflect"
 
 	"github.com/tidwall/gjson"

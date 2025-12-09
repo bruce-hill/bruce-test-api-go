@@ -2,7 +2,7 @@ package apiform
 
 import (
 	"bytes"
-	"github.com/stainless-sdks/bruce-test-api-go/packages/param"
+	"github.com/DefinitelyATestOrg/test-api-go/packages/param"
 	"io"
 	"mime/multipart"
 	"strings"
