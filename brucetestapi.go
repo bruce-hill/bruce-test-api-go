@@ -4,6 +4,7 @@ package brucetestapi
 
 import (
 	"bytes"
+	"encoding/json"
 	"mime/multipart"
 	"net/url"
 	"time"
@@ -11,35 +12,12 @@ import (
 	"github.com/stainless-sdks/bruce-test-api-go/internal/apiform"
 	"github.com/stainless-sdks/bruce-test-api-go/internal/apijson"
 	"github.com/stainless-sdks/bruce-test-api-go/internal/apiquery"
+	shimjson "github.com/stainless-sdks/bruce-test-api-go/internal/encoding/json"
 	"github.com/stainless-sdks/bruce-test-api-go/packages/param"
 	"github.com/stainless-sdks/bruce-test-api-go/packages/respjson"
 )
 
-type PaginatedTestResponse struct {
-	Items []PaginatedTestResponseItem `json:"items,required"`
-	Page  int64                       `json:"page,required"`
-	Pages int64                       `json:"pages,required"`
-	Size  int64                       `json:"size,required"`
-	Total int64                       `json:"total,required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		Items       respjson.Field
-		Page        respjson.Field
-		Pages       respjson.Field
-		Size        respjson.Field
-		Total       respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r PaginatedTestResponse) RawJSON() string { return r.JSON.raw }
-func (r *PaginatedTestResponse) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type PaginatedTestResponseItem struct {
+type ListFoosResponse struct {
 	// The baz field
 	Baz int64 `json:"baz,required"`
 	// The foo field
@@ -54,8 +32,8 @@ type PaginatedTestResponseItem struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r PaginatedTestResponseItem) RawJSON() string { return r.JSON.raw }
-func (r *PaginatedTestResponseItem) UnmarshalJSON(data []byte) error {
+func (r ListFoosResponse) RawJSON() string { return r.JSON.raw }
+func (r *ListFoosResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -215,7 +193,7 @@ func (r *JsonTestParamsPreferences) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type PaginatedTestParams struct {
+type ListFoosParams struct {
 	// Page number
 	Page param.Opt[int64] `query:"page,omitzero" json:"-"`
 	// Page size
@@ -224,10 +202,22 @@ type PaginatedTestParams struct {
 	paramObj
 }
 
-// URLQuery serializes [PaginatedTestParams]'s query parameters as `url.Values`.
-func (r PaginatedTestParams) URLQuery() (v url.Values, err error) {
+// URLQuery serializes [ListFoosParams]'s query parameters as `url.Values`.
+func (r ListFoosParams) URLQuery() (v url.Values, err error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
 		ArrayFormat:  apiquery.ArrayQueryFormatComma,
 		NestedFormat: apiquery.NestedQueryFormatDots,
 	})
+}
+
+type UpdateCountParams struct {
+	Body int64
+	paramObj
+}
+
+func (r UpdateCountParams) MarshalJSON() (data []byte, err error) {
+	return shimjson.Marshal(r.Body)
+}
+func (r *UpdateCountParams) UnmarshalJSON(data []byte) error {
+	return json.Unmarshal(data, &r.Body)
 }
