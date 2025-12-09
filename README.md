@@ -298,8 +298,33 @@ This library provides some conveniences for working with paginated list endpoint
 
 You can use `.ListAutoPaging()` methods to iterate through items across all pages:
 
+```go
+iter := client.ListFoosAutoPaging(context.TODO(), brucetestapi.ListFoosParams{})
+// Automatically fetches more pages as needed.
+for iter.Next() {
+	listFoosResponse := iter.Current()
+	fmt.Printf("%+v\n", listFoosResponse)
+}
+if err := iter.Err(); err != nil {
+	panic(err.Error())
+}
+```
+
 Or you can use simple `.List()` methods to fetch a single page and receive a standard response object
 with additional helper methods like `.GetNextPage()`, e.g.:
+
+```go
+page, err := client.ListFoos(context.TODO(), brucetestapi.ListFoosParams{})
+for page != nil {
+	for _, client := range page.Items {
+		fmt.Printf("%+v\n", client)
+	}
+	page, err = page.GetNextPage()
+}
+if err != nil {
+	panic(err.Error())
+}
+```
 
 ### Errors
 
