@@ -12,6 +12,7 @@ import (
 
 	"github.com/stainless-sdks/bruce-test-api-go/internal/requestconfig"
 	"github.com/stainless-sdks/bruce-test-api-go/option"
+	"github.com/stainless-sdks/bruce-test-api-go/packages/pagination"
 	"github.com/stainless-sdks/bruce-test-api-go/packages/param"
 )
 
@@ -155,9 +156,32 @@ func (r *Client) JsonTest(ctx context.Context, userID string, params JsonTestPar
 }
 
 // Get foos
-func (r *Client) PaginatedTest(ctx context.Context, query PaginatedTestParams, opts ...option.RequestOption) (res *PaginatedTestResponse, err error) {
+func (r *Client) ListFoos(ctx context.Context, query ListFoosParams, opts ...option.RequestOption) (res *pagination.PageNumber[ListFoosResponse], err error) {
+	var raw *http.Response
 	opts = slices.Concat(r.Options, opts)
+	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "paginated"
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
+	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
+	if err != nil {
+		return nil, err
+	}
+	err = cfg.Execute()
+	if err != nil {
+		return nil, err
+	}
+	res.SetPageConfig(cfg, raw)
+	return res, nil
+}
+
+// Get foos
+func (r *Client) ListFoosAutoPaging(ctx context.Context, query ListFoosParams, opts ...option.RequestOption) *pagination.PageNumberAutoPager[ListFoosResponse] {
+	return pagination.NewPageNumberAutoPager(r.ListFoos(ctx, query, opts...))
+}
+
+func (r *Client) UpdateCount(ctx context.Context, body UpdateCountParams, opts ...option.RequestOption) (err error) {
+	opts = slices.Concat(r.Options, opts)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
+	path := "count"
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, nil, opts...)
 	return
 }
