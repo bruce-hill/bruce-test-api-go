@@ -15,7 +15,6 @@ import (
 )
 
 func TestBrucetestapiFormTestWithOptionalParams(t *testing.T) {
-	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -62,7 +61,6 @@ func TestBrucetestapiFormTestWithOptionalParams(t *testing.T) {
 }
 
 func TestBrucetestapiJsonTestWithOptionalParams(t *testing.T) {
-	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -109,7 +107,6 @@ func TestBrucetestapiJsonTestWithOptionalParams(t *testing.T) {
 }
 
 func TestBrucetestapiListFoosWithOptionalParams(t *testing.T) {
-	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -136,7 +133,6 @@ func TestBrucetestapiListFoosWithOptionalParams(t *testing.T) {
 }
 
 func TestBrucetestapiUpdateCount(t *testing.T) {
-	t.Skip("Prism tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
