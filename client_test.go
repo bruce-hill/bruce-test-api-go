@@ -38,30 +38,9 @@ func TestUserAgentHeader(t *testing.T) {
 			},
 		}),
 	)
-	client.FormTest(
-		context.Background(),
-		"abc123",
-		brucetestapi.FormTestParams{
-			Version:  1,
-			Date:     time.Now(),
-			Datetime: time.Now(),
-			Time:     "18:11:19.117Z",
-			Filter: brucetestapi.FormTestParamsFilter{
-				Status: brucetestapi.String("active"),
-				Meta: brucetestapi.FormTestParamsFilterMeta{
-					Level: brucetestapi.Int(3),
-				},
-			},
-			Limit: brucetestapi.Int(20),
-			Tags:  []string{"red", "large"},
-			Preferences: brucetestapi.FormTestParamsPreferences{
-				Theme:  brucetestapi.String("dark"),
-				Alerts: brucetestapi.Bool(true),
-			},
-			XFlags:   []string{"fast", "debug", "verbose"},
-			XTraceID: brucetestapi.String("trace-9f82b1"),
-		},
-	)
+	client.UpdateCount(context.Background(), brucetestapi.UpdateCountParams{
+		Body: 0,
+	})
 	if userAgent != fmt.Sprintf("BruceTestAPI/Go %s", internal.PackageVersion) {
 		t.Errorf("Expected User-Agent to be correct, but got: %#v", userAgent)
 	}
@@ -85,30 +64,9 @@ func TestRetryAfter(t *testing.T) {
 			},
 		}),
 	)
-	err := client.FormTest(
-		context.Background(),
-		"abc123",
-		brucetestapi.FormTestParams{
-			Version:  1,
-			Date:     time.Now(),
-			Datetime: time.Now(),
-			Time:     "18:11:19.117Z",
-			Filter: brucetestapi.FormTestParamsFilter{
-				Status: brucetestapi.String("active"),
-				Meta: brucetestapi.FormTestParamsFilterMeta{
-					Level: brucetestapi.Int(3),
-				},
-			},
-			Limit: brucetestapi.Int(20),
-			Tags:  []string{"red", "large"},
-			Preferences: brucetestapi.FormTestParamsPreferences{
-				Theme:  brucetestapi.String("dark"),
-				Alerts: brucetestapi.Bool(true),
-			},
-			XFlags:   []string{"fast", "debug", "verbose"},
-			XTraceID: brucetestapi.String("trace-9f82b1"),
-		},
-	)
+	err := client.UpdateCount(context.Background(), brucetestapi.UpdateCountParams{
+		Body: 0,
+	})
 	if err == nil {
 		t.Error("Expected there to be a cancel error")
 	}
@@ -143,30 +101,9 @@ func TestDeleteRetryCountHeader(t *testing.T) {
 		}),
 		option.WithHeaderDel("X-Stainless-Retry-Count"),
 	)
-	err := client.FormTest(
-		context.Background(),
-		"abc123",
-		brucetestapi.FormTestParams{
-			Version:  1,
-			Date:     time.Now(),
-			Datetime: time.Now(),
-			Time:     "18:11:19.117Z",
-			Filter: brucetestapi.FormTestParamsFilter{
-				Status: brucetestapi.String("active"),
-				Meta: brucetestapi.FormTestParamsFilterMeta{
-					Level: brucetestapi.Int(3),
-				},
-			},
-			Limit: brucetestapi.Int(20),
-			Tags:  []string{"red", "large"},
-			Preferences: brucetestapi.FormTestParamsPreferences{
-				Theme:  brucetestapi.String("dark"),
-				Alerts: brucetestapi.Bool(true),
-			},
-			XFlags:   []string{"fast", "debug", "verbose"},
-			XTraceID: brucetestapi.String("trace-9f82b1"),
-		},
-	)
+	err := client.UpdateCount(context.Background(), brucetestapi.UpdateCountParams{
+		Body: 0,
+	})
 	if err == nil {
 		t.Error("Expected there to be a cancel error")
 	}
@@ -196,30 +133,9 @@ func TestOverwriteRetryCountHeader(t *testing.T) {
 		}),
 		option.WithHeader("X-Stainless-Retry-Count", "42"),
 	)
-	err := client.FormTest(
-		context.Background(),
-		"abc123",
-		brucetestapi.FormTestParams{
-			Version:  1,
-			Date:     time.Now(),
-			Datetime: time.Now(),
-			Time:     "18:11:19.117Z",
-			Filter: brucetestapi.FormTestParamsFilter{
-				Status: brucetestapi.String("active"),
-				Meta: brucetestapi.FormTestParamsFilterMeta{
-					Level: brucetestapi.Int(3),
-				},
-			},
-			Limit: brucetestapi.Int(20),
-			Tags:  []string{"red", "large"},
-			Preferences: brucetestapi.FormTestParamsPreferences{
-				Theme:  brucetestapi.String("dark"),
-				Alerts: brucetestapi.Bool(true),
-			},
-			XFlags:   []string{"fast", "debug", "verbose"},
-			XTraceID: brucetestapi.String("trace-9f82b1"),
-		},
-	)
+	err := client.UpdateCount(context.Background(), brucetestapi.UpdateCountParams{
+		Body: 0,
+	})
 	if err == nil {
 		t.Error("Expected there to be a cancel error")
 	}
@@ -248,30 +164,9 @@ func TestRetryAfterMs(t *testing.T) {
 			},
 		}),
 	)
-	err := client.FormTest(
-		context.Background(),
-		"abc123",
-		brucetestapi.FormTestParams{
-			Version:  1,
-			Date:     time.Now(),
-			Datetime: time.Now(),
-			Time:     "18:11:19.117Z",
-			Filter: brucetestapi.FormTestParamsFilter{
-				Status: brucetestapi.String("active"),
-				Meta: brucetestapi.FormTestParamsFilterMeta{
-					Level: brucetestapi.Int(3),
-				},
-			},
-			Limit: brucetestapi.Int(20),
-			Tags:  []string{"red", "large"},
-			Preferences: brucetestapi.FormTestParamsPreferences{
-				Theme:  brucetestapi.String("dark"),
-				Alerts: brucetestapi.Bool(true),
-			},
-			XFlags:   []string{"fast", "debug", "verbose"},
-			XTraceID: brucetestapi.String("trace-9f82b1"),
-		},
-	)
+	err := client.UpdateCount(context.Background(), brucetestapi.UpdateCountParams{
+		Body: 0,
+	})
 	if err == nil {
 		t.Error("Expected there to be a cancel error")
 	}
@@ -294,30 +189,9 @@ func TestContextCancel(t *testing.T) {
 	)
 	cancelCtx, cancel := context.WithCancel(context.Background())
 	cancel()
-	err := client.FormTest(
-		cancelCtx,
-		"abc123",
-		brucetestapi.FormTestParams{
-			Version:  1,
-			Date:     time.Now(),
-			Datetime: time.Now(),
-			Time:     "18:11:19.117Z",
-			Filter: brucetestapi.FormTestParamsFilter{
-				Status: brucetestapi.String("active"),
-				Meta: brucetestapi.FormTestParamsFilterMeta{
-					Level: brucetestapi.Int(3),
-				},
-			},
-			Limit: brucetestapi.Int(20),
-			Tags:  []string{"red", "large"},
-			Preferences: brucetestapi.FormTestParamsPreferences{
-				Theme:  brucetestapi.String("dark"),
-				Alerts: brucetestapi.Bool(true),
-			},
-			XFlags:   []string{"fast", "debug", "verbose"},
-			XTraceID: brucetestapi.String("trace-9f82b1"),
-		},
-	)
+	err := client.UpdateCount(cancelCtx, brucetestapi.UpdateCountParams{
+		Body: 0,
+	})
 	if err == nil {
 		t.Error("Expected there to be a cancel error")
 	}
@@ -337,30 +211,9 @@ func TestContextCancelDelay(t *testing.T) {
 	)
 	cancelCtx, cancel := context.WithTimeout(context.Background(), 2*time.Millisecond)
 	defer cancel()
-	err := client.FormTest(
-		cancelCtx,
-		"abc123",
-		brucetestapi.FormTestParams{
-			Version:  1,
-			Date:     time.Now(),
-			Datetime: time.Now(),
-			Time:     "18:11:19.117Z",
-			Filter: brucetestapi.FormTestParamsFilter{
-				Status: brucetestapi.String("active"),
-				Meta: brucetestapi.FormTestParamsFilterMeta{
-					Level: brucetestapi.Int(3),
-				},
-			},
-			Limit: brucetestapi.Int(20),
-			Tags:  []string{"red", "large"},
-			Preferences: brucetestapi.FormTestParamsPreferences{
-				Theme:  brucetestapi.String("dark"),
-				Alerts: brucetestapi.Bool(true),
-			},
-			XFlags:   []string{"fast", "debug", "verbose"},
-			XTraceID: brucetestapi.String("trace-9f82b1"),
-		},
-	)
+	err := client.UpdateCount(cancelCtx, brucetestapi.UpdateCountParams{
+		Body: 0,
+	})
 	if err == nil {
 		t.Error("expected there to be a cancel error")
 	}
@@ -386,30 +239,9 @@ func TestContextDeadline(t *testing.T) {
 				},
 			}),
 		)
-		err := client.FormTest(
-			deadlineCtx,
-			"abc123",
-			brucetestapi.FormTestParams{
-				Version:  1,
-				Date:     time.Now(),
-				Datetime: time.Now(),
-				Time:     "18:11:19.117Z",
-				Filter: brucetestapi.FormTestParamsFilter{
-					Status: brucetestapi.String("active"),
-					Meta: brucetestapi.FormTestParamsFilterMeta{
-						Level: brucetestapi.Int(3),
-					},
-				},
-				Limit: brucetestapi.Int(20),
-				Tags:  []string{"red", "large"},
-				Preferences: brucetestapi.FormTestParamsPreferences{
-					Theme:  brucetestapi.String("dark"),
-					Alerts: brucetestapi.Bool(true),
-				},
-				XFlags:   []string{"fast", "debug", "verbose"},
-				XTraceID: brucetestapi.String("trace-9f82b1"),
-			},
-		)
+		err := client.UpdateCount(deadlineCtx, brucetestapi.UpdateCountParams{
+			Body: 0,
+		})
 		if err == nil {
 			t.Error("expected there to be a deadline error")
 		}
