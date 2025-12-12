@@ -12,7 +12,6 @@ import (
 
 	"github.com/DefinitelyATestOrg/test-api-go/internal/requestconfig"
 	"github.com/DefinitelyATestOrg/test-api-go/option"
-	"github.com/DefinitelyATestOrg/test-api-go/packages/pagination"
 	"github.com/DefinitelyATestOrg/test-api-go/packages/param"
 )
 
@@ -21,6 +20,7 @@ import (
 // directly, and instead use the [NewClient] method instead.
 type Client struct {
 	Options []option.RequestOption
+	Foos    FooService
 }
 
 // DefaultClientOptions read from the environment (BRUCE_TEST_API_API_KEY,
@@ -44,6 +44,8 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 	opts = append(DefaultClientOptions(), opts...)
 
 	r = Client{Options: opts}
+
+	r.Foos = NewFooService(opts...)
 
 	return
 }
@@ -153,29 +155,6 @@ func (r *Client) JsonTest(ctx context.Context, userID string, params JsonTestPar
 	path := fmt.Sprintf("json-v%v/users/%s", params.Version, userID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, nil, opts...)
 	return
-}
-
-// Get foos
-func (r *Client) ListFoos(ctx context.Context, query ListFoosParams, opts ...option.RequestOption) (res *pagination.PageNumber[ListFoosResponse], err error) {
-	var raw *http.Response
-	opts = slices.Concat(r.Options, opts)
-	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
-	path := "paginated"
-	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
-	if err != nil {
-		return nil, err
-	}
-	err = cfg.Execute()
-	if err != nil {
-		return nil, err
-	}
-	res.SetPageConfig(cfg, raw)
-	return res, nil
-}
-
-// Get foos
-func (r *Client) ListFoosAutoPaging(ctx context.Context, query ListFoosParams, opts ...option.RequestOption) *pagination.PageNumberAutoPager[ListFoosResponse] {
-	return pagination.NewPageNumberAutoPager(r.ListFoos(ctx, query, opts...))
 }
 
 func (r *Client) UpdateCount(ctx context.Context, body UpdateCountParams, opts ...option.RequestOption) (err error) {

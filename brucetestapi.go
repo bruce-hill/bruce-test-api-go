@@ -14,28 +14,7 @@ import (
 	"github.com/DefinitelyATestOrg/test-api-go/internal/apiquery"
 	shimjson "github.com/DefinitelyATestOrg/test-api-go/internal/encoding/json"
 	"github.com/DefinitelyATestOrg/test-api-go/packages/param"
-	"github.com/DefinitelyATestOrg/test-api-go/packages/respjson"
 )
-
-type ListFoosResponse struct {
-	// The baz field
-	Baz int64 `json:"baz,required"`
-	// The foo field
-	Foo string `json:"foo,required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		Baz         respjson.Field
-		Foo         respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r ListFoosResponse) RawJSON() string { return r.JSON.raw }
-func (r *ListFoosResponse) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
 
 type FormTestParams struct {
 	Version     int64                     `path:"version,required" json:"-"`
@@ -191,23 +170,6 @@ func (r JsonTestParamsPreferences) MarshalJSON() (data []byte, err error) {
 }
 func (r *JsonTestParamsPreferences) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
-}
-
-type ListFoosParams struct {
-	// Page number
-	Page param.Opt[int64] `query:"page,omitzero" json:"-"`
-	// Page size
-	Size param.Opt[int64] `query:"size,omitzero" json:"-"`
-	Tags []string         `query:"tags,omitzero" json:"-"`
-	paramObj
-}
-
-// URLQuery serializes [ListFoosParams]'s query parameters as `url.Values`.
-func (r ListFoosParams) URLQuery() (v url.Values, err error) {
-	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
-		NestedFormat: apiquery.NestedQueryFormatDots,
-	})
 }
 
 type UpdateCountParams struct {
