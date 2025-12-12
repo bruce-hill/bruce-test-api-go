@@ -46,7 +46,6 @@ package main
 
 import (
 	"context"
-	"time"
 
 	"github.com/DefinitelyATestOrg/test-api-go"
 	"github.com/DefinitelyATestOrg/test-api-go/option"
@@ -56,30 +55,9 @@ func main() {
 	client := brucetestapi.NewClient(
 		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("BRUCE_TEST_API_API_KEY")
 	)
-	err := client.FormTest(
-		context.TODO(),
-		"abc123",
-		brucetestapi.FormTestParams{
-			Version:  1,
-			Date:     time.Now(),
-			Datetime: time.Now(),
-			Time:     "18:11:19.117Z",
-			Filter: brucetestapi.FormTestParamsFilter{
-				Status: brucetestapi.String("active"),
-				Meta: brucetestapi.FormTestParamsFilterMeta{
-					Level: brucetestapi.Int(3),
-				},
-			},
-			Limit: brucetestapi.Int(20),
-			Tags:  []string{"red", "large"},
-			Preferences: brucetestapi.FormTestParamsPreferences{
-				Theme:  brucetestapi.String("dark"),
-				Alerts: brucetestapi.Bool(true),
-			},
-			XFlags:   []string{"fast", "debug", "verbose"},
-			XTraceID: brucetestapi.String("trace-9f82b1"),
-		},
-	)
+	err := client.UpdateCount(context.TODO(), brucetestapi.UpdateCountParams{
+		Body: 0,
+	})
 	if err != nil {
 		panic(err.Error())
 	}
@@ -288,7 +266,7 @@ client := brucetestapi.NewClient(
 	option.WithHeader("X-Some-Header", "custom_header_info"),
 )
 
-client.FormTest(context.TODO(), ...,
+client.UpdateCount(context.TODO(), ...,
 	// Override the header
 	option.WithHeader("X-Some-Header", "some_other_custom_header_info"),
 	// Add an undocumented field to the request body, using sjson syntax
@@ -344,37 +322,16 @@ When the API returns a non-success status code, we return an error with type
 To handle errors, we recommend that you use the `errors.As` pattern:
 
 ```go
-err := client.FormTest(
-	context.TODO(),
-	"abc123",
-	brucetestapi.FormTestParams{
-		Version:  1,
-		Date:     time.Now(),
-		Datetime: time.Now(),
-		Time:     "18:11:19.117Z",
-		Filter: brucetestapi.FormTestParamsFilter{
-			Status: brucetestapi.String("active"),
-			Meta: brucetestapi.FormTestParamsFilterMeta{
-				Level: brucetestapi.Int(3),
-			},
-		},
-		Limit: brucetestapi.Int(20),
-		Tags:  []string{"red", "large"},
-		Preferences: brucetestapi.FormTestParamsPreferences{
-			Theme:  brucetestapi.String("dark"),
-			Alerts: brucetestapi.Bool(true),
-		},
-		XFlags:   []string{"fast", "debug", "verbose"},
-		XTraceID: brucetestapi.String("trace-9f82b1"),
-	},
-)
+err := client.UpdateCount(context.TODO(), brucetestapi.UpdateCountParams{
+	Body: 0,
+})
 if err != nil {
 	var apierr *brucetestapi.Error
 	if errors.As(err, &apierr) {
 		println(string(apierr.DumpRequest(true)))  // Prints the serialized HTTP request
 		println(string(apierr.DumpResponse(true))) // Prints the serialized HTTP response
 	}
-	panic(err.Error()) // GET "/form-v{version}/users/{userId}": 400 Bad Request { ... }
+	panic(err.Error()) // GET "/count": 400 Bad Request { ... }
 }
 ```
 
@@ -392,28 +349,10 @@ To set a per-retry timeout, use `option.WithRequestTimeout()`.
 // This sets the timeout for the request, including all the retries.
 ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
 defer cancel()
-client.FormTest(
+client.UpdateCount(
 	ctx,
-	"abc123",
-	brucetestapi.FormTestParams{
-		Version:  1,
-		Date:     time.Now(),
-		Datetime: time.Now(),
-		Time:     "18:11:19.117Z",
-		Filter: brucetestapi.FormTestParamsFilter{
-			Status: brucetestapi.String("active"),
-			Meta: brucetestapi.FormTestParamsFilterMeta{
-				Level: brucetestapi.Int(3),
-			},
-		},
-		Limit: brucetestapi.Int(20),
-		Tags:  []string{"red", "large"},
-		Preferences: brucetestapi.FormTestParamsPreferences{
-			Theme:  brucetestapi.String("dark"),
-			Alerts: brucetestapi.Bool(true),
-		},
-		XFlags:   []string{"fast", "debug", "verbose"},
-		XTraceID: brucetestapi.String("trace-9f82b1"),
+	brucetestapi.UpdateCountParams{
+		Body: 0,
 	},
 	// This sets the per-retry timeout
 	option.WithRequestTimeout(20*time.Second),
@@ -448,28 +387,10 @@ client := brucetestapi.NewClient(
 )
 
 // Override per-request:
-client.FormTest(
+client.UpdateCount(
 	context.TODO(),
-	"abc123",
-	brucetestapi.FormTestParams{
-		Version:  1,
-		Date:     time.Now(),
-		Datetime: time.Now(),
-		Time:     "18:11:19.117Z",
-		Filter: brucetestapi.FormTestParamsFilter{
-			Status: brucetestapi.String("active"),
-			Meta: brucetestapi.FormTestParamsFilterMeta{
-				Level: brucetestapi.Int(3),
-			},
-		},
-		Limit: brucetestapi.Int(20),
-		Tags:  []string{"red", "large"},
-		Preferences: brucetestapi.FormTestParamsPreferences{
-			Theme:  brucetestapi.String("dark"),
-			Alerts: brucetestapi.Bool(true),
-		},
-		XFlags:   []string{"fast", "debug", "verbose"},
-		XTraceID: brucetestapi.String("trace-9f82b1"),
+	brucetestapi.UpdateCountParams{
+		Body: 0,
 	},
 	option.WithMaxRetries(5),
 )
@@ -483,28 +404,10 @@ you need to examine response headers, status codes, or other details.
 ```go
 // Create a variable to store the HTTP response
 var response *http.Response
-err := client.FormTest(
+err := client.UpdateCount(
 	context.TODO(),
-	"abc123",
-	brucetestapi.FormTestParams{
-		Version:  1,
-		Date:     time.Now(),
-		Datetime: time.Now(),
-		Time:     "18:11:19.117Z",
-		Filter: brucetestapi.FormTestParamsFilter{
-			Status: brucetestapi.String("active"),
-			Meta: brucetestapi.FormTestParamsFilterMeta{
-				Level: brucetestapi.Int(3),
-			},
-		},
-		Limit: brucetestapi.Int(20),
-		Tags:  []string{"red", "large"},
-		Preferences: brucetestapi.FormTestParamsPreferences{
-			Theme:  brucetestapi.String("dark"),
-			Alerts: brucetestapi.Bool(true),
-		},
-		XFlags:   []string{"fast", "debug", "verbose"},
-		XTraceID: brucetestapi.String("trace-9f82b1"),
+	brucetestapi.UpdateCountParams{
+		Body: 0,
 	},
 	option.WithResponseInto(&response),
 )
