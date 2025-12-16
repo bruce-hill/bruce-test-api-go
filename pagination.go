@@ -17,27 +17,29 @@ import (
 	"github.com/DefinitelyATestOrg/test-api-go/packages/respjson"
 )
 
-// FooService contains methods and other services that help with interacting with
-// the bruce-test-api API.
+// PaginationService contains methods and other services that help with interacting
+// with the bruce-test-api API.
 //
 // Note, unlike clients, this service does not read variables from the environment
 // automatically. You should not instantiate this service directly, and instead use
-// the [NewFooService] method instead.
-type FooService struct {
+// the [NewPaginationService] method instead.
+type PaginationService struct {
 	Options []option.RequestOption
+	Ints    PaginationIntService
 }
 
-// NewFooService generates a new service that applies the given options to each
-// request. These options are applied after the parent client's options (if there
-// is one), and before any request-specific options.
-func NewFooService(opts ...option.RequestOption) (r FooService) {
-	r = FooService{}
+// NewPaginationService generates a new service that applies the given options to
+// each request. These options are applied after the parent client's options (if
+// there is one), and before any request-specific options.
+func NewPaginationService(opts ...option.RequestOption) (r PaginationService) {
+	r = PaginationService{}
 	r.Options = opts
+	r.Ints = NewPaginationIntService(opts...)
 	return
 }
 
 // Get foos
-func (r *FooService) List(ctx context.Context, query FooListParams, opts ...option.RequestOption) (res *pagination.PageNumber[FooListResponse], err error) {
+func (r *PaginationService) List(ctx context.Context, query PaginationListParams, opts ...option.RequestOption) (res *pagination.PageNumber[PaginationListResponse], err error) {
 	var raw *http.Response
 	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -55,11 +57,11 @@ func (r *FooService) List(ctx context.Context, query FooListParams, opts ...opti
 }
 
 // Get foos
-func (r *FooService) ListAutoPaging(ctx context.Context, query FooListParams, opts ...option.RequestOption) *pagination.PageNumberAutoPager[FooListResponse] {
+func (r *PaginationService) ListAutoPaging(ctx context.Context, query PaginationListParams, opts ...option.RequestOption) *pagination.PageNumberAutoPager[PaginationListResponse] {
 	return pagination.NewPageNumberAutoPager(r.List(ctx, query, opts...))
 }
 
-type FooListResponse struct {
+type PaginationListResponse struct {
 	// The baz field
 	Baz int64 `json:"baz,required"`
 	// The foo field
@@ -74,12 +76,12 @@ type FooListResponse struct {
 }
 
 // Returns the unmodified JSON received from the API
-func (r FooListResponse) RawJSON() string { return r.JSON.raw }
-func (r *FooListResponse) UnmarshalJSON(data []byte) error {
+func (r PaginationListResponse) RawJSON() string { return r.JSON.raw }
+func (r *PaginationListResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type FooListParams struct {
+type PaginationListParams struct {
 	// Page number
 	Page param.Opt[int64] `query:"page,omitzero" json:"-"`
 	// Page size
@@ -88,8 +90,8 @@ type FooListParams struct {
 	paramObj
 }
 
-// URLQuery serializes [FooListParams]'s query parameters as `url.Values`.
-func (r FooListParams) URLQuery() (v url.Values, err error) {
+// URLQuery serializes [PaginationListParams]'s query parameters as `url.Values`.
+func (r PaginationListParams) URLQuery() (v url.Values, err error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
 		ArrayFormat:  apiquery.ArrayQueryFormatComma,
 		NestedFormat: apiquery.NestedQueryFormatDots,
