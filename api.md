@@ -6,15 +6,21 @@ Methods:
 - <code title="post /json-v{version}/users/{userId}">client.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go#BrucetestapiService.JsonTest">JsonTest</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, userID <a href="https://pkg.go.dev/builtin#string">string</a>, params <a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go#JsonTestParams">JsonTestParams</a>) <a href="https://pkg.go.dev/builtin#error">error</a></code>
 - <code title="put /count">client.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go#BrucetestapiService.UpdateCount">UpdateCount</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, body <a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go#UpdateCountParams">UpdateCountParams</a>) <a href="https://pkg.go.dev/builtin#error">error</a></code>
 
-# Foos
+# Pagination
 
 Response Types:
 
-- <a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go#FooListResponse">FooListResponse</a>
+- <a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go#PaginationListResponse">PaginationListResponse</a>
 
 Methods:
 
-- <code title="get /paginated">client.Foos.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go#FooService.List">List</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, query <a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go#FooListParams">FooListParams</a>) (<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go/packages/pagination">pagination</a>.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go/packages/pagination#PageNumber">PageNumber</a>[<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go#FooListResponse">FooListResponse</a>], <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+- <code title="get /paginated">client.Pagination.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go#PaginationService.List">List</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, query <a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go#PaginationListParams">PaginationListParams</a>) (<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go/packages/pagination">pagination</a>.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go/packages/pagination#PageNumber">PageNumber</a>[<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go#PaginationListResponse">PaginationListResponse</a>], <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+
+## Ints
+
+Methods:
+
+- <code title="get /paginated-int">client.Pagination.Ints.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go#PaginationIntService.List">List</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, query <a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go#PaginationIntListParams">PaginationIntListParams</a>) (<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go/packages/pagination">pagination</a>.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go/packages/pagination#PageNumber">PageNumber</a>[<a href="https://pkg.go.dev/builtin#int64">int64</a>], <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 
 # StreamJson
 
