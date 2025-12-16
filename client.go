@@ -20,7 +20,7 @@ import (
 // directly, and instead use the [NewClient] method instead.
 type Client struct {
 	Options    []option.RequestOption
-	Foos       FooService
+	Pagination PaginationService
 	StreamJson StreamJsonService
 }
 
@@ -46,7 +46,7 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 
 	r = Client{Options: opts}
 
-	r.Foos = NewFooService(opts...)
+	r.Pagination = NewPaginationService(opts...)
 	r.StreamJson = NewStreamJsonService(opts...)
 
 	return

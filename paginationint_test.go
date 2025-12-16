@@ -13,7 +13,7 @@ import (
 	"github.com/DefinitelyATestOrg/test-api-go/option"
 )
 
-func TestFooListWithOptionalParams(t *testing.T) {
+func TestPaginationIntListWithOptionalParams(t *testing.T) {
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -25,10 +25,9 @@ func TestFooListWithOptionalParams(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Foos.List(context.TODO(), brucetestapi.FooListParams{
+	_, err := client.Pagination.Ints.List(context.TODO(), brucetestapi.PaginationIntListParams{
 		Page: brucetestapi.Int(1),
 		Size: brucetestapi.Int(1),
-		Tags: []string{"string"},
 	})
 	if err != nil {
 		var apierr *brucetestapi.Error
