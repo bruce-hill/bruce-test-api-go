@@ -19,8 +19,9 @@ import (
 // interacting with the bruce-test-api API. You should not instantiate this client
 // directly, and instead use the [NewClient] method instead.
 type Client struct {
-	Options []option.RequestOption
-	Foos    FooService
+	Options    []option.RequestOption
+	Foos       FooService
+	StreamJson StreamJsonService
 }
 
 // DefaultClientOptions read from the environment (BRUCE_TEST_API_API_KEY,
@@ -46,6 +47,7 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 	r = Client{Options: opts}
 
 	r.Foos = NewFooService(opts...)
+	r.StreamJson = NewStreamJsonService(opts...)
 
 	return
 }
