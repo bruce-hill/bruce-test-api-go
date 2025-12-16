@@ -15,3 +15,13 @@ Response Types:
 Methods:
 
 - <code title="get /paginated">client.Foos.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go#FooService.List">List</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, query <a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go#FooListParams">FooListParams</a>) (<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go/packages/pagination">pagination</a>.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go/packages/pagination#PageNumber">PageNumber</a>[<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go#FooListResponse">FooListResponse</a>], <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+
+# StreamJson
+
+Response Types:
+
+- <a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go#StreamJsonStreamResponse">StreamJsonStreamResponse</a>
+
+Methods:
+
+- <code title="get /stream-json">client.StreamJson.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go#StreamJsonService.Stream">Stream</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>) (<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go#StreamJsonStreamResponse">StreamJsonStreamResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
