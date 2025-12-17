@@ -28,9 +28,9 @@ func TestBrucetestapiFormTestWithOptionalParams(t *testing.T) {
 	)
 	err := client.FormTest(
 		context.TODO(),
-		"userId",
+		"usr_abc123",
 		brucetestapi.FormTestParams{
-			Version:  0,
+			Version:  2,
 			Date:     time.Now(),
 			Datetime: time.Now(),
 			Time:     "18:11:19.117Z",
@@ -42,13 +42,13 @@ func TestBrucetestapiFormTestWithOptionalParams(t *testing.T) {
 			},
 			Limit: brucetestapi.Int(1),
 			Tags:  []string{"string"},
-			Blorp: brucetestapi.String("blorp"),
+			Blorp: brucetestapi.String("example value"),
 			Preferences: brucetestapi.FormTestParamsPreferences{
 				Alerts: brucetestapi.Bool(true),
-				Theme:  brucetestapi.String("theme"),
+				Theme:  brucetestapi.String("dark"),
 			},
-			XFlags:   []string{"string"},
-			XTraceID: brucetestapi.String("X-Trace-ID"),
+			XFlags:   []string{"feature-a", "feature-b"},
+			XTraceID: brucetestapi.String("trace-xyz-789"),
 		},
 	)
 	if err != nil {
@@ -74,9 +74,9 @@ func TestBrucetestapiJsonTestWithOptionalParams(t *testing.T) {
 	)
 	err := client.JsonTest(
 		context.TODO(),
-		"userId",
+		"usr_def456",
 		brucetestapi.JsonTestParams{
-			Version:  0,
+			Version:  3,
 			Date:     time.Now(),
 			Datetime: time.Now(),
 			Time:     "18:11:19.117Z",
@@ -88,13 +88,13 @@ func TestBrucetestapiJsonTestWithOptionalParams(t *testing.T) {
 			},
 			Limit: brucetestapi.Int(1),
 			Tags:  []string{"string"},
-			Blorp: brucetestapi.String("blorp"),
+			Blorp: brucetestapi.String("test data"),
 			Preferences: brucetestapi.JsonTestParamsPreferences{
-				Alerts: brucetestapi.Bool(true),
-				Theme:  brucetestapi.String("theme"),
+				Alerts: brucetestapi.Bool(false),
+				Theme:  brucetestapi.String("light"),
 			},
-			XFlags:   []string{"string"},
-			XTraceID: brucetestapi.String("X-Trace-ID"),
+			XFlags:   []string{"experimental", "verbose"},
+			XTraceID: brucetestapi.String("trace-abc-123"),
 		},
 	)
 	if err != nil {
@@ -119,7 +119,7 @@ func TestBrucetestapiUpdateCount(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	err := client.UpdateCount(context.TODO(), brucetestapi.UpdateCountParams{
-		Body: 0,
+		Body: 42,
 	})
 	if err != nil {
 		var apierr *brucetestapi.Error
