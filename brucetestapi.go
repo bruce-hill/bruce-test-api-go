@@ -17,18 +17,19 @@ import (
 )
 
 type FormTestParams struct {
-	Version     int64                     `path:"version,required" json:"-"`
-	Date        time.Time                 `query:"date,required" format:"date" json:"-"`
-	Datetime    time.Time                 `query:"datetime,required" format:"date-time" json:"-"`
-	Time        string                    `query:"time,required" format:"time" json:"-"`
-	Limit       param.Opt[int64]          `query:"limit,omitzero" json:"-"`
-	Blorp       param.Opt[string]         `json:"blorp,omitzero"`
-	XTraceID    param.Opt[string]         `header:"X-Trace-ID,omitzero" json:"-"`
-	PlsNull     any                       `json:"pls_null"`
-	Filter      FormTestParamsFilter      `query:"filter,omitzero" json:"-"`
-	Tags        []string                  `query:"tags,omitzero" json:"-"`
-	Preferences FormTestParamsPreferences `json:"preferences,omitzero"`
-	XFlags      []string                  `header:"X-Flags,omitzero" json:"-"`
+	Version     int64                        `path:"version,required" json:"-"`
+	Date        time.Time                    `query:"date,required" format:"date" json:"-"`
+	Datetime    time.Time                    `query:"datetime,required" format:"date-time" json:"-"`
+	Time        string                       `query:"time,required" format:"time" json:"-"`
+	Limit       param.Opt[int64]             `query:"limit,omitzero" json:"-"`
+	Blorp       param.Opt[string]            `json:"blorp,omitzero"`
+	XTraceID    param.Opt[string]            `header:"X-Trace-ID,omitzero" json:"-"`
+	PlsNull     any                          `json:"pls_null"`
+	Filter      FormTestParamsFilter         `query:"filter,omitzero" json:"-"`
+	IDOrIndex   FormTestParamsIDOrIndexUnion `query:"idOrIndex,omitzero" json:"-"`
+	Tags        []string                     `query:"tags,omitzero" json:"-"`
+	Preferences FormTestParamsPreferences    `json:"preferences,omitzero"`
+	XFlags      []string                     `header:"X-Flags,omitzero" json:"-"`
 	paramObj
 }
 
@@ -86,6 +87,24 @@ func (r FormTestParamsFilterMeta) URLQuery() (v url.Values, err error) {
 	})
 }
 
+// Only one field can be non-zero.
+//
+// Use [param.IsOmitted] to confirm if a field is set.
+type FormTestParamsIDOrIndexUnion struct {
+	OfInt    param.Opt[int64]  `query:",omitzero,inline"`
+	OfString param.Opt[string] `query:",omitzero,inline"`
+	paramUnion
+}
+
+func (u *FormTestParamsIDOrIndexUnion) asAny() any {
+	if !param.IsOmitted(u.OfInt) {
+		return &u.OfInt.Value
+	} else if !param.IsOmitted(u.OfString) {
+		return &u.OfString.Value
+	}
+	return nil
+}
+
 type FormTestParamsPreferences struct {
 	Alerts param.Opt[bool]   `json:"alerts,omitzero"`
 	Theme  param.Opt[string] `json:"theme,omitzero"`
@@ -101,18 +120,19 @@ func (r *FormTestParamsPreferences) UnmarshalJSON(data []byte) error {
 }
 
 type JsonTestParams struct {
-	Version     int64                     `path:"version,required" json:"-"`
-	Date        time.Time                 `query:"date,required" format:"date" json:"-"`
-	Datetime    time.Time                 `query:"datetime,required" format:"date-time" json:"-"`
-	Time        string                    `query:"time,required" format:"time" json:"-"`
-	Limit       param.Opt[int64]          `query:"limit,omitzero" json:"-"`
-	Blorp       param.Opt[string]         `json:"blorp,omitzero"`
-	XTraceID    param.Opt[string]         `header:"X-Trace-ID,omitzero" json:"-"`
-	PlsNull     any                       `json:"pls_null"`
-	Filter      JsonTestParamsFilter      `query:"filter,omitzero" json:"-"`
-	Tags        []string                  `query:"tags,omitzero" json:"-"`
-	Preferences JsonTestParamsPreferences `json:"preferences,omitzero"`
-	XFlags      []string                  `header:"X-Flags,omitzero" json:"-"`
+	Version     int64                        `path:"version,required" json:"-"`
+	Date        time.Time                    `query:"date,required" format:"date" json:"-"`
+	Datetime    time.Time                    `query:"datetime,required" format:"date-time" json:"-"`
+	Time        string                       `query:"time,required" format:"time" json:"-"`
+	Limit       param.Opt[int64]             `query:"limit,omitzero" json:"-"`
+	Blorp       param.Opt[string]            `json:"blorp,omitzero"`
+	XTraceID    param.Opt[string]            `header:"X-Trace-ID,omitzero" json:"-"`
+	PlsNull     any                          `json:"pls_null"`
+	Filter      JsonTestParamsFilter         `query:"filter,omitzero" json:"-"`
+	IDOrIndex   JsonTestParamsIDOrIndexUnion `query:"idOrIndex,omitzero" json:"-"`
+	Tags        []string                     `query:"tags,omitzero" json:"-"`
+	Preferences JsonTestParamsPreferences    `json:"preferences,omitzero"`
+	XFlags      []string                     `header:"X-Flags,omitzero" json:"-"`
 	paramObj
 }
 
@@ -158,6 +178,24 @@ func (r JsonTestParamsFilterMeta) URLQuery() (v url.Values, err error) {
 		ArrayFormat:  apiquery.ArrayQueryFormatComma,
 		NestedFormat: apiquery.NestedQueryFormatDots,
 	})
+}
+
+// Only one field can be non-zero.
+//
+// Use [param.IsOmitted] to confirm if a field is set.
+type JsonTestParamsIDOrIndexUnion struct {
+	OfInt    param.Opt[int64]  `query:",omitzero,inline"`
+	OfString param.Opt[string] `query:",omitzero,inline"`
+	paramUnion
+}
+
+func (u *JsonTestParamsIDOrIndexUnion) asAny() any {
+	if !param.IsOmitted(u.OfInt) {
+		return &u.OfInt.Value
+	} else if !param.IsOmitted(u.OfString) {
+		return &u.OfString.Value
+	}
+	return nil
 }
 
 type JsonTestParamsPreferences struct {

@@ -31,3 +31,17 @@ Response Types:
 Methods:
 
 - <code title="get /stream-json">client.StreamJson.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go#StreamJsonService.Stream">Stream</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>) (<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go#StreamJsonStreamResponse">StreamJsonStreamResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+
+# LinkedList
+
+Params Types:
+
+- <a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go#LinkedNodeParam">LinkedNodeParam</a>
+
+Response Types:
+
+- <a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go#LinkedNode">LinkedNode</a>
+
+Methods:
+
+- <code title="post /linked-list">client.LinkedList.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go#LinkedListService.New">New</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, body <a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go#LinkedListNewParams">LinkedListNewParams</a>) (<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/test-api-go#LinkedNode">LinkedNode</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
