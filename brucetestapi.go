@@ -26,6 +26,7 @@ type FormTestParams struct {
 	XTraceID    param.Opt[string]         `header:"X-Trace-ID,omitzero" json:"-"`
 	Filter      FormTestParamsFilter      `query:"filter,omitzero" json:"-"`
 	Tags        []string                  `query:"tags,omitzero" json:"-"`
+	PlsNull     any                       `json:"pls_null,omitzero"`
 	Preferences FormTestParamsPreferences `json:"preferences,omitzero"`
 	XFlags      []string                  `header:"X-Flags,omitzero" json:"-"`
 	paramObj
@@ -109,6 +110,7 @@ type JsonTestParams struct {
 	XTraceID    param.Opt[string]         `header:"X-Trace-ID,omitzero" json:"-"`
 	Filter      JsonTestParamsFilter      `query:"filter,omitzero" json:"-"`
 	Tags        []string                  `query:"tags,omitzero" json:"-"`
+	PlsNull     any                       `json:"pls_null,omitzero"`
 	Preferences JsonTestParamsPreferences `json:"preferences,omitzero"`
 	XFlags      []string                  `header:"X-Flags,omitzero" json:"-"`
 	paramObj
