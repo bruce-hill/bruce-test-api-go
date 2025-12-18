@@ -40,6 +40,9 @@ func TestBrucetestapiFormTestWithOptionalParams(t *testing.T) {
 				},
 				Status: brucetestapi.String("status"),
 			},
+			IDOrIndex: brucetestapi.FormTestParamsIDOrIndexUnion{
+				OfInt: brucetestapi.Int(0),
+			},
 			Limit:   brucetestapi.Int(1),
 			Tags:    []string{"string"},
 			Blorp:   brucetestapi.String("example value"),
@@ -86,6 +89,9 @@ func TestBrucetestapiJsonTestWithOptionalParams(t *testing.T) {
 					Level: brucetestapi.Int(0),
 				},
 				Status: brucetestapi.String("status"),
+			},
+			IDOrIndex: brucetestapi.JsonTestParamsIDOrIndexUnion{
+				OfInt: brucetestapi.Int(0),
 			},
 			Limit:   brucetestapi.Int(1),
 			Tags:    []string{"string"},
