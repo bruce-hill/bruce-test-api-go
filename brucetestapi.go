@@ -24,9 +24,9 @@ type FormTestParams struct {
 	Limit       param.Opt[int64]          `query:"limit,omitzero" json:"-"`
 	Blorp       param.Opt[string]         `json:"blorp,omitzero"`
 	XTraceID    param.Opt[string]         `header:"X-Trace-ID,omitzero" json:"-"`
+	PlsNull     any                       `json:"pls_null"`
 	Filter      FormTestParamsFilter      `query:"filter,omitzero" json:"-"`
 	Tags        []string                  `query:"tags,omitzero" json:"-"`
-	PlsNull     any                       `json:"pls_null,omitzero"`
 	Preferences FormTestParamsPreferences `json:"preferences,omitzero"`
 	XFlags      []string                  `header:"X-Flags,omitzero" json:"-"`
 	paramObj
@@ -108,9 +108,9 @@ type JsonTestParams struct {
 	Limit       param.Opt[int64]          `query:"limit,omitzero" json:"-"`
 	Blorp       param.Opt[string]         `json:"blorp,omitzero"`
 	XTraceID    param.Opt[string]         `header:"X-Trace-ID,omitzero" json:"-"`
+	PlsNull     any                       `json:"pls_null"`
 	Filter      JsonTestParamsFilter      `query:"filter,omitzero" json:"-"`
 	Tags        []string                  `query:"tags,omitzero" json:"-"`
-	PlsNull     any                       `json:"pls_null,omitzero"`
 	Preferences JsonTestParamsPreferences `json:"preferences,omitzero"`
 	XFlags      []string                  `header:"X-Flags,omitzero" json:"-"`
 	paramObj
