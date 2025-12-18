@@ -43,7 +43,7 @@ func TestBrucetestapiFormTestWithOptionalParams(t *testing.T) {
 			Limit:   brucetestapi.Int(1),
 			Tags:    []string{"string"},
 			Blorp:   brucetestapi.String("example value"),
-			PlsNull: map[string]any{},
+			PlsNull: nil,
 			Preferences: brucetestapi.FormTestParamsPreferences{
 				Alerts: brucetestapi.Bool(true),
 				Theme:  brucetestapi.String("dark"),
@@ -90,7 +90,7 @@ func TestBrucetestapiJsonTestWithOptionalParams(t *testing.T) {
 			Limit:   brucetestapi.Int(1),
 			Tags:    []string{"string"},
 			Blorp:   brucetestapi.String("test data"),
-			PlsNull: map[string]any{},
+			PlsNull: nil,
 			Preferences: brucetestapi.JsonTestParamsPreferences{
 				Alerts: brucetestapi.Bool(false),
 				Theme:  brucetestapi.String("light"),
