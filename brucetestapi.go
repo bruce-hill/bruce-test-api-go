@@ -9,11 +9,11 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/bruce-hill/bruce-test-api-go/internal/apiform"
-	"github.com/bruce-hill/bruce-test-api-go/internal/apijson"
-	"github.com/bruce-hill/bruce-test-api-go/internal/apiquery"
-	shimjson "github.com/bruce-hill/bruce-test-api-go/internal/encoding/json"
-	"github.com/bruce-hill/bruce-test-api-go/packages/param"
+	"github.com/bruce-hill/stainless-test-api-go/internal/apiform"
+	"github.com/bruce-hill/stainless-test-api-go/internal/apijson"
+	"github.com/bruce-hill/stainless-test-api-go/internal/apiquery"
+	shimjson "github.com/bruce-hill/stainless-test-api-go/internal/encoding/json"
+	"github.com/bruce-hill/stainless-test-api-go/packages/param"
 )
 
 type FormTestParams struct {
