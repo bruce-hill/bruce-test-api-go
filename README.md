@@ -56,7 +56,7 @@ func main() {
 		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("BRUCE_TEST_API_API_KEY")
 	)
 	err := client.UpdateCount(context.TODO(), brucetestapi.UpdateCountParams{
-		Body: 1,
+		Body: 123,
 	})
 	if err != nil {
 		panic(err.Error())
@@ -323,7 +323,7 @@ To handle errors, we recommend that you use the `errors.As` pattern:
 
 ```go
 err := client.UpdateCount(context.TODO(), brucetestapi.UpdateCountParams{
-	Body: 1,
+	Body: 123,
 })
 if err != nil {
 	var apierr *brucetestapi.Error
@@ -352,7 +352,7 @@ defer cancel()
 client.UpdateCount(
 	ctx,
 	brucetestapi.UpdateCountParams{
-		Body: 1,
+		Body: 123,
 	},
 	// This sets the per-retry timeout
 	option.WithRequestTimeout(20*time.Second),
@@ -390,7 +390,7 @@ client := brucetestapi.NewClient(
 client.UpdateCount(
 	context.TODO(),
 	brucetestapi.UpdateCountParams{
-		Body: 1,
+		Body: 123,
 	},
 	option.WithMaxRetries(5),
 )
@@ -407,7 +407,7 @@ var response *http.Response
 err := client.UpdateCount(
 	context.TODO(),
 	brucetestapi.UpdateCountParams{
-		Body: 1,
+		Body: 123,
 	},
 	option.WithResponseInto(&response),
 )
