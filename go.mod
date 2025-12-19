@@ -1,4 +1,4 @@
-module github.com/DefinitelyATestOrg/test-api-go
+module github.com/bruce-hill/bruce-test-api-go
 
 go 1.22
 

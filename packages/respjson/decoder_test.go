@@ -3,8 +3,8 @@ package respjson_test
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/DefinitelyATestOrg/test-api-go/internal/apijson"
-	rj "github.com/DefinitelyATestOrg/test-api-go/packages/respjson"
+	"github.com/bruce-hill/bruce-test-api-go/internal/apijson"
+	rj "github.com/bruce-hill/bruce-test-api-go/packages/respjson"
 	"reflect"
 	"testing"
 )

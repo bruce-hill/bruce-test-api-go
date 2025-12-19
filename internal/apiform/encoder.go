@@ -13,7 +13,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/DefinitelyATestOrg/test-api-go/packages/param"
+	"github.com/bruce-hill/bruce-test-api-go/packages/param"
 )
 
 var encoders sync.Map // map[encoderEntry]encoderFunc

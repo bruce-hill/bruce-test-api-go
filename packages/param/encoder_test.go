@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/DefinitelyATestOrg/test-api-go/packages/param"
+	"github.com/bruce-hill/bruce-test-api-go/packages/param"
 )
 
 type Struct struct {
