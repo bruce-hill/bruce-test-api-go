@@ -7,9 +7,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/bruce-hill/stainless-test-api-go"
-	"github.com/bruce-hill/stainless-test-api-go/internal/testutil"
-	"github.com/bruce-hill/stainless-test-api-go/option"
+	"github.com/bruce-hill/bruce-test-api-go"
+	"github.com/bruce-hill/bruce-test-api-go/internal/testutil"
+	"github.com/bruce-hill/bruce-test-api-go/option"
 )
 
 func TestManualPagination(t *testing.T) {
