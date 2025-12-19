@@ -1,7 +1,7 @@
 package apijson
 
 import (
-	"github.com/bruce-hill/bruce-test-api-go/packages/respjson"
+	"github.com/bruce-hill/stainless-test-api-go/packages/respjson"
 	"reflect"
 )
 
