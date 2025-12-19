@@ -3,7 +3,7 @@ package param
 import (
 	"encoding/json"
 	"fmt"
-	shimjson "github.com/DefinitelyATestOrg/test-api-go/internal/encoding/json"
+	shimjson "github.com/bruce-hill/bruce-test-api-go/internal/encoding/json"
 	"time"
 )
 

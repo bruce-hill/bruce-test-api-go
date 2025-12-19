@@ -8,9 +8,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/DefinitelyATestOrg/test-api-go"
-	"github.com/DefinitelyATestOrg/test-api-go/internal/testutil"
-	"github.com/DefinitelyATestOrg/test-api-go/option"
+	"github.com/bruce-hill/bruce-test-api-go"
+	"github.com/bruce-hill/bruce-test-api-go/internal/testutil"
+	"github.com/bruce-hill/bruce-test-api-go/option"
 )
 
 func TestPaginationListWithOptionalParams(t *testing.T) {

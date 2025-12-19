@@ -2,7 +2,7 @@
 package json
 
 import (
-	"github.com/DefinitelyATestOrg/test-api-go/internal/encoding/json/shims"
+	"github.com/bruce-hill/bruce-test-api-go/internal/encoding/json/shims"
 	"reflect"
 	"time"
 )
