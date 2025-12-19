@@ -22,7 +22,6 @@ type Client struct {
 	Options    []option.RequestOption
 	Pagination PaginationService
 	StreamJson StreamJsonService
-	LinkedList LinkedListService
 }
 
 // DefaultClientOptions read from the environment (BRUCE_TEST_API_API_KEY,
@@ -49,7 +48,6 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 
 	r.Pagination = NewPaginationService(opts...)
 	r.StreamJson = NewStreamJsonService(opts...)
-	r.LinkedList = NewLinkedListService(opts...)
 
 	return
 }
