@@ -2,7 +2,7 @@
 
 <!-- x-release-please-start-version -->
 
-<a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go"><img src="https://pkg.go.dev/badge/github.com/bruce-hill/bruce-test-api-go.svg" alt="Go Reference"></a>
+<a href="https://pkg.go.dev/github.com/bruce-hill/stainless-test-api-go"><img src="https://pkg.go.dev/badge/github.com/bruce-hill/stainless-test-api-go.svg" alt="Go Reference"></a>
 
 <!-- x-release-please-end -->
 
@@ -17,7 +17,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 ```go
 import (
-	"github.com/bruce-hill/bruce-test-api-go" // imported as brucetestapi
+	"github.com/bruce-hill/stainless-test-api-go" // imported as brucetestapi
 )
 ```
 
@@ -28,7 +28,7 @@ Or to pin the version:
 <!-- x-release-please-start-version -->
 
 ```sh
-go get -u 'github.com/bruce-hill/bruce-test-api-go@v0.20.0'
+go get -u 'github.com/bruce-hill/stainless-test-api-go@v0.20.0'
 ```
 
 <!-- x-release-please-end -->
@@ -47,8 +47,8 @@ package main
 import (
 	"context"
 
-	"github.com/bruce-hill/bruce-test-api-go"
-	"github.com/bruce-hill/bruce-test-api-go/option"
+	"github.com/bruce-hill/stainless-test-api-go"
+	"github.com/bruce-hill/stainless-test-api-go/option"
 )
 
 func main() {
@@ -276,7 +276,7 @@ client.UpdateCount(context.TODO(), ...,
 
 The request option `option.WithDebugLog(nil)` may be helpful while debugging.
 
-See the [full list of request options](https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go/option).
+See the [full list of request options](https://pkg.go.dev/github.com/bruce-hill/stainless-test-api-go/option).
 
 ### Pagination
 
@@ -515,7 +515,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/bruce-hill/bruce-test-api-go/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/bruce-hill/stainless-test-api-go/issues) with questions, bugs, or suggestions.
 
 ## Contributing
 
