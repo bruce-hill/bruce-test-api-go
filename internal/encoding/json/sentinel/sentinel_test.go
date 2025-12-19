@@ -1,8 +1,8 @@
 package sentinel_test
 
 import (
-	"github.com/DefinitelyATestOrg/test-api-go/internal/encoding/json/sentinel"
-	"github.com/DefinitelyATestOrg/test-api-go/packages/param"
+	"github.com/bruce-hill/bruce-test-api-go/internal/encoding/json/sentinel"
+	"github.com/bruce-hill/bruce-test-api-go/packages/param"
 	"reflect"
 	"slices"
 	"testing"

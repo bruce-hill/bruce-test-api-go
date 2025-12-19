@@ -1,7 +1,7 @@
 package apiquery
 
 import (
-	"github.com/DefinitelyATestOrg/test-api-go/packages/param"
+	"github.com/bruce-hill/bruce-test-api-go/packages/param"
 	"net/url"
 	"testing"
 	"time"

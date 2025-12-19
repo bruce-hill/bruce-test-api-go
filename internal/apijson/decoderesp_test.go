@@ -2,8 +2,8 @@ package apijson_test
 
 import (
 	"encoding/json"
-	"github.com/DefinitelyATestOrg/test-api-go/internal/apijson"
-	"github.com/DefinitelyATestOrg/test-api-go/packages/respjson"
+	"github.com/bruce-hill/bruce-test-api-go/internal/apijson"
+	"github.com/bruce-hill/bruce-test-api-go/packages/respjson"
 	"testing"
 )
 
