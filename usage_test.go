@@ -25,7 +25,7 @@ func TestUsage(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	err := client.UpdateCount(context.TODO(), brucetestapi.UpdateCountParams{
-		Body: 1,
+		Body: 123,
 	})
 	if err != nil {
 		t.Fatalf("err should be nil: %s", err.Error())
