@@ -26,7 +26,7 @@ func TestBrucetestapiFormTestWithOptionalParams(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	err := client.FormTest(
+	_, err := client.FormTest(
 		context.TODO(),
 		"usr_abc123",
 		brucetestapi.FormTestParams{
@@ -76,7 +76,7 @@ func TestBrucetestapiJsonTestWithOptionalParams(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	err := client.JsonTest(
+	_, err := client.JsonTest(
 		context.TODO(),
 		"usr_def456",
 		brucetestapi.JsonTestParams{

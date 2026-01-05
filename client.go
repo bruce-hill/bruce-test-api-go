@@ -122,7 +122,7 @@ func (r *Client) Delete(ctx context.Context, path string, params any, res any, o
 }
 
 // Mixed parameter types
-func (r *Client) FormTest(ctx context.Context, userID string, params FormTestParams, opts ...option.RequestOption) (err error) {
+func (r *Client) FormTest(ctx context.Context, userID string, params FormTestParams, opts ...option.RequestOption) (res *FormTestResponse, err error) {
 	for _, v := range params.XFlags {
 		opts = append(opts, option.WithHeaderAdd("X-Flags", fmt.Sprintf("%s", v)))
 	}
@@ -130,18 +130,17 @@ func (r *Client) FormTest(ctx context.Context, userID string, params FormTestPar
 		opts = append(opts, option.WithHeader("X-Trace-ID", fmt.Sprintf("%s", params.XTraceID.Value)))
 	}
 	opts = slices.Concat(r.Options, opts)
-	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	if userID == "" {
 		err = errors.New("missing required userId parameter")
 		return
 	}
 	path := fmt.Sprintf("form-v%v/users/%s", params.Version, userID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, nil, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, &res, opts...)
 	return
 }
 
 // Mixed parameter types
-func (r *Client) JsonTest(ctx context.Context, userID string, params JsonTestParams, opts ...option.RequestOption) (err error) {
+func (r *Client) JsonTest(ctx context.Context, userID string, params JsonTestParams, opts ...option.RequestOption) (res *JsonTestResponse, err error) {
 	for _, v := range params.XFlags {
 		opts = append(opts, option.WithHeaderAdd("X-Flags", fmt.Sprintf("%s", v)))
 	}
@@ -149,13 +148,12 @@ func (r *Client) JsonTest(ctx context.Context, userID string, params JsonTestPar
 		opts = append(opts, option.WithHeader("X-Trace-ID", fmt.Sprintf("%s", params.XTraceID.Value)))
 	}
 	opts = slices.Concat(r.Options, opts)
-	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	if userID == "" {
 		err = errors.New("missing required userId parameter")
 		return
 	}
 	path := fmt.Sprintf("json-v%v/users/%s", params.Version, userID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, nil, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, &res, opts...)
 	return
 }
 
