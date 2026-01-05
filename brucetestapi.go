@@ -16,6 +16,10 @@ import (
 	"github.com/bruce-hill/bruce-test-api-go/packages/param"
 )
 
+type FormTestResponse = any
+
+type JsonTestResponse = any
+
 type FormTestParams struct {
 	Version     int64                        `path:"version,required" json:"-"`
 	Date        time.Time                    `query:"date,required" format:"date" json:"-"`
