@@ -43,9 +43,13 @@ func TestBrucetestapiFormTestWithOptionalParams(t *testing.T) {
 			IDOrIndex: brucetestapi.FormTestParamsIDOrIndexUnion{
 				OfInt: brucetestapi.Int(0),
 			},
-			Limit:   brucetestapi.Int(1),
-			Tags:    []string{"string"},
-			Blorp:   brucetestapi.String("example value"),
+			Limit: brucetestapi.Int(1),
+			Tags:  []string{"string"},
+			Blorp: brucetestapi.String("example value"),
+			Pets: []brucetestapi.FormTestParamsPet{{
+				Age:  brucetestapi.Int(0),
+				Name: brucetestapi.String("name"),
+			}},
 			PlsNull: nil,
 			Preferences: brucetestapi.FormTestParamsPreferences{
 				Alerts: brucetestapi.Bool(true),
@@ -93,9 +97,13 @@ func TestBrucetestapiJsonTestWithOptionalParams(t *testing.T) {
 			IDOrIndex: brucetestapi.JsonTestParamsIDOrIndexUnion{
 				OfInt: brucetestapi.Int(0),
 			},
-			Limit:   brucetestapi.Int(1),
-			Tags:    []string{"string"},
-			Blorp:   brucetestapi.String("test data"),
+			Limit: brucetestapi.Int(1),
+			Tags:  []string{"string"},
+			Blorp: brucetestapi.String("test data"),
+			Pets: []brucetestapi.JsonTestParamsPet{{
+				Age:  brucetestapi.Int(0),
+				Name: brucetestapi.String("name"),
+			}},
 			PlsNull: nil,
 			Preferences: brucetestapi.JsonTestParamsPreferences{
 				Alerts: brucetestapi.Bool(false),

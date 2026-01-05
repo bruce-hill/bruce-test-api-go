@@ -32,6 +32,7 @@ type FormTestParams struct {
 	Filter      FormTestParamsFilter         `query:"filter,omitzero" json:"-"`
 	IDOrIndex   FormTestParamsIDOrIndexUnion `query:"idOrIndex,omitzero" json:"-"`
 	Tags        []string                     `query:"tags,omitzero" json:"-"`
+	Pets        []FormTestParamsPet          `json:"pets,omitzero"`
 	Preferences FormTestParamsPreferences    `json:"preferences,omitzero"`
 	XFlags      []string                     `header:"X-Flags,omitzero" json:"-"`
 	paramObj
@@ -109,6 +110,20 @@ func (u *FormTestParamsIDOrIndexUnion) asAny() any {
 	return nil
 }
 
+type FormTestParamsPet struct {
+	Age  param.Opt[int64]  `json:"age,omitzero"`
+	Name param.Opt[string] `json:"name,omitzero"`
+	paramObj
+}
+
+func (r FormTestParamsPet) MarshalJSON() (data []byte, err error) {
+	type shadow FormTestParamsPet
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *FormTestParamsPet) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type FormTestParamsPreferences struct {
 	Alerts param.Opt[bool]   `json:"alerts,omitzero"`
 	Theme  param.Opt[string] `json:"theme,omitzero"`
@@ -135,6 +150,7 @@ type JsonTestParams struct {
 	Filter      JsonTestParamsFilter         `query:"filter,omitzero" json:"-"`
 	IDOrIndex   JsonTestParamsIDOrIndexUnion `query:"idOrIndex,omitzero" json:"-"`
 	Tags        []string                     `query:"tags,omitzero" json:"-"`
+	Pets        []JsonTestParamsPet          `json:"pets,omitzero"`
 	Preferences JsonTestParamsPreferences    `json:"preferences,omitzero"`
 	XFlags      []string                     `header:"X-Flags,omitzero" json:"-"`
 	paramObj
@@ -200,6 +216,20 @@ func (u *JsonTestParamsIDOrIndexUnion) asAny() any {
 		return &u.OfString.Value
 	}
 	return nil
+}
+
+type JsonTestParamsPet struct {
+	Age  param.Opt[int64]  `json:"age,omitzero"`
+	Name param.Opt[string] `json:"name,omitzero"`
+	paramObj
+}
+
+func (r JsonTestParamsPet) MarshalJSON() (data []byte, err error) {
+	type shadow JsonTestParamsPet
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *JsonTestParamsPet) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
 }
 
 type JsonTestParamsPreferences struct {
