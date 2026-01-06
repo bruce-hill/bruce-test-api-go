@@ -59,7 +59,7 @@ func (r FormTestParams) MarshalMultipart() (data []byte, contentType string, err
 // URLQuery serializes [FormTestParams]'s query parameters as `url.Values`.
 func (r FormTestParams) URLQuery() (v url.Values, err error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		ArrayFormat:  apiquery.ArrayQueryFormatRepeat,
 		NestedFormat: apiquery.NestedQueryFormatDots,
 	})
 }
@@ -73,7 +73,7 @@ type FormTestParamsFilter struct {
 // URLQuery serializes [FormTestParamsFilter]'s query parameters as `url.Values`.
 func (r FormTestParamsFilter) URLQuery() (v url.Values, err error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		ArrayFormat:  apiquery.ArrayQueryFormatRepeat,
 		NestedFormat: apiquery.NestedQueryFormatDots,
 	})
 }
@@ -87,7 +87,7 @@ type FormTestParamsFilterMeta struct {
 // `url.Values`.
 func (r FormTestParamsFilterMeta) URLQuery() (v url.Values, err error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		ArrayFormat:  apiquery.ArrayQueryFormatRepeat,
 		NestedFormat: apiquery.NestedQueryFormatDots,
 	})
 }
@@ -167,7 +167,7 @@ func (r *JsonTestParams) UnmarshalJSON(data []byte) error {
 // URLQuery serializes [JsonTestParams]'s query parameters as `url.Values`.
 func (r JsonTestParams) URLQuery() (v url.Values, err error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		ArrayFormat:  apiquery.ArrayQueryFormatRepeat,
 		NestedFormat: apiquery.NestedQueryFormatDots,
 	})
 }
@@ -181,7 +181,7 @@ type JsonTestParamsFilter struct {
 // URLQuery serializes [JsonTestParamsFilter]'s query parameters as `url.Values`.
 func (r JsonTestParamsFilter) URLQuery() (v url.Values, err error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		ArrayFormat:  apiquery.ArrayQueryFormatRepeat,
 		NestedFormat: apiquery.NestedQueryFormatDots,
 	})
 }
@@ -195,7 +195,7 @@ type JsonTestParamsFilterMeta struct {
 // `url.Values`.
 func (r JsonTestParamsFilterMeta) URLQuery() (v url.Values, err error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		ArrayFormat:  apiquery.ArrayQueryFormatRepeat,
 		NestedFormat: apiquery.NestedQueryFormatDots,
 	})
 }
