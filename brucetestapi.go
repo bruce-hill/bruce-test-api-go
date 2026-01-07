@@ -58,21 +58,22 @@ func (r *JsonTestResponse) UnmarshalJSON(data []byte) error {
 }
 
 type FormTestParams struct {
-	Version     int64                        `path:"version,required" json:"-"`
-	Date        time.Time                    `query:"date,required" format:"date" json:"-"`
-	Datetime    time.Time                    `query:"datetime,required" format:"date-time" json:"-"`
-	Time        string                       `query:"time,required" format:"time" json:"-"`
-	Limit       param.Opt[int64]             `query:"limit,omitzero" json:"-"`
-	Blorp       param.Opt[string]            `json:"blorp,omitzero"`
-	XTraceID    param.Opt[string]            `header:"X-Trace-ID,omitzero" json:"-"`
-	PlsNull     any                          `json:"pls_null"`
-	Filter      FormTestParamsFilter         `query:"filter,omitzero" json:"-"`
-	IDOrIndex   FormTestParamsIDOrIndexUnion `query:"idOrIndex,omitzero" json:"-"`
-	Tags        []string                     `query:"tags,omitzero" json:"-"`
-	Pets        []FormTestParamsPet          `json:"pets,omitzero"`
-	Preferences FormTestParamsPreferences    `json:"preferences,omitzero"`
-	Something   FormTestParamsSomethingUnion `json:"something,omitzero"`
-	XFlags      []string                     `header:"X-Flags,omitzero" json:"-"`
+	Version        int64                              `path:"version,required" json:"-"`
+	Date           time.Time                          `query:"date,required" format:"date" json:"-"`
+	Datetime       time.Time                          `query:"datetime,required" format:"date-time" json:"-"`
+	Time           string                             `query:"time,required" format:"time" json:"-"`
+	Limit          param.Opt[int64]                   `query:"limit,omitzero" json:"-"`
+	Blorp          param.Opt[string]                  `json:"blorp,omitzero"`
+	XTraceID       param.Opt[string]                  `header:"X-Trace-ID,omitzero" json:"-"`
+	PlsNull        any                                `json:"pls_null"`
+	Filter         FormTestParamsFilter               `query:"filter,omitzero" json:"-"`
+	IDOrIndex      FormTestParamsIDOrIndexUnion       `query:"idOrIndex,omitzero" json:"-"`
+	Tags           []string                           `query:"tags,omitzero" json:"-"`
+	ManySomethings []FormTestParamsManySomethingUnion `json:"many_somethings,omitzero"`
+	Pets           []FormTestParamsPet                `json:"pets,omitzero"`
+	Preferences    FormTestParamsPreferences          `json:"preferences,omitzero"`
+	Something      FormTestParamsSomethingUnion       `json:"something,omitzero"`
+	XFlags         []string                           `header:"X-Flags,omitzero" json:"-"`
 	paramObj
 }
 
@@ -148,6 +149,46 @@ func (u *FormTestParamsIDOrIndexUnion) asAny() any {
 	return nil
 }
 
+// Only one field can be non-zero.
+//
+// Use [param.IsOmitted] to confirm if a field is set.
+type FormTestParamsManySomethingUnion struct {
+	OfFloat  param.Opt[float64]                 `json:",omitzero,inline"`
+	OfThingy *FormTestParamsManySomethingThingy `json:",omitzero,inline"`
+	paramUnion
+}
+
+func (u FormTestParamsManySomethingUnion) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfFloat, u.OfThingy)
+}
+func (u *FormTestParamsManySomethingUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, u)
+}
+
+func (u *FormTestParamsManySomethingUnion) asAny() any {
+	if !param.IsOmitted(u.OfFloat) {
+		return &u.OfFloat.Value
+	} else if !param.IsOmitted(u.OfThingy) {
+		return u.OfThingy
+	}
+	return nil
+}
+
+// The property Name is required.
+type FormTestParamsManySomethingThingy struct {
+	Name  string           `json:"name,required"`
+	Count param.Opt[int64] `json:"count,omitzero"`
+	paramObj
+}
+
+func (r FormTestParamsManySomethingThingy) MarshalJSON() (data []byte, err error) {
+	type shadow FormTestParamsManySomethingThingy
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *FormTestParamsManySomethingThingy) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 // The property Name is required.
 type FormTestParamsPet struct {
 	Name string           `json:"name,required"`
@@ -218,21 +259,22 @@ func (r *FormTestParamsSomethingThingy) UnmarshalJSON(data []byte) error {
 }
 
 type JsonTestParams struct {
-	Version     int64                        `path:"version,required" json:"-"`
-	Date        time.Time                    `query:"date,required" format:"date" json:"-"`
-	Datetime    time.Time                    `query:"datetime,required" format:"date-time" json:"-"`
-	Time        string                       `query:"time,required" format:"time" json:"-"`
-	Limit       param.Opt[int64]             `query:"limit,omitzero" json:"-"`
-	Blorp       param.Opt[string]            `json:"blorp,omitzero"`
-	XTraceID    param.Opt[string]            `header:"X-Trace-ID,omitzero" json:"-"`
-	PlsNull     any                          `json:"pls_null"`
-	Filter      JsonTestParamsFilter         `query:"filter,omitzero" json:"-"`
-	IDOrIndex   JsonTestParamsIDOrIndexUnion `query:"idOrIndex,omitzero" json:"-"`
-	Tags        []string                     `query:"tags,omitzero" json:"-"`
-	Pets        []JsonTestParamsPet          `json:"pets,omitzero"`
-	Preferences JsonTestParamsPreferences    `json:"preferences,omitzero"`
-	Something   JsonTestParamsSomethingUnion `json:"something,omitzero"`
-	XFlags      []string                     `header:"X-Flags,omitzero" json:"-"`
+	Version        int64                              `path:"version,required" json:"-"`
+	Date           time.Time                          `query:"date,required" format:"date" json:"-"`
+	Datetime       time.Time                          `query:"datetime,required" format:"date-time" json:"-"`
+	Time           string                             `query:"time,required" format:"time" json:"-"`
+	Limit          param.Opt[int64]                   `query:"limit,omitzero" json:"-"`
+	Blorp          param.Opt[string]                  `json:"blorp,omitzero"`
+	XTraceID       param.Opt[string]                  `header:"X-Trace-ID,omitzero" json:"-"`
+	PlsNull        any                                `json:"pls_null"`
+	Filter         JsonTestParamsFilter               `query:"filter,omitzero" json:"-"`
+	IDOrIndex      JsonTestParamsIDOrIndexUnion       `query:"idOrIndex,omitzero" json:"-"`
+	Tags           []string                           `query:"tags,omitzero" json:"-"`
+	ManySomethings []JsonTestParamsManySomethingUnion `json:"many_somethings,omitzero"`
+	Pets           []JsonTestParamsPet                `json:"pets,omitzero"`
+	Preferences    JsonTestParamsPreferences          `json:"preferences,omitzero"`
+	Something      JsonTestParamsSomethingUnion       `json:"something,omitzero"`
+	XFlags         []string                           `header:"X-Flags,omitzero" json:"-"`
 	paramObj
 }
 
@@ -296,6 +338,46 @@ func (u *JsonTestParamsIDOrIndexUnion) asAny() any {
 		return &u.OfString.Value
 	}
 	return nil
+}
+
+// Only one field can be non-zero.
+//
+// Use [param.IsOmitted] to confirm if a field is set.
+type JsonTestParamsManySomethingUnion struct {
+	OfFloat  param.Opt[float64]                 `json:",omitzero,inline"`
+	OfThingy *JsonTestParamsManySomethingThingy `json:",omitzero,inline"`
+	paramUnion
+}
+
+func (u JsonTestParamsManySomethingUnion) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfFloat, u.OfThingy)
+}
+func (u *JsonTestParamsManySomethingUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, u)
+}
+
+func (u *JsonTestParamsManySomethingUnion) asAny() any {
+	if !param.IsOmitted(u.OfFloat) {
+		return &u.OfFloat.Value
+	} else if !param.IsOmitted(u.OfThingy) {
+		return u.OfThingy
+	}
+	return nil
+}
+
+// The property Name is required.
+type JsonTestParamsManySomethingThingy struct {
+	Name  string           `json:"name,required"`
+	Count param.Opt[int64] `json:"count,omitzero"`
+	paramObj
+}
+
+func (r JsonTestParamsManySomethingThingy) MarshalJSON() (data []byte, err error) {
+	type shadow JsonTestParamsManySomethingThingy
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *JsonTestParamsManySomethingThingy) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
 }
 
 // The property Name is required.
