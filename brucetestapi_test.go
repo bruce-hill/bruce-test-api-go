@@ -47,14 +47,14 @@ func TestBrucetestapiFormTestWithOptionalParams(t *testing.T) {
 			Tags:  []string{"string"},
 			Blorp: brucetestapi.String("example value"),
 			Pets: []brucetestapi.FormTestParamsPet{{
+				Name: "Alfie",
 				Age:  brucetestapi.Int(0),
-				Name: brucetestapi.String("Alfie"),
 			}, {
+				Name: "Brando",
 				Age:  brucetestapi.Int(12),
-				Name: brucetestapi.String("Brando"),
 			}, {
+				Name: "Charlie",
 				Age:  brucetestapi.Int(0),
-				Name: brucetestapi.String("Charlie"),
 			}},
 			PlsNull: nil,
 			Preferences: brucetestapi.FormTestParamsPreferences{
@@ -113,14 +113,14 @@ func TestBrucetestapiJsonTestWithOptionalParams(t *testing.T) {
 			Tags:  []string{"string"},
 			Blorp: brucetestapi.String("test data"),
 			Pets: []brucetestapi.JsonTestParamsPet{{
+				Name: "Alfie",
 				Age:  brucetestapi.Int(0),
-				Name: brucetestapi.String("Alfie"),
 			}, {
+				Name: "Brando",
 				Age:  brucetestapi.Int(12),
-				Name: brucetestapi.String("Brando"),
 			}, {
+				Name: "Charlie",
 				Age:  brucetestapi.Int(0),
-				Name: brucetestapi.String("Charlie"),
 			}},
 			PlsNull: nil,
 			Preferences: brucetestapi.JsonTestParamsPreferences{

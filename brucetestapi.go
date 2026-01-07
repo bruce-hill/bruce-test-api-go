@@ -111,9 +111,10 @@ func (u *FormTestParamsIDOrIndexUnion) asAny() any {
 	return nil
 }
 
+// The property Name is required.
 type FormTestParamsPet struct {
-	Age  param.Opt[int64]  `json:"age,omitzero"`
-	Name param.Opt[string] `json:"name,omitzero"`
+	Name string           `json:"name,required"`
+	Age  param.Opt[int64] `json:"age,omitzero"`
 	paramObj
 }
 
@@ -260,9 +261,10 @@ func (u *JsonTestParamsIDOrIndexUnion) asAny() any {
 	return nil
 }
 
+// The property Name is required.
 type JsonTestParamsPet struct {
-	Age  param.Opt[int64]  `json:"age,omitzero"`
-	Name param.Opt[string] `json:"name,omitzero"`
+	Name string           `json:"name,required"`
+	Age  param.Opt[int64] `json:"age,omitzero"`
 	paramObj
 }
 
