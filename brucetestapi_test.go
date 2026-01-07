@@ -48,12 +48,24 @@ func TestBrucetestapiFormTestWithOptionalParams(t *testing.T) {
 			Blorp: brucetestapi.String("example value"),
 			Pets: []brucetestapi.FormTestParamsPet{{
 				Age:  brucetestapi.Int(0),
-				Name: brucetestapi.String("name"),
+				Name: brucetestapi.String("Alfie"),
+			}, {
+				Age:  brucetestapi.Int(12),
+				Name: brucetestapi.String("Brando"),
+			}, {
+				Age:  brucetestapi.Int(0),
+				Name: brucetestapi.String("Charlie"),
 			}},
 			PlsNull: nil,
 			Preferences: brucetestapi.FormTestParamsPreferences{
 				Alerts: brucetestapi.Bool(true),
 				Theme:  brucetestapi.String("dark"),
+			},
+			Something: brucetestapi.FormTestParamsSomethingUnion{
+				OfFormTestsSomethingObject: &brucetestapi.FormTestParamsSomethingObject{
+					Name:  "Albert",
+					Count: brucetestapi.Int(0),
+				},
 			},
 			XFlags:   []string{"feature-a", "feature-b"},
 			XTraceID: brucetestapi.String("trace-xyz-789"),
@@ -102,12 +114,24 @@ func TestBrucetestapiJsonTestWithOptionalParams(t *testing.T) {
 			Blorp: brucetestapi.String("test data"),
 			Pets: []brucetestapi.JsonTestParamsPet{{
 				Age:  brucetestapi.Int(0),
-				Name: brucetestapi.String("name"),
+				Name: brucetestapi.String("Alfie"),
+			}, {
+				Age:  brucetestapi.Int(12),
+				Name: brucetestapi.String("Brando"),
+			}, {
+				Age:  brucetestapi.Int(0),
+				Name: brucetestapi.String("Charlie"),
 			}},
 			PlsNull: nil,
 			Preferences: brucetestapi.JsonTestParamsPreferences{
 				Alerts: brucetestapi.Bool(false),
 				Theme:  brucetestapi.String("light"),
+			},
+			Something: brucetestapi.JsonTestParamsSomethingUnion{
+				OfJsonTestsSomethingObject: &brucetestapi.JsonTestParamsSomethingObject{
+					Name:  "Albert",
+					Count: brucetestapi.Int(0),
+				},
 			},
 			XFlags:   []string{"experimental", "verbose"},
 			XTraceID: brucetestapi.String("trace-abc-123"),
