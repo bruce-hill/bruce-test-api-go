@@ -14,11 +14,48 @@ import (
 	"github.com/bruce-hill/bruce-test-api-go/internal/apiquery"
 	shimjson "github.com/bruce-hill/bruce-test-api-go/internal/encoding/json"
 	"github.com/bruce-hill/bruce-test-api-go/packages/param"
+	"github.com/bruce-hill/bruce-test-api-go/packages/respjson"
 )
 
-type FormTestResponse = any
+type FormTestResponse struct {
+	Status    string `json:"status"`
+	Timestamp string `json:"timestamp" format:"datetime"`
+	UserID    string `json:"userId"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Status      respjson.Field
+		Timestamp   respjson.Field
+		UserID      respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
 
-type JsonTestResponse = any
+// Returns the unmodified JSON received from the API
+func (r FormTestResponse) RawJSON() string { return r.JSON.raw }
+func (r *FormTestResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type JsonTestResponse struct {
+	Status    string `json:"status"`
+	Timestamp string `json:"timestamp" format:"datetime"`
+	UserID    string `json:"userId"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Status      respjson.Field
+		Timestamp   respjson.Field
+		UserID      respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r JsonTestResponse) RawJSON() string { return r.JSON.raw }
+func (r *JsonTestResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
 
 type FormTestParams struct {
 	Version     int64                        `path:"version,required" json:"-"`
