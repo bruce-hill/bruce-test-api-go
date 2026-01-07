@@ -16,6 +16,52 @@ import (
 	"github.com/bruce-hill/bruce-test-api-go/packages/param"
 )
 
+func SomethingParamOfSomethingObject(name string) SomethingUnionParam {
+	var variant SomethingObjectParam
+	variant.Name = name
+	return SomethingUnionParam{OfSomethingObject: &variant}
+}
+
+// Only one field can be non-zero.
+//
+// Use [param.IsOmitted] to confirm if a field is set.
+type SomethingUnionParam struct {
+	OfFloat           param.Opt[float64]    `json:",omitzero,inline"`
+	OfSomethingObject *SomethingObjectParam `json:",omitzero,inline"`
+	paramUnion
+}
+
+func (u SomethingUnionParam) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfFloat, u.OfSomethingObject)
+}
+func (u *SomethingUnionParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, u)
+}
+
+func (u *SomethingUnionParam) asAny() any {
+	if !param.IsOmitted(u.OfFloat) {
+		return &u.OfFloat.Value
+	} else if !param.IsOmitted(u.OfSomethingObject) {
+		return u.OfSomethingObject
+	}
+	return nil
+}
+
+// The property Name is required.
+type SomethingObjectParam struct {
+	Name  string           `json:"name,required"`
+	Count param.Opt[int64] `json:"count,omitzero"`
+	paramObj
+}
+
+func (r SomethingObjectParam) MarshalJSON() (data []byte, err error) {
+	type shadow SomethingObjectParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SomethingObjectParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type FormTestResponse = any
 
 type JsonTestResponse = any
@@ -34,7 +80,7 @@ type FormTestParams struct {
 	Tags        []string                     `query:"tags,omitzero" json:"-"`
 	Pets        []FormTestParamsPet          `json:"pets,omitzero"`
 	Preferences FormTestParamsPreferences    `json:"preferences,omitzero"`
-	Something   FormTestParamsSomethingUnion `json:"something,omitzero"`
+	Something   SomethingUnionParam          `json:"something,omitzero"`
 	XFlags      []string                     `header:"X-Flags,omitzero" json:"-"`
 	paramObj
 }
@@ -140,46 +186,6 @@ func (r *FormTestParamsPreferences) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Only one field can be non-zero.
-//
-// Use [param.IsOmitted] to confirm if a field is set.
-type FormTestParamsSomethingUnion struct {
-	OfFloat                    param.Opt[float64]             `json:",omitzero,inline"`
-	OfFormTestsSomethingObject *FormTestParamsSomethingObject `json:",omitzero,inline"`
-	paramUnion
-}
-
-func (u FormTestParamsSomethingUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfFloat, u.OfFormTestsSomethingObject)
-}
-func (u *FormTestParamsSomethingUnion) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, u)
-}
-
-func (u *FormTestParamsSomethingUnion) asAny() any {
-	if !param.IsOmitted(u.OfFloat) {
-		return &u.OfFloat.Value
-	} else if !param.IsOmitted(u.OfFormTestsSomethingObject) {
-		return u.OfFormTestsSomethingObject
-	}
-	return nil
-}
-
-// The property Name is required.
-type FormTestParamsSomethingObject struct {
-	Name  string           `json:"name,required"`
-	Count param.Opt[int64] `json:"count,omitzero"`
-	paramObj
-}
-
-func (r FormTestParamsSomethingObject) MarshalJSON() (data []byte, err error) {
-	type shadow FormTestParamsSomethingObject
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *FormTestParamsSomethingObject) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
 type JsonTestParams struct {
 	Version     int64                        `path:"version,required" json:"-"`
 	Date        time.Time                    `query:"date,required" format:"date" json:"-"`
@@ -194,7 +200,7 @@ type JsonTestParams struct {
 	Tags        []string                     `query:"tags,omitzero" json:"-"`
 	Pets        []JsonTestParamsPet          `json:"pets,omitzero"`
 	Preferences JsonTestParamsPreferences    `json:"preferences,omitzero"`
-	Something   JsonTestParamsSomethingUnion `json:"something,omitzero"`
+	Something   SomethingUnionParam          `json:"something,omitzero"`
 	XFlags      []string                     `header:"X-Flags,omitzero" json:"-"`
 	paramObj
 }
@@ -287,46 +293,6 @@ func (r JsonTestParamsPreferences) MarshalJSON() (data []byte, err error) {
 	return param.MarshalObject(r, (*shadow)(&r))
 }
 func (r *JsonTestParamsPreferences) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// Only one field can be non-zero.
-//
-// Use [param.IsOmitted] to confirm if a field is set.
-type JsonTestParamsSomethingUnion struct {
-	OfFloat                    param.Opt[float64]             `json:",omitzero,inline"`
-	OfJsonTestsSomethingObject *JsonTestParamsSomethingObject `json:",omitzero,inline"`
-	paramUnion
-}
-
-func (u JsonTestParamsSomethingUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfFloat, u.OfJsonTestsSomethingObject)
-}
-func (u *JsonTestParamsSomethingUnion) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, u)
-}
-
-func (u *JsonTestParamsSomethingUnion) asAny() any {
-	if !param.IsOmitted(u.OfFloat) {
-		return &u.OfFloat.Value
-	} else if !param.IsOmitted(u.OfJsonTestsSomethingObject) {
-		return u.OfJsonTestsSomethingObject
-	}
-	return nil
-}
-
-// The property Name is required.
-type JsonTestParamsSomethingObject struct {
-	Name  string           `json:"name,required"`
-	Count param.Opt[int64] `json:"count,omitzero"`
-	paramObj
-}
-
-func (r JsonTestParamsSomethingObject) MarshalJSON() (data []byte, err error) {
-	type shadow JsonTestParamsSomethingObject
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *JsonTestParamsSomethingObject) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
