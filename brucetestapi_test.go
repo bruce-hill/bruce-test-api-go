@@ -61,8 +61,8 @@ func TestBrucetestapiFormTestWithOptionalParams(t *testing.T) {
 				Alerts: brucetestapi.Bool(true),
 				Theme:  brucetestapi.String("dark"),
 			},
-			Something: brucetestapi.SomethingUnionParam{
-				OfSomethingObject: &brucetestapi.SomethingObjectParam{
+			Something: brucetestapi.FormTestParamsSomethingUnion{
+				OfThingy: &brucetestapi.FormTestParamsSomethingThingy{
 					Name:  "Albert",
 					Count: brucetestapi.Int(5),
 				},
@@ -127,8 +127,8 @@ func TestBrucetestapiJsonTestWithOptionalParams(t *testing.T) {
 				Alerts: brucetestapi.Bool(false),
 				Theme:  brucetestapi.String("light"),
 			},
-			Something: brucetestapi.SomethingUnionParam{
-				OfSomethingObject: &brucetestapi.SomethingObjectParam{
+			Something: brucetestapi.JsonTestParamsSomethingUnion{
+				OfThingy: &brucetestapi.JsonTestParamsSomethingThingy{
 					Name:  "Albert",
 					Count: brucetestapi.Int(5),
 				},
