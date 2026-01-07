@@ -18,9 +18,9 @@ import (
 )
 
 type FormTestResponse struct {
-	Status    string `json:"status"`
-	Timestamp string `json:"timestamp" format:"datetime"`
-	UserID    string `json:"userId"`
+	Status    string    `json:"status"`
+	Timestamp time.Time `json:"timestamp" format:"date-time"`
+	UserID    string    `json:"userId"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Status      respjson.Field
@@ -38,9 +38,9 @@ func (r *FormTestResponse) UnmarshalJSON(data []byte) error {
 }
 
 type JsonTestResponse struct {
-	Status    string `json:"status"`
-	Timestamp string `json:"timestamp" format:"datetime"`
-	UserID    string `json:"userId"`
+	Status    string    `json:"status"`
+	Timestamp time.Time `json:"timestamp" format:"date-time"`
+	UserID    string    `json:"userId"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Status      respjson.Field
