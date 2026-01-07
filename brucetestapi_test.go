@@ -46,6 +46,19 @@ func TestBrucetestapiFormTestWithOptionalParams(t *testing.T) {
 			Limit: brucetestapi.Int(1),
 			Tags:  []string{"string"},
 			Blorp: brucetestapi.String("example value"),
+			ManySomethings: []brucetestapi.FormTestParamsManySomethingUnion{{
+				OfFloat: brucetestapi.Float(123),
+			}, {
+				OfThingy: &brucetestapi.FormTestParamsManySomethingThingy{
+					Name:  "Bozo",
+					Count: brucetestapi.Int(5),
+				},
+			}, {
+				OfThingy: &brucetestapi.FormTestParamsManySomethingThingy{
+					Name:  "Fran",
+					Count: brucetestapi.Int(5),
+				},
+			}},
 			Pets: []brucetestapi.FormTestParamsPet{{
 				Name: "Alfie",
 				Age:  brucetestapi.Int(0),
@@ -112,6 +125,19 @@ func TestBrucetestapiJsonTestWithOptionalParams(t *testing.T) {
 			Limit: brucetestapi.Int(1),
 			Tags:  []string{"string"},
 			Blorp: brucetestapi.String("test data"),
+			ManySomethings: []brucetestapi.JsonTestParamsManySomethingUnion{{
+				OfFloat: brucetestapi.Float(123),
+			}, {
+				OfThingy: &brucetestapi.JsonTestParamsManySomethingThingy{
+					Name:  "Bozo",
+					Count: brucetestapi.Int(5),
+				},
+			}, {
+				OfThingy: &brucetestapi.JsonTestParamsManySomethingThingy{
+					Name:  "Fran",
+					Count: brucetestapi.Int(5),
+				},
+			}},
 			Pets: []brucetestapi.JsonTestParamsPet{{
 				Name: "Alfie",
 				Age:  brucetestapi.Int(0),
