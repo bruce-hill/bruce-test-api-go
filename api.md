@@ -1,5 +1,9 @@
 # brucetestapi
 
+Params Types:
+
+- <a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go#SomethingUnionParam">SomethingUnionParam</a>
+
 Response Types:
 
 - <a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go#FormTestResponse">FormTestResponse</a>
