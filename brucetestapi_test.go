@@ -15,7 +15,7 @@ import (
 )
 
 func TestBrucetestapiFormTestWithOptionalParams(t *testing.T) {
-	t.Skip("prism issues because it's bad")
+	t.Skip("prism issues because prism is not good at its job")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
