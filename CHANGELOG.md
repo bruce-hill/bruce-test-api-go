@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.22.0 (2026-01-08)
+
+Full Changelog: [v0.21.0...v0.22.0](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.21.0...v0.22.0)
+
+### Features
+
+* **api:** manual updates ([9ce39a2](https://github.com/bruce-hill/bruce-test-api-go/commit/9ce39a2bb4b2f3bacff8162e5100897b1902463a))
+* **api:** manual updates ([43ef4c8](https://github.com/bruce-hill/bruce-test-api-go/commit/43ef4c88daf9703f9cee305778d3e6ad4e2058e4))
+* **api:** manual updates ([e786f43](https://github.com/bruce-hill/bruce-test-api-go/commit/e786f431e03e02c596e75baff43f5bf418154097))
+* **api:** manual updates ([071fbf8](https://github.com/bruce-hill/bruce-test-api-go/commit/071fbf83ae0a2c8ef81d0591e4b8ab325ead5197))
+* **api:** manual updates ([c4bf77d](https://github.com/bruce-hill/bruce-test-api-go/commit/c4bf77defcea34c2eb8c4283d0678bbc15a17e09))
+* **api:** manual updates ([149ba74](https://github.com/bruce-hill/bruce-test-api-go/commit/149ba7496bd3a28dc4342ce245b882c183b1b859))
+* **api:** manual updates ([9996336](https://github.com/bruce-hill/bruce-test-api-go/commit/9996336bf738d04b1aa01de7c1cc415cb0e399f1))
+* **api:** manual updates ([3975413](https://github.com/bruce-hill/bruce-test-api-go/commit/3975413ebb1fdd4be7c5f12bb3084291580e9613))
+* **api:** manual updates ([a75f28e](https://github.com/bruce-hill/bruce-test-api-go/commit/a75f28e8bb24db3fc200cadc33dc17da02ee3628))
+* **api:** manual updates ([a512dfa](https://github.com/bruce-hill/bruce-test-api-go/commit/a512dfa00c534c6b93157fb168fc04f2f0500651))
+* **api:** manual updates ([198b685](https://github.com/bruce-hill/bruce-test-api-go/commit/198b685274f10af9dabfc170b587d21765ddbdc3))
+* **api:** manual updates ([084f0e6](https://github.com/bruce-hill/bruce-test-api-go/commit/084f0e6c60136c15353628b82d0a73a1833d6c61))
+* **api:** manual updates ([987b402](https://github.com/bruce-hill/bruce-test-api-go/commit/987b40244557fee122983b74ba245cc16eed44cb))
+* **api:** manual updates ([c9bc68b](https://github.com/bruce-hill/bruce-test-api-go/commit/c9bc68b45e96199a388980a79986c993ea0ef1de))
+
+
+### Bug Fixes
+
+* streaming endpoints should pass through errors correctly ([51fdbc5](https://github.com/bruce-hill/bruce-test-api-go/commit/51fdbc5ba177d84f237f162f127b80414e5f4b0f))
+
 ## 0.21.0 (2025-12-19)
 
 Full Changelog: [v0.20.0...v0.21.0](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.20.0...v0.21.0)
