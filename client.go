@@ -121,7 +121,8 @@ func (r *Client) Delete(ctx context.Context, path string, params any, res any, o
 	return r.Execute(ctx, http.MethodDelete, path, params, res, opts...)
 }
 
-// Mixed parameter types
+// Demonstrates a form-data endpoint with various parameter types including path,
+// query, and header parameters. Accepts multipart form data for user updates.
 func (r *Client) FormTest(ctx context.Context, userID string, params FormTestParams, opts ...option.RequestOption) (res *FormTestResponse, err error) {
 	for _, v := range params.XFlags {
 		opts = append(opts, option.WithHeaderAdd("X-Flags", fmt.Sprintf("%s", v)))
@@ -139,7 +140,8 @@ func (r *Client) FormTest(ctx context.Context, userID string, params FormTestPar
 	return
 }
 
-// Mixed parameter types
+// Demonstrates a JSON endpoint with various parameter types including path, query,
+// and header parameters. Accepts JSON body for user updates.
 func (r *Client) JsonTest(ctx context.Context, userID string, params JsonTestParams, opts ...option.RequestOption) (res *JsonTestResponse, err error) {
 	for _, v := range params.XFlags {
 		opts = append(opts, option.WithHeaderAdd("X-Flags", fmt.Sprintf("%s", v)))
@@ -157,6 +159,8 @@ func (r *Client) JsonTest(ctx context.Context, userID string, params JsonTestPar
 	return
 }
 
+// Updates the current count with a new integer value. The value must be a positive
+// integer (minimum 1).
 func (r *Client) UpdateCount(ctx context.Context, body UpdateCountParams, opts ...option.RequestOption) (err error) {
 	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)

@@ -17,10 +17,14 @@ import (
 	"github.com/bruce-hill/bruce-test-api-go/packages/respjson"
 )
 
+// Response confirming the user update
 type FormTestResponse struct {
-	Status    string    `json:"status"`
+	// Status of the update operation
+	Status string `json:"status"`
+	// Timestamp when the update occurred
 	Timestamp time.Time `json:"timestamp" format:"date-time"`
-	UserID    string    `json:"userId"`
+	// The updated user's ID
+	UserID string `json:"userId"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Status      respjson.Field
@@ -37,10 +41,14 @@ func (r *FormTestResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Response confirming the user update
 type JsonTestResponse struct {
-	Status    string    `json:"status"`
+	// Status of the update operation
+	Status string `json:"status"`
+	// Timestamp when the update occurred
 	Timestamp time.Time `json:"timestamp" format:"date-time"`
-	UserID    string    `json:"userId"`
+	// The updated user's ID
+	UserID string `json:"userId"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Status      respjson.Field
@@ -58,22 +66,39 @@ func (r *JsonTestResponse) UnmarshalJSON(data []byte) error {
 }
 
 type FormTestParams struct {
-	Version        int64                              `path:"version,required" json:"-"`
-	Date           time.Time                          `query:"date,required" format:"date" json:"-"`
-	Datetime       time.Time                          `query:"datetime,required" format:"date-time" json:"-"`
-	Time           string                             `query:"time,required" format:"time" json:"-"`
-	Blorp          string                             `json:"blorp,required"`
-	Limit          param.Opt[int64]                   `query:"limit,omitzero" json:"-"`
-	XTraceID       param.Opt[string]                  `header:"X-Trace-ID,omitzero" json:"-"`
-	PlsNull        any                                `json:"pls_null"`
-	Filter         FormTestParamsFilter               `query:"filter,omitzero" json:"-"`
-	IDOrIndex      FormTestParamsIDOrIndexUnion       `query:"idOrIndex,omitzero" json:"-"`
-	Tags           []string                           `query:"tags,omitzero" json:"-"`
+	// The API version to use
+	Version int64 `path:"version,required" json:"-"`
+	// Date filter in ISO 8601 format (YYYY-MM-DD)
+	Date time.Time `query:"date,required" format:"date" json:"-"`
+	// Full datetime filter in ISO 8601 format
+	Datetime time.Time `query:"datetime,required" format:"date-time" json:"-"`
+	// Time filter in ISO 8601 format (HH:MM:SS)
+	Time string `query:"time,required" format:"time" json:"-"`
+	// Required field for demonstration purposes
+	Blorp string `json:"blorp,required"`
+	// Maximum number of results to return
+	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
+	// Trace ID string for distributed tracing
+	XTraceID param.Opt[string] `header:"X-Trace-ID,omitzero" json:"-"`
+	// A null value field for testing null handling
+	PlsNull any `json:"pls_null"`
+	// Complex filter object for advanced querying
+	Filter FormTestParamsFilter `query:"filter,omitzero" json:"-"`
+	// Flexible identifier that can be either a numeric index or string ID
+	IDOrIndex FormTestParamsIDOrIndexUnion `query:"idOrIndex,omitzero" json:"-"`
+	// Filter results by one or more tags
+	Tags []string `query:"tags,omitzero" json:"-"`
+	// Array of Something items
 	ManySomethings []FormTestParamsManySomethingUnion `json:"many_somethings,omitzero"`
-	Pets           []FormTestParamsPet                `json:"pets,omitzero"`
-	Preferences    FormTestParamsPreferences          `json:"preferences,omitzero"`
-	Something      FormTestParamsSomethingUnion       `json:"something,omitzero"`
-	XFlags         []string                           `header:"X-Flags,omitzero" json:"-"`
+	// List of user's pets
+	Pets []FormTestParamsPet `json:"pets,omitzero"`
+	// User preference settings
+	Preferences FormTestParamsPreferences `json:"preferences,omitzero"`
+	// A flexible type that can be either a number or an object with name and optional
+	// count properties
+	Something FormTestParamsSomethingUnion `json:"something,omitzero"`
+	// Array of feature flag names
+	XFlags []string `header:"X-Flags,omitzero" json:"-"`
 	paramObj
 }
 
@@ -103,9 +128,12 @@ func (r FormTestParams) URLQuery() (v url.Values, err error) {
 	})
 }
 
+// Complex filter object for advanced querying
 type FormTestParamsFilter struct {
-	Status param.Opt[string]        `query:"status,omitzero" json:"-"`
-	Meta   FormTestParamsFilterMeta `query:"meta,omitzero" json:"-"`
+	// Filter by status value
+	Status param.Opt[string] `query:"status,omitzero" json:"-"`
+	// Metadata filter options
+	Meta FormTestParamsFilterMeta `query:"meta,omitzero" json:"-"`
 	paramObj
 }
 
@@ -117,7 +145,9 @@ func (r FormTestParamsFilter) URLQuery() (v url.Values, err error) {
 	})
 }
 
+// Metadata filter options
 type FormTestParamsFilterMeta struct {
+	// Filter by level value
 	Level param.Opt[int64] `query:"level,omitzero" json:"-"`
 	paramObj
 }
@@ -174,9 +204,13 @@ func (u *FormTestParamsManySomethingUnion) asAny() any {
 	return nil
 }
 
+// An object with a required name and optional count
+//
 // The property Name is required.
 type FormTestParamsManySomethingThingy struct {
-	Name  string           `json:"name,required"`
+	// Name identifier
+	Name string `json:"name,required"`
+	// Optional count value
 	Count param.Opt[int64] `json:"count,omitzero"`
 	paramObj
 }
@@ -189,10 +223,14 @@ func (r *FormTestParamsManySomethingThingy) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Pet information
+//
 // The property Name is required.
 type FormTestParamsPet struct {
-	Name string           `json:"name,required"`
-	Age  param.Opt[int64] `json:"age,omitzero"`
+	// Name of the pet
+	Name string `json:"name,required"`
+	// Age of the pet in years
+	Age param.Opt[int64] `json:"age,omitzero"`
 	paramObj
 }
 
@@ -204,9 +242,12 @@ func (r *FormTestParamsPet) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// User preference settings
 type FormTestParamsPreferences struct {
-	Alerts param.Opt[bool]   `json:"alerts,omitzero"`
-	Theme  param.Opt[string] `json:"theme,omitzero"`
+	// Whether to enable alert notifications
+	Alerts param.Opt[bool] `json:"alerts,omitzero"`
+	// UI theme preference (e.g., dark, light)
+	Theme param.Opt[string] `json:"theme,omitzero"`
 	paramObj
 }
 
@@ -243,9 +284,13 @@ func (u *FormTestParamsSomethingUnion) asAny() any {
 	return nil
 }
 
+// An object with a required name and optional count
+//
 // The property Name is required.
 type FormTestParamsSomethingThingy struct {
-	Name  string           `json:"name,required"`
+	// Name identifier
+	Name string `json:"name,required"`
+	// Optional count value
 	Count param.Opt[int64] `json:"count,omitzero"`
 	paramObj
 }
@@ -259,22 +304,39 @@ func (r *FormTestParamsSomethingThingy) UnmarshalJSON(data []byte) error {
 }
 
 type JsonTestParams struct {
-	Version        int64                              `path:"version,required" json:"-"`
-	Date           time.Time                          `query:"date,required" format:"date" json:"-"`
-	Datetime       time.Time                          `query:"datetime,required" format:"date-time" json:"-"`
-	Time           string                             `query:"time,required" format:"time" json:"-"`
-	Blorp          string                             `json:"blorp,required"`
-	Limit          param.Opt[int64]                   `query:"limit,omitzero" json:"-"`
-	XTraceID       param.Opt[string]                  `header:"X-Trace-ID,omitzero" json:"-"`
-	PlsNull        any                                `json:"pls_null"`
-	Filter         JsonTestParamsFilter               `query:"filter,omitzero" json:"-"`
-	IDOrIndex      JsonTestParamsIDOrIndexUnion       `query:"idOrIndex,omitzero" json:"-"`
-	Tags           []string                           `query:"tags,omitzero" json:"-"`
+	// The API version to use
+	Version int64 `path:"version,required" json:"-"`
+	// Date filter in ISO 8601 format (YYYY-MM-DD)
+	Date time.Time `query:"date,required" format:"date" json:"-"`
+	// Full datetime filter in ISO 8601 format
+	Datetime time.Time `query:"datetime,required" format:"date-time" json:"-"`
+	// Time filter in ISO 8601 format (HH:MM:SS)
+	Time string `query:"time,required" format:"time" json:"-"`
+	// Required field for demonstration purposes
+	Blorp string `json:"blorp,required"`
+	// Maximum number of results to return
+	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
+	// Trace ID string for distributed tracing
+	XTraceID param.Opt[string] `header:"X-Trace-ID,omitzero" json:"-"`
+	// A null value field for testing null handling
+	PlsNull any `json:"pls_null"`
+	// Complex filter object for advanced querying
+	Filter JsonTestParamsFilter `query:"filter,omitzero" json:"-"`
+	// Flexible identifier that can be either a numeric index or string ID
+	IDOrIndex JsonTestParamsIDOrIndexUnion `query:"idOrIndex,omitzero" json:"-"`
+	// Filter results by one or more tags
+	Tags []string `query:"tags,omitzero" json:"-"`
+	// Array of Something items
 	ManySomethings []JsonTestParamsManySomethingUnion `json:"many_somethings,omitzero"`
-	Pets           []JsonTestParamsPet                `json:"pets,omitzero"`
-	Preferences    JsonTestParamsPreferences          `json:"preferences,omitzero"`
-	Something      JsonTestParamsSomethingUnion       `json:"something,omitzero"`
-	XFlags         []string                           `header:"X-Flags,omitzero" json:"-"`
+	// List of user's pets
+	Pets []JsonTestParamsPet `json:"pets,omitzero"`
+	// User preference settings
+	Preferences JsonTestParamsPreferences `json:"preferences,omitzero"`
+	// A flexible type that can be either a number or an object with name and optional
+	// count properties
+	Something JsonTestParamsSomethingUnion `json:"something,omitzero"`
+	// Array of feature flag names
+	XFlags []string `header:"X-Flags,omitzero" json:"-"`
 	paramObj
 }
 
@@ -294,9 +356,12 @@ func (r JsonTestParams) URLQuery() (v url.Values, err error) {
 	})
 }
 
+// Complex filter object for advanced querying
 type JsonTestParamsFilter struct {
-	Status param.Opt[string]        `query:"status,omitzero" json:"-"`
-	Meta   JsonTestParamsFilterMeta `query:"meta,omitzero" json:"-"`
+	// Filter by status value
+	Status param.Opt[string] `query:"status,omitzero" json:"-"`
+	// Metadata filter options
+	Meta JsonTestParamsFilterMeta `query:"meta,omitzero" json:"-"`
 	paramObj
 }
 
@@ -308,7 +373,9 @@ func (r JsonTestParamsFilter) URLQuery() (v url.Values, err error) {
 	})
 }
 
+// Metadata filter options
 type JsonTestParamsFilterMeta struct {
+	// Filter by level value
 	Level param.Opt[int64] `query:"level,omitzero" json:"-"`
 	paramObj
 }
@@ -365,9 +432,13 @@ func (u *JsonTestParamsManySomethingUnion) asAny() any {
 	return nil
 }
 
+// An object with a required name and optional count
+//
 // The property Name is required.
 type JsonTestParamsManySomethingThingy struct {
-	Name  string           `json:"name,required"`
+	// Name identifier
+	Name string `json:"name,required"`
+	// Optional count value
 	Count param.Opt[int64] `json:"count,omitzero"`
 	paramObj
 }
@@ -380,10 +451,14 @@ func (r *JsonTestParamsManySomethingThingy) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Pet information
+//
 // The property Name is required.
 type JsonTestParamsPet struct {
-	Name string           `json:"name,required"`
-	Age  param.Opt[int64] `json:"age,omitzero"`
+	// Name of the pet
+	Name string `json:"name,required"`
+	// Age of the pet in years
+	Age param.Opt[int64] `json:"age,omitzero"`
 	paramObj
 }
 
@@ -395,9 +470,12 @@ func (r *JsonTestParamsPet) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// User preference settings
 type JsonTestParamsPreferences struct {
-	Alerts param.Opt[bool]   `json:"alerts,omitzero"`
-	Theme  param.Opt[string] `json:"theme,omitzero"`
+	// Whether to enable alert notifications
+	Alerts param.Opt[bool] `json:"alerts,omitzero"`
+	// UI theme preference (e.g., dark, light)
+	Theme param.Opt[string] `json:"theme,omitzero"`
 	paramObj
 }
 
@@ -434,9 +512,13 @@ func (u *JsonTestParamsSomethingUnion) asAny() any {
 	return nil
 }
 
+// An object with a required name and optional count
+//
 // The property Name is required.
 type JsonTestParamsSomethingThingy struct {
-	Name  string           `json:"name,required"`
+	// Name identifier
+	Name string `json:"name,required"`
+	// Optional count value
 	Count param.Opt[int64] `json:"count,omitzero"`
 	paramObj
 }
@@ -450,6 +532,7 @@ func (r *JsonTestParamsSomethingThingy) UnmarshalJSON(data []byte) error {
 }
 
 type UpdateCountParams struct {
+	// A positive integer representing the new count value
 	Body int64
 	paramObj
 }
