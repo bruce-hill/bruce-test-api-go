@@ -31,7 +31,9 @@ func NewStreamJsonService(opts ...option.RequestOption) (r StreamJsonService) {
 	return
 }
 
-// Streams JSON objects as a chunked response (NDJSON)
+// Streams JSON objects as a chunked response using Newline Delimited JSON (NDJSON)
+// format. Each line contains a complete JSON object. Useful for real-time data
+// feeds or large dataset streaming.
 func (r *StreamJsonService) StreamStreaming(ctx context.Context, opts ...option.RequestOption) (stream *jsonl.Stream[StreamJsonStreamResponse]) {
 	var (
 		raw *http.Response

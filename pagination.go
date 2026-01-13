@@ -38,7 +38,8 @@ func NewPaginationService(opts ...option.RequestOption) (r PaginationService) {
 	return
 }
 
-// Get foos
+// Retrieves a paginated list of Foo objects with optional filtering by tags.
+// Supports standard pagination parameters.
 func (r *PaginationService) List(ctx context.Context, query PaginationListParams, opts ...option.RequestOption) (res *pagination.PageNumber[PaginationListResponse], err error) {
 	var raw *http.Response
 	opts = slices.Concat(r.Options, opts)
@@ -56,11 +57,13 @@ func (r *PaginationService) List(ctx context.Context, query PaginationListParams
 	return res, nil
 }
 
-// Get foos
+// Retrieves a paginated list of Foo objects with optional filtering by tags.
+// Supports standard pagination parameters.
 func (r *PaginationService) ListAutoPaging(ctx context.Context, query PaginationListParams, opts ...option.RequestOption) *pagination.PageNumberAutoPager[PaginationListResponse] {
 	return pagination.NewPageNumberAutoPager(r.List(ctx, query, opts...))
 }
 
+// A simple object containing foo and baz fields for demonstration purposes
 type PaginationListResponse struct {
 	// The baz field
 	Baz int64 `json:"baz,required"`
@@ -86,7 +89,8 @@ type PaginationListParams struct {
 	Page param.Opt[int64] `query:"page,omitzero" json:"-"`
 	// Page size
 	Size param.Opt[int64] `query:"size,omitzero" json:"-"`
-	Tags []string         `query:"tags,omitzero" json:"-"`
+	// Filter results by tags
+	Tags []string `query:"tags,omitzero" json:"-"`
 	paramObj
 }
 
