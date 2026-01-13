@@ -3,8 +3,10 @@
 package brucetestapi_test
 
 import (
+	"bytes"
 	"context"
 	"errors"
+	"io"
 	"os"
 	"testing"
 	"time"
@@ -187,6 +189,30 @@ func TestBrucetestapiUpdateCount(t *testing.T) {
 	)
 	err := client.UpdateCount(context.TODO(), brucetestapi.UpdateCountParams{
 		Body: 42,
+	})
+	if err != nil {
+		var apierr *brucetestapi.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestBrucetestapiUploadTest(t *testing.T) {
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := brucetestapi.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.UploadTest(context.TODO(), brucetestapi.UploadTestParams{
+		File: io.Reader(bytes.NewBuffer([]byte("some file contents"))),
 	})
 	if err != nil {
 		var apierr *brucetestapi.Error

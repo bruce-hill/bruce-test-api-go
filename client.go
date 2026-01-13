@@ -168,3 +168,12 @@ func (r *Client) UpdateCount(ctx context.Context, body UpdateCountParams, opts .
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, nil, opts...)
 	return
 }
+
+// Accepts a binary file upload using multipart/form-data. Typical use cases
+// include uploading images, documents, or other opaque binaries.
+func (r *Client) UploadTest(ctx context.Context, body UploadTestParams, opts ...option.RequestOption) (res *UploadTestResponse, err error) {
+	opts = slices.Concat(r.Options, opts)
+	path := "upload"
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
