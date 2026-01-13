@@ -5,6 +5,7 @@ package brucetestapi
 import (
 	"bytes"
 	"encoding/json"
+	"io"
 	"mime/multipart"
 	"net/url"
 	"time"
@@ -62,6 +63,23 @@ type JsonTestResponse struct {
 // Returns the unmodified JSON received from the API
 func (r JsonTestResponse) RawJSON() string { return r.JSON.raw }
 func (r *JsonTestResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type UploadTestResponse struct {
+	// Human-readable status message.
+	Message string `json:"message"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Message     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r UploadTestResponse) RawJSON() string { return r.JSON.raw }
+func (r *UploadTestResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -542,4 +560,28 @@ func (r UpdateCountParams) MarshalJSON() (data []byte, err error) {
 }
 func (r *UpdateCountParams) UnmarshalJSON(data []byte) error {
 	return json.Unmarshal(data, &r.Body)
+}
+
+type UploadTestParams struct {
+	// The binary file to upload.
+	File io.Reader `json:"file,omitzero,required" format:"binary"`
+	paramObj
+}
+
+func (r UploadTestParams) MarshalMultipart() (data []byte, contentType string, err error) {
+	buf := bytes.NewBuffer(nil)
+	writer := multipart.NewWriter(buf)
+	err = apiform.MarshalRoot(r, writer)
+	if err == nil {
+		err = apiform.WriteExtras(writer, r.ExtraFields())
+	}
+	if err != nil {
+		writer.Close()
+		return nil, "", err
+	}
+	err = writer.Close()
+	if err != nil {
+		return nil, "", err
+	}
+	return buf.Bytes(), writer.FormDataContentType(), nil
 }
