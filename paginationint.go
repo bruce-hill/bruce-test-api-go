@@ -34,7 +34,8 @@ func NewPaginationIntService(opts ...option.RequestOption) (r PaginationIntServi
 	return
 }
 
-// Get paginated integers
+// Retrieves a paginated list of integer values. Useful for demonstrating
+// pagination with primitive types.
 func (r *PaginationIntService) List(ctx context.Context, query PaginationIntListParams, opts ...option.RequestOption) (res *pagination.PageNumber[int64], err error) {
 	var raw *http.Response
 	opts = slices.Concat(r.Options, opts)
@@ -52,13 +53,16 @@ func (r *PaginationIntService) List(ctx context.Context, query PaginationIntList
 	return res, nil
 }
 
-// Get paginated integers
+// Retrieves a paginated list of integer values. Useful for demonstrating
+// pagination with primitive types.
 func (r *PaginationIntService) ListAutoPaging(ctx context.Context, query PaginationIntListParams, opts ...option.RequestOption) *pagination.PageNumberAutoPager[int64] {
 	return pagination.NewPageNumberAutoPager(r.List(ctx, query, opts...))
 }
 
 type PaginationIntListParams struct {
+	// Page number to retrieve (1-indexed)
 	Page param.Opt[int64] `query:"page,omitzero" json:"-"`
+	// Number of items per page
 	Size param.Opt[int64] `query:"size,omitzero" json:"-"`
 	paramObj
 }
