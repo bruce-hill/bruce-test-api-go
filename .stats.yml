@@ -1,4 +1,4 @@
-configured_endpoints: 6
-openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/stainless-bruce-hill%2Fbruce-test-api-020a7b12e9c60bf042900efcb53e9caa238b7a39eeafb7e2e629405557e9e7c6.yml
-openapi_spec_hash: 9c30b71cda87709e6c1c946a12f9d73d
-config_hash: a775b24012f42379b54c1fce6930a26d
+configured_endpoints: 7
+openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/stainless-bruce-hill%2Fbruce-test-api-b0a92dc9fe0e192bec72164632e1d7da3f0a24000ed7039516be20a6fbcadb5b.yml
+openapi_spec_hash: c60e182f2d818711f558925ef4eba2fa
+config_hash: 01fb212f8fad80e2c795fe848b6e6207
