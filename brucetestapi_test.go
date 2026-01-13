@@ -35,6 +35,7 @@ func TestBrucetestapiFormTestWithOptionalParams(t *testing.T) {
 			Date:     time.Now(),
 			Datetime: time.Now(),
 			Time:     "18:11:19.117Z",
+			Blorp:    "example value",
 			Filter: brucetestapi.FormTestParamsFilter{
 				Meta: brucetestapi.FormTestParamsFilterMeta{
 					Level: brucetestapi.Int(0),
@@ -46,7 +47,6 @@ func TestBrucetestapiFormTestWithOptionalParams(t *testing.T) {
 			},
 			Limit: brucetestapi.Int(1),
 			Tags:  []string{"string"},
-			Blorp: brucetestapi.String("example value"),
 			ManySomethings: []brucetestapi.FormTestParamsManySomethingUnion{{
 				OfFloat: brucetestapi.Float(123),
 			}, {
@@ -114,6 +114,7 @@ func TestBrucetestapiJsonTestWithOptionalParams(t *testing.T) {
 			Date:     time.Now(),
 			Datetime: time.Now(),
 			Time:     "18:11:19.117Z",
+			Blorp:    "test data",
 			Filter: brucetestapi.JsonTestParamsFilter{
 				Meta: brucetestapi.JsonTestParamsFilterMeta{
 					Level: brucetestapi.Int(0),
@@ -125,7 +126,6 @@ func TestBrucetestapiJsonTestWithOptionalParams(t *testing.T) {
 			},
 			Limit: brucetestapi.Int(1),
 			Tags:  []string{"string"},
-			Blorp: brucetestapi.String("test data"),
 			ManySomethings: []brucetestapi.JsonTestParamsManySomethingUnion{{
 				OfFloat: brucetestapi.Float(123),
 			}, {

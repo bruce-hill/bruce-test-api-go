@@ -62,8 +62,8 @@ type FormTestParams struct {
 	Date           time.Time                          `query:"date,required" format:"date" json:"-"`
 	Datetime       time.Time                          `query:"datetime,required" format:"date-time" json:"-"`
 	Time           string                             `query:"time,required" format:"time" json:"-"`
+	Blorp          string                             `json:"blorp,required"`
 	Limit          param.Opt[int64]                   `query:"limit,omitzero" json:"-"`
-	Blorp          param.Opt[string]                  `json:"blorp,omitzero"`
 	XTraceID       param.Opt[string]                  `header:"X-Trace-ID,omitzero" json:"-"`
 	PlsNull        any                                `json:"pls_null"`
 	Filter         FormTestParamsFilter               `query:"filter,omitzero" json:"-"`
@@ -263,8 +263,8 @@ type JsonTestParams struct {
 	Date           time.Time                          `query:"date,required" format:"date" json:"-"`
 	Datetime       time.Time                          `query:"datetime,required" format:"date-time" json:"-"`
 	Time           string                             `query:"time,required" format:"time" json:"-"`
+	Blorp          string                             `json:"blorp,required"`
 	Limit          param.Opt[int64]                   `query:"limit,omitzero" json:"-"`
-	Blorp          param.Opt[string]                  `json:"blorp,omitzero"`
 	XTraceID       param.Opt[string]                  `header:"X-Trace-ID,omitzero" json:"-"`
 	PlsNull        any                                `json:"pls_null"`
 	Filter         JsonTestParamsFilter               `query:"filter,omitzero" json:"-"`
