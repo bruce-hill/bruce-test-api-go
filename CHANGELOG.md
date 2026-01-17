@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.26.1 (2026-01-17)
+
+Full Changelog: [v0.26.0...v0.26.1](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.26.0...v0.26.1)
+
+### Bug Fixes
+
+* **docs:** add missing pointer prefix to api.md return types ([6309585](https://github.com/bruce-hill/bruce-test-api-go/commit/630958500c040cf962c366da4fe2ac5cf07d6aea))
+
+
+### Chores
+
+* **internal:** update `actions/checkout` version ([2b6a592](https://github.com/bruce-hill/bruce-test-api-go/commit/2b6a592d6c9851fbc94f88c54a63c940a70d64c9))
+
 ## 0.26.0 (2026-01-13)
 
 Full Changelog: [v0.25.0...v0.26.0](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.25.0...v0.26.0)
