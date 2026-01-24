@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.27.0 (2026-01-24)
+
+Full Changelog: [v0.26.1...v0.27.0](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.26.1...v0.27.0)
+
+### Features
+
+* **client:** add a convenient param.SetJSON helper ([c6de810](https://github.com/bruce-hill/bruce-test-api-go/commit/c6de810a0afca2f90ae28280cd4d32d946d3a8ad))
+
 ## 0.26.1 (2026-01-17)
 
 Full Changelog: [v0.26.0...v0.26.1](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.26.0...v0.26.1)
