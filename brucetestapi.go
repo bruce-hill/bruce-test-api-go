@@ -66,6 +66,24 @@ func (r *JsonTestResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+type UpdateCountResponse struct {
+	Count   int64 `json:"count"`
+	Success bool  `json:"success"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Count       respjson.Field
+		Success     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r UpdateCountResponse) RawJSON() string { return r.JSON.raw }
+func (r *UpdateCountResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type UploadTestResponse struct {
 	// Human-readable status message.
 	Message string `json:"message"`

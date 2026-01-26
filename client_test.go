@@ -64,7 +64,7 @@ func TestRetryAfter(t *testing.T) {
 			},
 		}),
 	)
-	err := client.UpdateCount(context.Background(), brucetestapi.UpdateCountParams{
+	_, err := client.UpdateCount(context.Background(), brucetestapi.UpdateCountParams{
 		Body: 123,
 	})
 	if err == nil {
@@ -101,7 +101,7 @@ func TestDeleteRetryCountHeader(t *testing.T) {
 		}),
 		option.WithHeaderDel("X-Stainless-Retry-Count"),
 	)
-	err := client.UpdateCount(context.Background(), brucetestapi.UpdateCountParams{
+	_, err := client.UpdateCount(context.Background(), brucetestapi.UpdateCountParams{
 		Body: 123,
 	})
 	if err == nil {
@@ -133,7 +133,7 @@ func TestOverwriteRetryCountHeader(t *testing.T) {
 		}),
 		option.WithHeader("X-Stainless-Retry-Count", "42"),
 	)
-	err := client.UpdateCount(context.Background(), brucetestapi.UpdateCountParams{
+	_, err := client.UpdateCount(context.Background(), brucetestapi.UpdateCountParams{
 		Body: 123,
 	})
 	if err == nil {
@@ -164,7 +164,7 @@ func TestRetryAfterMs(t *testing.T) {
 			},
 		}),
 	)
-	err := client.UpdateCount(context.Background(), brucetestapi.UpdateCountParams{
+	_, err := client.UpdateCount(context.Background(), brucetestapi.UpdateCountParams{
 		Body: 123,
 	})
 	if err == nil {
@@ -189,7 +189,7 @@ func TestContextCancel(t *testing.T) {
 	)
 	cancelCtx, cancel := context.WithCancel(context.Background())
 	cancel()
-	err := client.UpdateCount(cancelCtx, brucetestapi.UpdateCountParams{
+	_, err := client.UpdateCount(cancelCtx, brucetestapi.UpdateCountParams{
 		Body: 123,
 	})
 	if err == nil {
@@ -211,7 +211,7 @@ func TestContextCancelDelay(t *testing.T) {
 	)
 	cancelCtx, cancel := context.WithTimeout(context.Background(), 2*time.Millisecond)
 	defer cancel()
-	err := client.UpdateCount(cancelCtx, brucetestapi.UpdateCountParams{
+	_, err := client.UpdateCount(cancelCtx, brucetestapi.UpdateCountParams{
 		Body: 123,
 	})
 	if err == nil {
@@ -239,7 +239,7 @@ func TestContextDeadline(t *testing.T) {
 				},
 			}),
 		)
-		err := client.UpdateCount(deadlineCtx, brucetestapi.UpdateCountParams{
+		_, err := client.UpdateCount(deadlineCtx, brucetestapi.UpdateCountParams{
 			Body: 123,
 		})
 		if err == nil {
