@@ -161,11 +161,10 @@ func (r *Client) JsonTest(ctx context.Context, userID string, params JsonTestPar
 
 // Updates the current count with a new integer value. The value must be a positive
 // integer (minimum 1).
-func (r *Client) UpdateCount(ctx context.Context, body UpdateCountParams, opts ...option.RequestOption) (err error) {
+func (r *Client) UpdateCount(ctx context.Context, body UpdateCountParams, opts ...option.RequestOption) (res *UpdateCountResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
-	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	path := "count"
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, nil, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
 	return
 }
 

@@ -24,10 +24,11 @@ func TestUsage(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	err := client.UpdateCount(context.TODO(), brucetestapi.UpdateCountParams{
+	response, err := client.UpdateCount(context.TODO(), brucetestapi.UpdateCountParams{
 		Body: 123,
 	})
 	if err != nil {
 		t.Fatalf("err should be nil: %s", err.Error())
 	}
+	t.Logf("%+v\n", response.Count)
 }

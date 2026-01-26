@@ -187,7 +187,7 @@ func TestBrucetestapiUpdateCount(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	err := client.UpdateCount(context.TODO(), brucetestapi.UpdateCountParams{
+	_, err := client.UpdateCount(context.TODO(), brucetestapi.UpdateCountParams{
 		Body: 42,
 	})
 	if err != nil {
