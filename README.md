@@ -46,6 +46,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/bruce-hill/bruce-test-api-go"
 	"github.com/bruce-hill/bruce-test-api-go/option"
@@ -55,12 +56,13 @@ func main() {
 	client := brucetestapi.NewClient(
 		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("BRUCE_TEST_API_API_KEY")
 	)
-	err := client.UpdateCount(context.TODO(), brucetestapi.UpdateCountParams{
+	response, err := client.UpdateCount(context.TODO(), brucetestapi.UpdateCountParams{
 		Body: 123,
 	})
 	if err != nil {
 		panic(err.Error())
 	}
+	fmt.Printf("%+v\n", response.Count)
 }
 
 ```
@@ -322,7 +324,7 @@ When the API returns a non-success status code, we return an error with type
 To handle errors, we recommend that you use the `errors.As` pattern:
 
 ```go
-err := client.UpdateCount(context.TODO(), brucetestapi.UpdateCountParams{
+_, err := client.UpdateCount(context.TODO(), brucetestapi.UpdateCountParams{
 	Body: 123,
 })
 if err != nil {
@@ -422,7 +424,7 @@ you need to examine response headers, status codes, or other details.
 ```go
 // Create a variable to store the HTTP response
 var response *http.Response
-err := client.UpdateCount(
+response, err := client.UpdateCount(
 	context.TODO(),
 	brucetestapi.UpdateCountParams{
 		Body: 123,
@@ -432,7 +434,7 @@ err := client.UpdateCount(
 if err != nil {
 	// handle error
 }
-null
+fmt.Printf("%+v\n", response)
 
 fmt.Printf("Status Code: %d\n", response.StatusCode)
 fmt.Printf("Headers: %+#v\n", response.Header)
