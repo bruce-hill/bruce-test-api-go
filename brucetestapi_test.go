@@ -16,7 +16,7 @@ import (
 	"github.com/bruce-hill/bruce-test-api-go/option"
 )
 
-func TestBrucetestapiFormTestWithOptionalParams(t *testing.T) {
+func TestFormTestWithOptionalParams(t *testing.T) {
 	t.Skip("prism issues because prism is not good at its job")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -96,7 +96,7 @@ func TestBrucetestapiFormTestWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestBrucetestapiJsonTestWithOptionalParams(t *testing.T) {
+func TestJsonTestWithOptionalParams(t *testing.T) {
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -175,7 +175,7 @@ func TestBrucetestapiJsonTestWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestBrucetestapiUpdateCount(t *testing.T) {
+func TestUpdateCount(t *testing.T) {
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -199,7 +199,7 @@ func TestBrucetestapiUpdateCount(t *testing.T) {
 	}
 }
 
-func TestBrucetestapiUploadTest(t *testing.T) {
+func TestUploadTest(t *testing.T) {
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
