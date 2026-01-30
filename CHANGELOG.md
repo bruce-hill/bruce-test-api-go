@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.28.1 (2026-01-30)
+
+Full Changelog: [v0.28.0...v0.28.1](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.28.0...v0.28.1)
+
+### Bug Fixes
+
+* fix for namespace collisions with client and resource test methods ([5304f0f](https://github.com/bruce-hill/bruce-test-api-go/commit/5304f0f2b50ee5563e670406491f957abfe26d0e))
+
 ## 0.28.0 (2026-01-26)
 
 Full Changelog: [v0.27.0...v0.28.0](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.27.0...v0.28.0)
