@@ -101,6 +101,8 @@ func (r *UploadTestResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+type VersionResponse = any
+
 type FormTestParams struct {
 	// The API version to use
 	Version int64 `path:"version,required" json:"-"`
@@ -564,6 +566,19 @@ func (r JsonTestParamsSomethingThingy) MarshalJSON() (data []byte, err error) {
 	return param.MarshalObject(r, (*shadow)(&r))
 }
 func (r *JsonTestParamsSomethingThingy) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type NullableTestParams struct {
+	Field param.Opt[int64] `json:"field,omitzero"`
+	paramObj
+}
+
+func (r NullableTestParams) MarshalJSON() (data []byte, err error) {
+	type shadow NullableTestParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *NullableTestParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
