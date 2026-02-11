@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.29.1 (2026-02-11)
+
+Full Changelog: [v0.29.0...v0.29.1](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.29.0...v0.29.1)
+
+### Bug Fixes
+
+* **encoder:** correctly serialize NullStruct ([c5df3fe](https://github.com/bruce-hill/bruce-test-api-go/commit/c5df3fe08c7c6f603998081bba30f4739c70f5c7))
+
 ## 0.29.0 (2026-02-04)
 
 Full Changelog: [v0.28.1...v0.29.0](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.28.1...v0.29.0)
