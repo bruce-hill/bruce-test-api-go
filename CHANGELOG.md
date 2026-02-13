@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.30.0 (2026-02-13)
+
+Full Changelog: [v0.29.1...v0.30.0](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.29.1...v0.30.0)
+
+### Features
+
+* **api:** manual updates ([63be006](https://github.com/bruce-hill/bruce-test-api-go/commit/63be006445b9c0c641c6e366df03ccf8a88c8f76))
+* **api:** manual updates ([f9d758e](https://github.com/bruce-hill/bruce-test-api-go/commit/f9d758e4609ad4d98c6374b26ec76a7b5e9b466a))
+
 ## 0.29.1 (2026-02-11)
 
 Full Changelog: [v0.29.0...v0.29.1](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.29.0...v0.29.1)
