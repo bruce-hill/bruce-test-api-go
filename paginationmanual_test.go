@@ -24,12 +24,12 @@ func TestManualPagination(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	page, err := client.Pagination.Ints.List(context.TODO(), brucetestapi.PaginationIntListParams{})
+	page, err := client.Pagination.List(context.TODO(), brucetestapi.PaginationListParams{})
 	if err != nil {
 		t.Fatalf("err should be nil: %s", err.Error())
 	}
-	for _, int := range page.Items {
-		t.Logf("%+v\n", int)
+	for _, pagination := range page.Items {
+		t.Logf("%+v\n", pagination.Baz)
 	}
 	// Prism mock isn't going to give us real pagination
 	page, err = page.GetNextPage()
@@ -37,8 +37,8 @@ func TestManualPagination(t *testing.T) {
 		t.Fatalf("err should be nil: %s", err.Error())
 	}
 	if page != nil {
-		for _, int := range page.Items {
-			t.Logf("%+v\n", int)
+		for _, pagination := range page.Items {
+			t.Logf("%+v\n", pagination.Baz)
 		}
 	}
 }
