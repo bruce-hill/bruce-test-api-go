@@ -24,11 +24,11 @@ func TestAutoPagination(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	iter := client.Pagination.ListAutoPaging(context.TODO(), brucetestapi.PaginationListParams{})
+	iter := client.Pagination.Ints.ListAutoPaging(context.TODO(), brucetestapi.PaginationIntListParams{})
 	// Prism mock isn't going to give us real pagination
 	for i := 0; i < 3 && iter.Next(); i++ {
-		pagination := iter.Current()
-		t.Logf("%+v\n", pagination.Baz)
+		int := iter.Current()
+		t.Logf("%+v\n", int)
 	}
 	if err := iter.Err(); err != nil {
 		t.Fatalf("err should be nil: %s", err.Error())
