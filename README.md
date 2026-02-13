@@ -287,11 +287,11 @@ This library provides some conveniences for working with paginated list endpoint
 You can use `.ListAutoPaging()` methods to iterate through items across all pages:
 
 ```go
-iter := client.Pagination.Ints.ListAutoPaging(context.TODO(), brucetestapi.PaginationIntListParams{})
+iter := client.Pagination.ListAutoPaging(context.TODO(), brucetestapi.PaginationListParams{})
 // Automatically fetches more pages as needed.
 for iter.Next() {
-	int := iter.Current()
-	fmt.Printf("%+v\n", int)
+	paginationListResponse := iter.Current()
+	fmt.Printf("%+v\n", paginationListResponse)
 }
 if err := iter.Err(); err != nil {
 	panic(err.Error())
@@ -302,10 +302,10 @@ Or you can use simple `.List()` methods to fetch a single page and receive a sta
 with additional helper methods like `.GetNextPage()`, e.g.:
 
 ```go
-page, err := client.Pagination.Ints.List(context.TODO(), brucetestapi.PaginationIntListParams{})
+page, err := client.Pagination.List(context.TODO(), brucetestapi.PaginationListParams{})
 for page != nil {
-	for _, int := range page.Items {
-		fmt.Printf("%+v\n", int)
+	for _, pagination := range page.Items {
+		fmt.Printf("%+v\n", pagination)
 	}
 	page, err = page.GetNextPage()
 }
