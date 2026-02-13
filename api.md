@@ -22,13 +22,9 @@ Methods:
 
 # Pagination
 
-Response Types:
-
-- <a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go#PaginationListResponse">PaginationListResponse</a>
-
 Methods:
 
-- <code title="get /paginated">client.Pagination.<a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go#PaginationService.List">List</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, query <a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go#PaginationListParams">PaginationListParams</a>) (\*<a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go/packages/pagination">pagination</a>.<a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go/packages/pagination#PageNumber">PageNumber</a>[<a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go#PaginationListResponse">PaginationListResponse</a>], <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+- <code title="get /paginated">client.Pagination.<a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go#PaginationService.List">List</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, query <a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go#PaginationListParams">PaginationListParams</a>) <a href="https://pkg.go.dev/builtin#error">error</a></code>
 
 ## Ints
 

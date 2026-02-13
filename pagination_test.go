@@ -25,7 +25,7 @@ func TestPaginationListWithOptionalParams(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Pagination.List(context.TODO(), brucetestapi.PaginationListParams{
+	err := client.Pagination.List(context.TODO(), brucetestapi.PaginationListParams{
 		Page: brucetestapi.Int(1),
 		Size: brucetestapi.Int(1),
 		Tags: []string{"string"},

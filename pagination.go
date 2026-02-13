@@ -8,13 +8,10 @@ import (
 	"net/url"
 	"slices"
 
-	"github.com/bruce-hill/bruce-test-api-go/internal/apijson"
 	"github.com/bruce-hill/bruce-test-api-go/internal/apiquery"
 	"github.com/bruce-hill/bruce-test-api-go/internal/requestconfig"
 	"github.com/bruce-hill/bruce-test-api-go/option"
-	"github.com/bruce-hill/bruce-test-api-go/packages/pagination"
 	"github.com/bruce-hill/bruce-test-api-go/packages/param"
-	"github.com/bruce-hill/bruce-test-api-go/packages/respjson"
 )
 
 // PaginationService contains methods and other services that help with interacting
@@ -40,48 +37,12 @@ func NewPaginationService(opts ...option.RequestOption) (r PaginationService) {
 
 // Retrieves a paginated list of Foo objects with optional filtering by tags.
 // Supports standard pagination parameters.
-func (r *PaginationService) List(ctx context.Context, query PaginationListParams, opts ...option.RequestOption) (res *pagination.PageNumber[PaginationListResponse], err error) {
-	var raw *http.Response
+func (r *PaginationService) List(ctx context.Context, query PaginationListParams, opts ...option.RequestOption) (err error) {
 	opts = slices.Concat(r.Options, opts)
-	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	path := "paginated"
-	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
-	if err != nil {
-		return nil, err
-	}
-	err = cfg.Execute()
-	if err != nil {
-		return nil, err
-	}
-	res.SetPageConfig(cfg, raw)
-	return res, nil
-}
-
-// Retrieves a paginated list of Foo objects with optional filtering by tags.
-// Supports standard pagination parameters.
-func (r *PaginationService) ListAutoPaging(ctx context.Context, query PaginationListParams, opts ...option.RequestOption) *pagination.PageNumberAutoPager[PaginationListResponse] {
-	return pagination.NewPageNumberAutoPager(r.List(ctx, query, opts...))
-}
-
-// A simple object containing foo and baz fields for demonstration purposes
-type PaginationListResponse struct {
-	// The baz field
-	Baz int64 `json:"baz,required"`
-	// The foo field
-	Foo string `json:"foo,required"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		Baz         respjson.Field
-		Foo         respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r PaginationListResponse) RawJSON() string { return r.JSON.raw }
-func (r *PaginationListResponse) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, nil, opts...)
+	return
 }
 
 type PaginationListParams struct {
