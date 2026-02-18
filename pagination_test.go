@@ -4,6 +4,7 @@ package brucetestapi_test
 
 import (
 	"context"
+	"errors"
 	"os"
 	"testing"
 
@@ -12,7 +13,7 @@ import (
 	"github.com/bruce-hill/bruce-test-api-go/option"
 )
 
-func TestUsage(t *testing.T) {
+func TestPaginationListWithOptionalParams(t *testing.T) {
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -24,11 +25,16 @@ func TestUsage(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	response, err := client.UpdateCount(context.TODO(), brucetestapi.UpdateCountParams{
-		Body: 123,
+	_, err := client.Pagination.List(context.TODO(), brucetestapi.PaginationListParams{
+		Page: brucetestapi.Int(1),
+		Size: brucetestapi.Int(1),
+		Tags: []string{"string"},
 	})
 	if err != nil {
+		var apierr *brucetestapi.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
 		t.Fatalf("err should be nil: %s", err.Error())
 	}
-	t.Logf("%+v\n", response.Count)
 }
