@@ -10,6 +10,7 @@ import (
 	"github.com/bruce-hill/bruce-test-api-go"
 	"github.com/bruce-hill/bruce-test-api-go/internal/testutil"
 	"github.com/bruce-hill/bruce-test-api-go/option"
+	"github.com/bruce-hill/bruce-test-api-go/shared"
 )
 
 func TestUsage(t *testing.T) {
@@ -24,11 +25,15 @@ func TestUsage(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	response, err := client.UpdateCount(context.TODO(), brucetestapi.UpdateCountParams{
-		Body: 123,
+	response, err := client.NewAnimal(context.TODO(), brucetestapi.NewAnimalParams{
+		Body: shared.AnimalUnionParam{
+			OfBird: &shared.BirdParam{
+				WingSpan: 0,
+			},
+		},
 	})
 	if err != nil {
 		t.Fatalf("err should be nil: %s", err.Error())
 	}
-	t.Logf("%+v\n", response.Count)
+	t.Logf("%+v\n", response.Status)
 }
