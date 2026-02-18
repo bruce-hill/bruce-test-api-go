@@ -4,24 +4,19 @@ package brucetestapi
 
 import (
 	"context"
-	"errors"
-	"fmt"
 	"net/http"
 	"os"
 	"slices"
 
 	"github.com/bruce-hill/bruce-test-api-go/internal/requestconfig"
 	"github.com/bruce-hill/bruce-test-api-go/option"
-	"github.com/bruce-hill/bruce-test-api-go/packages/param"
 )
 
 // Client creates a struct with services and top level methods that help with
 // interacting with the bruce-test-api API. You should not instantiate this client
 // directly, and instead use the [NewClient] method instead.
 type Client struct {
-	Options    []option.RequestOption
-	Pagination PaginationService
-	StreamJson StreamJsonService
+	Options []option.RequestOption
 }
 
 // DefaultClientOptions read from the environment (BRUCE_TEST_API_API_KEY,
@@ -45,9 +40,6 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 	opts = append(DefaultClientOptions(), opts...)
 
 	r = Client{Options: opts}
-
-	r.Pagination = NewPaginationService(opts...)
-	r.StreamJson = NewStreamJsonService(opts...)
 
 	return
 }
@@ -121,102 +113,10 @@ func (r *Client) Delete(ctx context.Context, path string, params any, res any, o
 	return r.Execute(ctx, http.MethodDelete, path, params, res, opts...)
 }
 
-// Deletion test
-func (r *Client) DeleteTest(ctx context.Context, opts ...option.RequestOption) (err error) {
+// Accept an Animal (Bird or Mammal)
+func (r *Client) NewAnimal(ctx context.Context, body NewAnimalParams, opts ...option.RequestOption) (res *NewAnimalResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
-	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
-	path := "delete"
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, nil, opts...)
-	return
-}
-
-// Download a file using application/octet-stream
-func (r *Client) DownloadTest(ctx context.Context, opts ...option.RequestOption) (res *http.Response, err error) {
-	opts = slices.Concat(r.Options, opts)
-	opts = append([]option.RequestOption{option.WithHeader("Accept", "application/octet-stream")}, opts...)
-	path := "download"
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
-}
-
-// Demonstrates a form-data endpoint with various parameter types including path,
-// query, and header parameters. Accepts multipart form data for user updates.
-func (r *Client) FormTest(ctx context.Context, userID string, params FormTestParams, opts ...option.RequestOption) (res *FormTestResponse, err error) {
-	for _, v := range params.XFlags {
-		opts = append(opts, option.WithHeaderAdd("X-Flags", fmt.Sprintf("%s", v)))
-	}
-	if !param.IsOmitted(params.XTraceID) {
-		opts = append(opts, option.WithHeader("X-Trace-ID", fmt.Sprintf("%s", params.XTraceID.Value)))
-	}
-	opts = slices.Concat(r.Options, opts)
-	if userID == "" {
-		err = errors.New("missing required userId parameter")
-		return
-	}
-	path := fmt.Sprintf("form-v%v/users/%s", params.Version, userID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, &res, opts...)
-	return
-}
-
-// Demonstrates a JSON endpoint with various parameter types including path, query,
-// and header parameters. Accepts JSON body for user updates.
-func (r *Client) JsonTest(ctx context.Context, userID string, params JsonTestParams, opts ...option.RequestOption) (res *JsonTestResponse, err error) {
-	for _, v := range params.XFlags {
-		opts = append(opts, option.WithHeaderAdd("X-Flags", fmt.Sprintf("%s", v)))
-	}
-	if !param.IsOmitted(params.XTraceID) {
-		opts = append(opts, option.WithHeader("X-Trace-ID", fmt.Sprintf("%s", params.XTraceID.Value)))
-	}
-	opts = slices.Concat(r.Options, opts)
-	if userID == "" {
-		err = errors.New("missing required userId parameter")
-		return
-	}
-	path := fmt.Sprintf("json-v%v/users/%s", params.Version, userID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, &res, opts...)
-	return
-}
-
-// Test nullable values.
-func (r *Client) NullableTest(ctx context.Context, body NullableTestParams, opts ...option.RequestOption) (err error) {
-	opts = slices.Concat(r.Options, opts)
-	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
-	path := "nullable"
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, nil, opts...)
-	return
-}
-
-// Updates the current count with a new integer value. The value must be a positive
-// integer (minimum 1).
-func (r *Client) UpdateCount(ctx context.Context, body UpdateCountParams, opts ...option.RequestOption) (res *UpdateCountResponse, err error) {
-	opts = slices.Concat(r.Options, opts)
-	path := "count"
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
-	return
-}
-
-// Accepts a binary file upload using multipart/form-data. Typical use cases
-// include uploading images, documents, or other opaque binaries.
-func (r *Client) UploadTest(ctx context.Context, body UploadTestParams, opts ...option.RequestOption) (res *UploadTestResponse, err error) {
-	opts = slices.Concat(r.Options, opts)
-	path := "upload"
+	path := "animal"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
-}
-
-// Get detailed information about API versioning.
-func (r *Client) Version(ctx context.Context, opts ...option.RequestOption) (res *VersionResponse, err error) {
-	opts = slices.Concat(r.Options, opts)
-	path := "version"
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
-}
-
-// No response will be returned
-func (r *Client) VoidTest(ctx context.Context, opts ...option.RequestOption) (err error) {
-	opts = slices.Concat(r.Options, opts)
-	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
-	path := "void-response"
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, nil, opts...)
 	return
 }
