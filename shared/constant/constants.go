@@ -18,6 +18,18 @@ func ValueOf[T Constant[T]]() T {
 	return t.Default()
 }
 
+type Bird string // Always "bird"
+type Cat string  // Always "cat"
+type Dog string  // Always "dog"
+
+func (c Bird) Default() Bird { return "bird" }
+func (c Cat) Default() Cat   { return "cat" }
+func (c Dog) Default() Dog   { return "dog" }
+
+func (c Bird) MarshalJSON() ([]byte, error) { return marshalString(c) }
+func (c Cat) MarshalJSON() ([]byte, error)  { return marshalString(c) }
+func (c Dog) MarshalJSON() ([]byte, error)  { return marshalString(c) }
+
 type constant[T any] interface {
 	Constant[T]
 	*T

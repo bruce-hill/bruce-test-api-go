@@ -50,19 +50,24 @@ import (
 
 	"github.com/bruce-hill/bruce-test-api-go"
 	"github.com/bruce-hill/bruce-test-api-go/option"
+	"github.com/bruce-hill/bruce-test-api-go/shared"
 )
 
 func main() {
 	client := brucetestapi.NewClient(
 		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("BRUCE_TEST_API_API_KEY")
 	)
-	response, err := client.UpdateCount(context.TODO(), brucetestapi.UpdateCountParams{
-		Body: 123,
+	response, err := client.NewAnimal(context.TODO(), brucetestapi.NewAnimalParams{
+		Body: shared.AnimalUnionParam{
+			OfBird: &shared.BirdParam{
+				WingSpan: 0,
+			},
+		},
 	})
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Printf("%+v\n", response.Count)
+	fmt.Printf("%+v\n", response.Status)
 }
 
 ```
@@ -268,7 +273,7 @@ client := brucetestapi.NewClient(
 	option.WithHeader("X-Some-Header", "custom_header_info"),
 )
 
-client.UpdateCount(context.TODO(), ...,
+client.NewAnimal(context.TODO(), ...,
 	// Override the header
 	option.WithHeader("X-Some-Header", "some_other_custom_header_info"),
 	// Add an undocumented field to the request body, using sjson syntax
@@ -286,33 +291,8 @@ This library provides some conveniences for working with paginated list endpoint
 
 You can use `.ListAutoPaging()` methods to iterate through items across all pages:
 
-```go
-iter := client.Pagination.ListAutoPaging(context.TODO(), brucetestapi.PaginationListParams{})
-// Automatically fetches more pages as needed.
-for iter.Next() {
-	paginationListResponse := iter.Current()
-	fmt.Printf("%+v\n", paginationListResponse)
-}
-if err := iter.Err(); err != nil {
-	panic(err.Error())
-}
-```
-
 Or you can use simple `.List()` methods to fetch a single page and receive a standard response object
 with additional helper methods like `.GetNextPage()`, e.g.:
-
-```go
-page, err := client.Pagination.List(context.TODO(), brucetestapi.PaginationListParams{})
-for page != nil {
-	for _, pagination := range page.Items {
-		fmt.Printf("%+v\n", pagination)
-	}
-	page, err = page.GetNextPage()
-}
-if err != nil {
-	panic(err.Error())
-}
-```
 
 ### Errors
 
@@ -324,8 +304,12 @@ When the API returns a non-success status code, we return an error with type
 To handle errors, we recommend that you use the `errors.As` pattern:
 
 ```go
-_, err := client.UpdateCount(context.TODO(), brucetestapi.UpdateCountParams{
-	Body: 123,
+_, err := client.NewAnimal(context.TODO(), brucetestapi.NewAnimalParams{
+	Body: shared.AnimalUnionParam{
+		OfBird: &shared.BirdParam{
+			WingSpan: 0,
+		},
+	},
 })
 if err != nil {
 	var apierr *brucetestapi.Error
@@ -333,7 +317,7 @@ if err != nil {
 		println(string(apierr.DumpRequest(true)))  // Prints the serialized HTTP request
 		println(string(apierr.DumpResponse(true))) // Prints the serialized HTTP response
 	}
-	panic(err.Error()) // GET "/count": 400 Bad Request { ... }
+	panic(err.Error()) // GET "/animal": 400 Bad Request { ... }
 }
 ```
 
@@ -351,10 +335,14 @@ To set a per-retry timeout, use `option.WithRequestTimeout()`.
 // This sets the timeout for the request, including all the retries.
 ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
 defer cancel()
-client.UpdateCount(
+client.NewAnimal(
 	ctx,
-	brucetestapi.UpdateCountParams{
-		Body: 123,
+	brucetestapi.NewAnimalParams{
+		Body: shared.AnimalUnionParam{
+			OfBird: &shared.BirdParam{
+				WingSpan: 0,
+			},
+		},
 	},
 	// This sets the per-retry timeout
 	option.WithRequestTimeout(20*time.Second),
@@ -374,24 +362,6 @@ file returned by `os.Open` will be sent with the file name on disk.
 We also provide a helper `brucetestapi.File(reader io.Reader, filename string, contentType string)`
 which can be used to wrap any `io.Reader` with the appropriate file name and content type.
 
-```go
-// A file from the file system
-file, err := os.Open("/path/to/file")
-brucetestapi.UploadTestParams{
-	File: file,
-}
-
-// A file from a string
-brucetestapi.UploadTestParams{
-	File: strings.NewReader("my file contents"),
-}
-
-// With a custom filename and contentType
-brucetestapi.UploadTestParams{
-	File: brucetestapi.File(strings.NewReader(`{"hello": "foo"}`), "file.go", "application/json"),
-}
-```
-
 ### Retries
 
 Certain errors will be automatically retried 2 times by default, with a short exponential backoff.
@@ -407,10 +377,14 @@ client := brucetestapi.NewClient(
 )
 
 // Override per-request:
-client.UpdateCount(
+client.NewAnimal(
 	context.TODO(),
-	brucetestapi.UpdateCountParams{
-		Body: 123,
+	brucetestapi.NewAnimalParams{
+		Body: shared.AnimalUnionParam{
+			OfBird: &shared.BirdParam{
+				WingSpan: 0,
+			},
+		},
 	},
 	option.WithMaxRetries(5),
 )
@@ -424,10 +398,14 @@ you need to examine response headers, status codes, or other details.
 ```go
 // Create a variable to store the HTTP response
 var response *http.Response
-response, err := client.UpdateCount(
+response, err := client.NewAnimal(
 	context.TODO(),
-	brucetestapi.UpdateCountParams{
-		Body: 123,
+	brucetestapi.NewAnimalParams{
+		Body: shared.AnimalUnionParam{
+			OfBird: &shared.BirdParam{
+				WingSpan: 0,
+			},
+		},
 	},
 	option.WithResponseInto(&response),
 )
