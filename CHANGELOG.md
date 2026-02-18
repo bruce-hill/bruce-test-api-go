@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.31.0 (2026-02-18)
+
+Full Changelog: [v0.30.0...v0.31.0](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.30.0...v0.31.0)
+
+### Features
+
+* **api:** feat(api): update OpenAPI spec or Stainless config ([49d0be2](https://github.com/bruce-hill/bruce-test-api-go/commit/49d0be2aa78232efce32880203d3ac3f06940c4f))
+* **api:** manual updates ([257519d](https://github.com/bruce-hill/bruce-test-api-go/commit/257519df1586b00a81beacc187423640fbd1b67d))
+
 ## 0.30.0 (2026-02-13)
 
 Full Changelog: [v0.29.1...v0.30.0](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.29.1...v0.30.0)
