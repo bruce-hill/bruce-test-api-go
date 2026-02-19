@@ -143,10 +143,10 @@ func (r *Client) DownloadTest(ctx context.Context, opts ...option.RequestOption)
 // query, and header parameters. Accepts multipart form data for user updates.
 func (r *Client) FormTest(ctx context.Context, userID string, params FormTestParams, opts ...option.RequestOption) (res *FormTestResponse, err error) {
 	for _, v := range params.XFlags {
-		opts = append(opts, option.WithHeaderAdd("X-Flags", fmt.Sprintf("%s", v)))
+		opts = append(opts, option.WithHeaderAdd("X-Flags", fmt.Sprintf("%v", v)))
 	}
 	if !param.IsOmitted(params.XTraceID) {
-		opts = append(opts, option.WithHeader("X-Trace-ID", fmt.Sprintf("%s", params.XTraceID.Value)))
+		opts = append(opts, option.WithHeader("X-Trace-ID", fmt.Sprintf("%v", params.XTraceID.Value)))
 	}
 	opts = slices.Concat(r.Options, opts)
 	if userID == "" {
@@ -162,10 +162,10 @@ func (r *Client) FormTest(ctx context.Context, userID string, params FormTestPar
 // and header parameters. Accepts JSON body for user updates.
 func (r *Client) JsonTest(ctx context.Context, userID string, params JsonTestParams, opts ...option.RequestOption) (res *JsonTestResponse, err error) {
 	for _, v := range params.XFlags {
-		opts = append(opts, option.WithHeaderAdd("X-Flags", fmt.Sprintf("%s", v)))
+		opts = append(opts, option.WithHeaderAdd("X-Flags", fmt.Sprintf("%v", v)))
 	}
 	if !param.IsOmitted(params.XTraceID) {
-		opts = append(opts, option.WithHeader("X-Trace-ID", fmt.Sprintf("%s", params.XTraceID.Value)))
+		opts = append(opts, option.WithHeader("X-Trace-ID", fmt.Sprintf("%v", params.XTraceID.Value)))
 	}
 	opts = slices.Concat(r.Options, opts)
 	if userID == "" {
