@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.31.1 (2026-02-19)
+
+Full Changelog: [v0.31.0...v0.31.1](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.31.0...v0.31.1)
+
+### Bug Fixes
+
+* **client:** use correct format specifier for header serialization ([466cd79](https://github.com/bruce-hill/bruce-test-api-go/commit/466cd7976f279497b33384939fbd656b625b353b))
+
 ## 0.31.0 (2026-02-18)
 
 Full Changelog: [v0.30.0...v0.31.0](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.30.0...v0.31.0)
