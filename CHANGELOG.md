@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.31.2 (2026-02-20)
+
+Full Changelog: [v0.31.1...v0.31.2](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.31.1...v0.31.2)
+
+### Bug Fixes
+
+* allow canceling a request while it is waiting to retry ([1c28575](https://github.com/bruce-hill/bruce-test-api-go/commit/1c28575a1ee0e99a6df71da757ff67996b22c9a7))
+
+
+### Chores
+
+* update mock server docs ([53fa082](https://github.com/bruce-hill/bruce-test-api-go/commit/53fa08284e47dd242420c1024409f80d79d7693a))
+
 ## 0.31.1 (2026-02-19)
 
 Full Changelog: [v0.31.0...v0.31.1](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.31.0...v0.31.1)
