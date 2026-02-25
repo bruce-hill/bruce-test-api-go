@@ -66,9 +66,9 @@ func (r *PaginationService) ListAutoPaging(ctx context.Context, query Pagination
 // A simple object containing foo and baz fields for demonstration purposes
 type PaginationListResponse struct {
 	// The baz field
-	Baz int64 `json:"baz,required"`
+	Baz int64 `json:"baz" api:"required"`
 	// The foo field
-	Foo string `json:"foo,required"`
+	Foo string `json:"foo" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Baz         respjson.Field
