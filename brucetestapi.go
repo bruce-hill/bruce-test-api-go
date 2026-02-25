@@ -105,15 +105,15 @@ type VersionResponse = any
 
 type FormTestParams struct {
 	// The API version to use
-	Version int64 `path:"version,required" json:"-"`
+	Version int64 `path:"version" api:"required" json:"-"`
 	// Date filter in ISO 8601 format (YYYY-MM-DD)
-	Date time.Time `query:"date,required" format:"date" json:"-"`
+	Date time.Time `query:"date" api:"required" format:"date" json:"-"`
 	// Full datetime filter in ISO 8601 format
-	Datetime time.Time `query:"datetime,required" format:"date-time" json:"-"`
+	Datetime time.Time `query:"datetime" api:"required" format:"date-time" json:"-"`
 	// Time filter in ISO 8601 format (HH:MM:SS)
-	Time string `query:"time,required" format:"time" json:"-"`
+	Time string `query:"time" api:"required" format:"time" json:"-"`
 	// Required field for demonstration purposes
-	Blorp string `json:"blorp,required"`
+	Blorp string `json:"blorp" api:"required"`
 	// Maximum number of results to return
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
 	// Trace ID string for distributed tracing
@@ -247,7 +247,7 @@ func (u *FormTestParamsManySomethingUnion) asAny() any {
 // The property Name is required.
 type FormTestParamsManySomethingThingy struct {
 	// Name identifier
-	Name string `json:"name,required"`
+	Name string `json:"name" api:"required"`
 	// Optional count value
 	Count param.Opt[int64] `json:"count,omitzero"`
 	paramObj
@@ -266,7 +266,7 @@ func (r *FormTestParamsManySomethingThingy) UnmarshalJSON(data []byte) error {
 // The property Name is required.
 type FormTestParamsPet struct {
 	// Name of the pet
-	Name string `json:"name,required"`
+	Name string `json:"name" api:"required"`
 	// Age of the pet in years
 	Age param.Opt[int64] `json:"age,omitzero"`
 	paramObj
@@ -327,7 +327,7 @@ func (u *FormTestParamsSomethingUnion) asAny() any {
 // The property Name is required.
 type FormTestParamsSomethingThingy struct {
 	// Name identifier
-	Name string `json:"name,required"`
+	Name string `json:"name" api:"required"`
 	// Optional count value
 	Count param.Opt[int64] `json:"count,omitzero"`
 	paramObj
@@ -343,15 +343,15 @@ func (r *FormTestParamsSomethingThingy) UnmarshalJSON(data []byte) error {
 
 type JsonTestParams struct {
 	// The API version to use
-	Version int64 `path:"version,required" json:"-"`
+	Version int64 `path:"version" api:"required" json:"-"`
 	// Date filter in ISO 8601 format (YYYY-MM-DD)
-	Date time.Time `query:"date,required" format:"date" json:"-"`
+	Date time.Time `query:"date" api:"required" format:"date" json:"-"`
 	// Full datetime filter in ISO 8601 format
-	Datetime time.Time `query:"datetime,required" format:"date-time" json:"-"`
+	Datetime time.Time `query:"datetime" api:"required" format:"date-time" json:"-"`
 	// Time filter in ISO 8601 format (HH:MM:SS)
-	Time string `query:"time,required" format:"time" json:"-"`
+	Time string `query:"time" api:"required" format:"time" json:"-"`
 	// Required field for demonstration purposes
-	Blorp string `json:"blorp,required"`
+	Blorp string `json:"blorp" api:"required"`
 	// Maximum number of results to return
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
 	// Trace ID string for distributed tracing
@@ -475,7 +475,7 @@ func (u *JsonTestParamsManySomethingUnion) asAny() any {
 // The property Name is required.
 type JsonTestParamsManySomethingThingy struct {
 	// Name identifier
-	Name string `json:"name,required"`
+	Name string `json:"name" api:"required"`
 	// Optional count value
 	Count param.Opt[int64] `json:"count,omitzero"`
 	paramObj
@@ -494,7 +494,7 @@ func (r *JsonTestParamsManySomethingThingy) UnmarshalJSON(data []byte) error {
 // The property Name is required.
 type JsonTestParamsPet struct {
 	// Name of the pet
-	Name string `json:"name,required"`
+	Name string `json:"name" api:"required"`
 	// Age of the pet in years
 	Age param.Opt[int64] `json:"age,omitzero"`
 	paramObj
@@ -555,7 +555,7 @@ func (u *JsonTestParamsSomethingUnion) asAny() any {
 // The property Name is required.
 type JsonTestParamsSomethingThingy struct {
 	// Name identifier
-	Name string `json:"name,required"`
+	Name string `json:"name" api:"required"`
 	// Optional count value
 	Count param.Opt[int64] `json:"count,omitzero"`
 	paramObj
@@ -597,7 +597,7 @@ func (r *UpdateCountParams) UnmarshalJSON(data []byte) error {
 
 type UploadTestParams struct {
 	// The binary file to upload.
-	File io.Reader `json:"file,omitzero,required" format:"binary"`
+	File io.Reader `json:"file,omitzero" api:"required" format:"binary"`
 	paramObj
 }
 
