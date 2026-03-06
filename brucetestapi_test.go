@@ -13,10 +13,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/bruce-hill/bruce-test-api-go"
-	"github.com/bruce-hill/bruce-test-api-go/internal/testutil"
-	"github.com/bruce-hill/bruce-test-api-go/option"
-	"github.com/bruce-hill/bruce-test-api-go/packages/param"
+	"github.com/bruce-hill/bruce-test-api-go/v2"
+	"github.com/bruce-hill/bruce-test-api-go/v2/internal/testutil"
+	"github.com/bruce-hill/bruce-test-api-go/v2/option"
+	"github.com/bruce-hill/bruce-test-api-go/v2/packages/param"
 )
 
 func TestDeleteTest(t *testing.T) {

@@ -1,7 +1,7 @@
 package apiform
 
 import (
-	"github.com/bruce-hill/bruce-test-api-go/packages/param"
+	"github.com/bruce-hill/bruce-test-api-go/v2/packages/param"
 	"mime/multipart"
 	"reflect"
 )

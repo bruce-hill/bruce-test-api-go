@@ -3,8 +3,8 @@
 package brucetestapi
 
 import (
-	"github.com/bruce-hill/bruce-test-api-go/internal/apierror"
-	"github.com/bruce-hill/bruce-test-api-go/packages/param"
+	"github.com/bruce-hill/bruce-test-api-go/v2/internal/apierror"
+	"github.com/bruce-hill/bruce-test-api-go/v2/packages/param"
 )
 
 // aliased to make [param.APIUnion] private when embedding

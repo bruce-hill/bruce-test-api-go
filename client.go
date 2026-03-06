@@ -10,9 +10,9 @@ import (
 	"os"
 	"slices"
 
-	"github.com/bruce-hill/bruce-test-api-go/internal/requestconfig"
-	"github.com/bruce-hill/bruce-test-api-go/option"
-	"github.com/bruce-hill/bruce-test-api-go/packages/param"
+	"github.com/bruce-hill/bruce-test-api-go/v2/internal/requestconfig"
+	"github.com/bruce-hill/bruce-test-api-go/v2/option"
+	"github.com/bruce-hill/bruce-test-api-go/v2/packages/param"
 )
 
 // Client creates a struct with services and top level methods that help with
