@@ -1,5 +1,19 @@
 # Changelog
 
+## 2.0.0 (2026-03-06)
+
+Full Changelog: [v0.31.2...v2.0.0](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.31.2...v2.0.0)
+
+### Features
+
+* **api:** manual updates ([edcf7f3](https://github.com/bruce-hill/bruce-test-api-go/commit/edcf7f31f23ae0ae1411df187cac6c4cf097709d))
+
+
+### Chores
+
+* **internal:** codegen related update ([61c486c](https://github.com/bruce-hill/bruce-test-api-go/commit/61c486ce62a775171fa814198f02a53b04117400))
+* **internal:** move custom custom `json` tags to `api` ([44055fa](https://github.com/bruce-hill/bruce-test-api-go/commit/44055fac4cf6879e5744691ab33fa6a632b2a2cb))
+
 ## 0.31.2 (2026-02-20)
 
 Full Changelog: [v0.31.1...v0.31.2](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.31.1...v0.31.2)
