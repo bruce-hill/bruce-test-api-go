@@ -2,7 +2,7 @@
 
 <!-- x-release-please-start-version -->
 
-<a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go"><img src="https://pkg.go.dev/badge/github.com/bruce-hill/bruce-test-api-go.svg" alt="Go Reference"></a>
+<a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go/v2"><img src="https://pkg.go.dev/badge/github.com/bruce-hill/bruce-test-api-go/v2.svg" alt="Go Reference"></a>
 
 <!-- x-release-please-end -->
 
@@ -17,7 +17,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 ```go
 import (
-	"github.com/bruce-hill/bruce-test-api-go" // imported as brucetestapi
+	"github.com/bruce-hill/bruce-test-api-go/v2" // imported as brucetestapi
 )
 ```
 
@@ -28,7 +28,7 @@ Or to pin the version:
 <!-- x-release-please-start-version -->
 
 ```sh
-go get -u 'github.com/bruce-hill/bruce-test-api-go@v0.31.2'
+go get -u 'github.com/bruce-hill/bruce-test-api-go/v2@v2.0.0'
 ```
 
 <!-- x-release-please-end -->
@@ -48,8 +48,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/bruce-hill/bruce-test-api-go"
-	"github.com/bruce-hill/bruce-test-api-go/option"
+	"github.com/bruce-hill/bruce-test-api-go/v2"
+	"github.com/bruce-hill/bruce-test-api-go/v2/option"
 )
 
 func main() {
@@ -278,7 +278,7 @@ client.UpdateCount(context.TODO(), ...,
 
 The request option `option.WithDebugLog(nil)` may be helpful while debugging.
 
-See the [full list of request options](https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go/option).
+See the [full list of request options](https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go/v2/option).
 
 ### Pagination
 

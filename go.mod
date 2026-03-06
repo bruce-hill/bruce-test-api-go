@@ -1,4 +1,4 @@
-module github.com/bruce-hill/bruce-test-api-go
+module github.com/bruce-hill/bruce-test-api-go/v2
 
 go 1.22
 
