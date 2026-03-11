@@ -127,7 +127,7 @@ func (r *Client) DeleteTest(ctx context.Context, opts ...option.RequestOption) (
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	path := "delete"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, nil, opts...)
-	return
+	return err
 }
 
 // Download a file using application/octet-stream
@@ -136,7 +136,7 @@ func (r *Client) DownloadTest(ctx context.Context, opts ...option.RequestOption)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "application/octet-stream")}, opts...)
 	path := "download"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // Demonstrates a form-data endpoint with various parameter types including path,
@@ -151,11 +151,11 @@ func (r *Client) FormTest(ctx context.Context, userID string, params FormTestPar
 	opts = slices.Concat(r.Options, opts)
 	if userID == "" {
 		err = errors.New("missing required userId parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("form-v%v/users/%s", params.Version, userID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, &res, opts...)
-	return
+	return res, err
 }
 
 // Demonstrates a JSON endpoint with various parameter types including path, query,
@@ -170,11 +170,11 @@ func (r *Client) JsonTest(ctx context.Context, userID string, params JsonTestPar
 	opts = slices.Concat(r.Options, opts)
 	if userID == "" {
 		err = errors.New("missing required userId parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("json-v%v/users/%s", params.Version, userID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, &res, opts...)
-	return
+	return res, err
 }
 
 // Test nullable values.
@@ -183,7 +183,7 @@ func (r *Client) NullableTest(ctx context.Context, body NullableTestParams, opts
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	path := "nullable"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, nil, opts...)
-	return
+	return err
 }
 
 // Updates the current count with a new integer value. The value must be a positive
@@ -192,7 +192,7 @@ func (r *Client) UpdateCount(ctx context.Context, body UpdateCountParams, opts .
 	opts = slices.Concat(r.Options, opts)
 	path := "count"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // Accepts a binary file upload using multipart/form-data. Typical use cases
@@ -201,7 +201,7 @@ func (r *Client) UploadTest(ctx context.Context, body UploadTestParams, opts ...
 	opts = slices.Concat(r.Options, opts)
 	path := "upload"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // Get detailed information about API versioning.
@@ -209,7 +209,7 @@ func (r *Client) Version(ctx context.Context, opts ...option.RequestOption) (res
 	opts = slices.Concat(r.Options, opts)
 	path := "version"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // No response will be returned
@@ -218,5 +218,5 @@ func (r *Client) VoidTest(ctx context.Context, opts ...option.RequestOption) (er
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	path := "void-response"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, nil, opts...)
-	return
+	return err
 }
