@@ -38,7 +38,7 @@ func TestUserAgentHeader(t *testing.T) {
 			},
 		}),
 	)
-	client.UpdateCount(context.Background(), brucetestapi.UpdateCountParams{
+	_, _ = client.UpdateCount(context.Background(), brucetestapi.UpdateCountParams{
 		Body: 123,
 	})
 	if userAgent != fmt.Sprintf("BruceTestAPI/Go %s", internal.PackageVersion) {
