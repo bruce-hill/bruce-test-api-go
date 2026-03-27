@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.1.0 (2026-03-27)
+
+Full Changelog: [v2.0.1...v2.1.0](https://github.com/bruce-hill/bruce-test-api-go/compare/v2.0.1...v2.1.0)
+
+### Features
+
+* **internal:** support comma format in multipart form encoding ([18b1225](https://github.com/bruce-hill/bruce-test-api-go/commit/18b122589c71149f569d315e721d5f92f23dc236))
+
+
+### Chores
+
+* remove unnecessary error check for url parsing ([e0d8244](https://github.com/bruce-hill/bruce-test-api-go/commit/e0d8244bd06079021a61480f5b5af7ea41c64432))
+
 ## 2.0.1 (2026-03-27)
 
 Full Changelog: [v2.0.0...v2.0.1](https://github.com/bruce-hill/bruce-test-api-go/compare/v2.0.0...v2.0.1)
