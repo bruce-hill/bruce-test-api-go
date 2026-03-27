@@ -1,5 +1,38 @@
 # Changelog
 
+## 2.0.1 (2026-03-27)
+
+Full Changelog: [v2.0.0...v2.0.1](https://github.com/bruce-hill/bruce-test-api-go/compare/v2.0.0...v2.0.1)
+
+### Bug Fixes
+
+* prevent duplicate ? in query params ([bd54eec](https://github.com/bruce-hill/bruce-test-api-go/commit/bd54eec5a7a9426ace04853ce3a42b04738574ae))
+
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([63981ad](https://github.com/bruce-hill/bruce-test-api-go/commit/63981ad55f91ba7f9b4db5b4312b6a315f7b3dc7))
+* **ci:** skip uploading artifacts on stainless-internal branches ([66ee0e7](https://github.com/bruce-hill/bruce-test-api-go/commit/66ee0e72e4e326fe6a155b36f680299262d1e84c))
+* **client:** fix multipart serialisation of Default() fields ([aadba20](https://github.com/bruce-hill/bruce-test-api-go/commit/aadba20106f6ee172685f44694db257f3c43b5f6))
+* **internal:** codegen related update ([d147437](https://github.com/bruce-hill/bruce-test-api-go/commit/d14743785fa666819f2fd3d7fb41d6146f9fdf1e))
+* **internal:** minor cleanup ([b443ddb](https://github.com/bruce-hill/bruce-test-api-go/commit/b443ddbe7e3d1ae99243f31cebda5234bf20aaba))
+* **internal:** support default value struct tag ([387505e](https://github.com/bruce-hill/bruce-test-api-go/commit/387505e956481d48cc515a4d8771d587d048f74e))
+* **internal:** tweak CI branches ([cdf6c57](https://github.com/bruce-hill/bruce-test-api-go/commit/cdf6c57cf84ed1178fe1b2391b1a1ef13ece1599))
+* **internal:** update gitignore ([b6992cb](https://github.com/bruce-hill/bruce-test-api-go/commit/b6992cbb9875957523638184d8565a167eaeb47c))
+* **internal:** use explicit returns ([57272d1](https://github.com/bruce-hill/bruce-test-api-go/commit/57272d11b8258d7c1924d8144673df4fd8d20d89))
+* **internal:** use explicit returns in more places ([8988c54](https://github.com/bruce-hill/bruce-test-api-go/commit/8988c545bfd685fd771616121a78e4b821b42f23))
+* **test:** do not count install time for mock server timeout ([ee3f078](https://github.com/bruce-hill/bruce-test-api-go/commit/ee3f078972e7304f0883e6b497fe1cca16c9350d))
+* **tests:** bump steady to v0.19.4 ([285046c](https://github.com/bruce-hill/bruce-test-api-go/commit/285046c659b7b0c3a37cf5d9091f94a0e92974f3))
+* **tests:** bump steady to v0.19.5 ([7df04b3](https://github.com/bruce-hill/bruce-test-api-go/commit/7df04b3df4bb4a215c3d61715fd15af441f8f28a))
+* **tests:** bump steady to v0.19.6 ([713d356](https://github.com/bruce-hill/bruce-test-api-go/commit/713d356a0c483aad6066946a7815a03dea35c6f6))
+* **tests:** bump steady to v0.19.7 ([90d6cc7](https://github.com/bruce-hill/bruce-test-api-go/commit/90d6cc723dec455ae8e6bbba521762db648f34a4))
+* update placeholder string ([0d17bbd](https://github.com/bruce-hill/bruce-test-api-go/commit/0d17bbd61419981e2c7be591f8f965da8385fb28))
+
+
+### Refactors
+
+* **tests:** switch from prism to steady ([29afb1e](https://github.com/bruce-hill/bruce-test-api-go/commit/29afb1ed804b9c345b213a6546ddfd530acec8a6))
+
 ## 2.0.0 (2026-03-06)
 
 Full Changelog: [v0.31.2...v2.0.0](https://github.com/bruce-hill/bruce-test-api-go/compare/v0.31.2...v2.0.0)
