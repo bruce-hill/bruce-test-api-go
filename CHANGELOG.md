@@ -1,5 +1,20 @@
 # Changelog
 
+## 2.1.1 (2026-04-01)
+
+Full Changelog: [v2.1.0...v2.1.1](https://github.com/bruce-hill/bruce-test-api-go/compare/v2.1.0...v2.1.1)
+
+### Bug Fixes
+
+* fix issue with unmarshaling in some cases ([0495dc0](https://github.com/bruce-hill/bruce-test-api-go/commit/0495dc06a5b82ddaed349ae339fa9c0a0f9e928c))
+
+
+### Chores
+
+* **ci:** support opting out of skipping builds on metadata-only commits ([93a7ef6](https://github.com/bruce-hill/bruce-test-api-go/commit/93a7ef6bdccf8f7991f51b3bf3222225a8f4a3e1))
+* **tests:** bump steady to v0.20.1 ([7506ceb](https://github.com/bruce-hill/bruce-test-api-go/commit/7506ceb3335d0d70b9e6112ae8ae10faf0ebbd6e))
+* update docs for api:"required" ([330f949](https://github.com/bruce-hill/bruce-test-api-go/commit/330f949ec7a9f2af89387da849babc0ae75f700f))
+
 ## 2.1.0 (2026-03-27)
 
 Full Changelog: [v2.0.1...v2.1.0](https://github.com/bruce-hill/bruce-test-api-go/compare/v2.0.1...v2.1.0)
