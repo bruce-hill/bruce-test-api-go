@@ -4,7 +4,6 @@ package brucetestapi
 
 import (
 	"bytes"
-	"encoding/json"
 	"io"
 	"mime/multipart"
 	"net/url"
@@ -592,7 +591,7 @@ func (r UpdateCountParams) MarshalJSON() (data []byte, err error) {
 	return shimjson.Marshal(r.Body)
 }
 func (r *UpdateCountParams) UnmarshalJSON(data []byte) error {
-	return json.Unmarshal(data, &r.Body)
+	return apijson.UnmarshalRoot(data, r)
 }
 
 type UploadTestParams struct {
