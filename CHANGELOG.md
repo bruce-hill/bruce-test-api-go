@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.1.2 (2026-04-03)
+
+Full Changelog: [v2.1.1...v2.1.2](https://github.com/bruce-hill/bruce-test-api-go/compare/v2.1.1...v2.1.2)
+
+### Bug Fixes
+
+* fixes for pagination and iteration, plus iter.Seq support ([8c0aac9](https://github.com/bruce-hill/bruce-test-api-go/commit/8c0aac916d9a89222af40c8941f1ccb571b4154e))
+
+
+### Chores
+
+* **tests:** bump steady to v0.20.2 ([9d0c1a1](https://github.com/bruce-hill/bruce-test-api-go/commit/9d0c1a177c872c578f80286c1c251b32a0aa02c5))
+
 ## 2.1.1 (2026-04-01)
 
 Full Changelog: [v2.1.0...v2.1.1](https://github.com/bruce-hill/bruce-test-api-go/compare/v2.1.0...v2.1.1)
