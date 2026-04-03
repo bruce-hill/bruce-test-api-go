@@ -53,7 +53,7 @@ func (r *PageNumber[T]) GetNextPage() (res *PageNumber[T], err error) {
 		return nil, nil
 	}
 	currentPage := r.Page
-	if currentPage >= r.Pages {
+	if r.Pages > 0 && currentPage >= r.Pages {
 		return nil, nil
 	}
 	cfg := r.cfg.Clone(context.Background())
