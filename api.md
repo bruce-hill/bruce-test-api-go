@@ -40,8 +40,8 @@ Methods:
 
 Response Types:
 
-- <a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go/v2">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go/v2#StreamJsonStreamyResponse">StreamJsonStreamyResponse</a>
+- <a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go/v2">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go/v2#StreamJsonStreamResponse">StreamJsonStreamResponse</a>
 
 Methods:
 
-- <code title="get /stream-json">client.StreamJson.<a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go/v2#StreamJsonService.Streamy">Streamy</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>) (\*<a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go/v2">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go/v2#StreamJsonStreamyResponse">StreamJsonStreamyResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+- <code title="get /stream-json">client.StreamJson.<a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go/v2#StreamJsonService.Stream">Stream</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>) (\*<a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go/v2">brucetestapi</a>.<a href="https://pkg.go.dev/github.com/bruce-hill/bruce-test-api-go/v2#StreamJsonStreamResponse">StreamJsonStreamResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
