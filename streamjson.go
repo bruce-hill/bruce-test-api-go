@@ -34,7 +34,7 @@ func NewStreamJsonService(opts ...option.RequestOption) (r StreamJsonService) {
 // Streams JSON objects as a chunked response using Newline Delimited JSON (NDJSON)
 // format. Each line contains a complete JSON object. Useful for real-time data
 // feeds or large dataset streaming.
-func (r *StreamJsonService) StreamyStreaming(ctx context.Context, opts ...option.RequestOption) (stream *jsonl.Stream[StreamJsonStreamyResponse]) {
+func (r *StreamJsonService) StreamStreaming(ctx context.Context, opts ...option.RequestOption) (stream *jsonl.Stream[StreamJsonStreamResponse]) {
 	var (
 		raw *http.Response
 		err error
@@ -43,7 +43,7 @@ func (r *StreamJsonService) StreamyStreaming(ctx context.Context, opts ...option
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "application/x-ndjson")}, opts...)
 	path := "stream-json"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &raw, opts...)
-	return jsonl.NewStream[StreamJsonStreamyResponse](raw, err)
+	return jsonl.NewStream[StreamJsonStreamResponse](raw, err)
 }
 
-type StreamJsonStreamyResponse map[string]any
+type StreamJsonStreamResponse map[string]any
