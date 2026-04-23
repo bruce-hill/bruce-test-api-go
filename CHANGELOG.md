@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.3.1 (2026-04-23)
+
+Full Changelog: [v2.3.0...v2.3.1](https://github.com/bruce-hill/bruce-test-api-go/compare/v2.3.0...v2.3.1)
+
+### Chores
+
+* **internal:** more robust bootstrap script ([b454cc6](https://github.com/bruce-hill/bruce-test-api-go/commit/b454cc67523d0e825db5f9b2461a9c79d763e567))
+* **tests:** bump steady to v0.22.1 ([8c5a81e](https://github.com/bruce-hill/bruce-test-api-go/commit/8c5a81e6f7a10453ffa87ed4b1c286266c3c2725))
+
 ## 2.3.0 (2026-04-08)
 
 Full Changelog: [v2.2.0...v2.3.0](https://github.com/bruce-hill/bruce-test-api-go/compare/v2.2.0...v2.3.0)
