@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.4.0 (2026-04-28)
+
+Full Changelog: [v2.3.1...v2.4.0](https://github.com/bruce-hill/bruce-test-api-go/compare/v2.3.1...v2.4.0)
+
+### Features
+
+* **go:** add default http client with timeout ([afae188](https://github.com/bruce-hill/bruce-test-api-go/commit/afae188bbc785ce8eb7215634ba9d04442172d6b))
+* support setting headers via env ([68700ee](https://github.com/bruce-hill/bruce-test-api-go/commit/68700eef3171f7fc0e4e4306beb8e09b48ad1652))
+
 ## 2.3.1 (2026-04-23)
 
 Full Changelog: [v2.3.0...v2.3.1](https://github.com/bruce-hill/bruce-test-api-go/compare/v2.3.0...v2.3.1)
