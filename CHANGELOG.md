@@ -1,5 +1,19 @@
 # Changelog
 
+## 2.5.1 (2026-05-08)
+
+Full Changelog: [v2.5.0...v2.5.1](https://github.com/bruce-hill/bruce-test-api-go/compare/v2.5.0...v2.5.1)
+
+### Bug Fixes
+
+* **go:** avoid panic when http.DefaultTransport is wrapped ([b0da835](https://github.com/bruce-hill/bruce-test-api-go/commit/b0da83587c88a208fc01397ff4dd267ce26a7205))
+
+
+### Chores
+
+* avoid embedding reflect.Type for dead code elimination ([6aa0f0d](https://github.com/bruce-hill/bruce-test-api-go/commit/6aa0f0d34ea0598ea0aeee114f391eaf42b4a5ef))
+* redact api-key headers in debug logs ([889379c](https://github.com/bruce-hill/bruce-test-api-go/commit/889379c856a8dadf567781f51ddca55df867bad0))
+
 ## 2.5.0 (2026-04-28)
 
 Full Changelog: [v2.4.0...v2.5.0](https://github.com/bruce-hill/bruce-test-api-go/compare/v2.4.0...v2.5.0)
