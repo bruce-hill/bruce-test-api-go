@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.6.0 (2026-05-14)
+
+Full Changelog: [v2.5.1...v2.6.0](https://github.com/bruce-hill/bruce-test-api-go/compare/v2.5.1...v2.6.0)
+
+### Features
+
+* **client:** optimize json encoder for internal types ([e305bcb](https://github.com/bruce-hill/bruce-test-api-go/commit/e305bcb7c382b1334df5e7dc2b5e2cb72e27436a))
+
 ## 2.5.1 (2026-05-08)
 
 Full Changelog: [v2.5.0...v2.5.1](https://github.com/bruce-hill/bruce-test-api-go/compare/v2.5.0...v2.5.1)
